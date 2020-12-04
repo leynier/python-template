@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "template"
-version = "0.1.1"
+version = "0.1.2"
 description = "Python template with CI/CD ready for production"
 authors = ["leynier <leynier41@gmail.com>"]
 homepage = "https://github.com/leynier/python-template"

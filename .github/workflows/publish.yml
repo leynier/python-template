@@ -18,17 +18,17 @@ jobs:
     - name: Run tests
       run: make tests
     - name: Run build
-      run: poetry build -f wheel
+      run: poetry build
     - name: Publish in GitHub Releases
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: dist/*.whl
+        file: dist/*
         tag: ${{ github.ref }}
         overwrite: true
         file_glob: true
-    - name: Publish in PyPI
-      uses: d1618033/gh-action-python-publish-using-poetry@master
-      with:
-        pypi_username: ${{ secrets.PYPI_USERNAME }}
-        pypi_password: ${{ secrets.PYPI_PASSWORD }}
+    # - name: Publish in PyPI
+    #   uses: d1618033/gh-action-python-publish-using-poetry@master
+    #   with:
+    #     pypi_username: ${{ secrets.PYPI_USERNAME }}
+    #     pypi_password: ${{ secrets.PYPI_PASSWORD }}
