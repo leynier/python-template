@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Test](https://github.com/leynier/python-template/workflows/CI/badge.svg)](https://github.com/leynier/python-template/actions?query=workflow%3ACI)
+[![codecov](https://codecov.io/gh/leynier/python-template/branch/main/graph/badge.svg?token=Z1MEEL3EAB)](https://codecov.io/gh/leynier/python-template)
 [![Version](https://img.shields.io/pypi/v/python-template?color=%2334D058&label=Version)](https://pypi.org/project/python-template)
 [![Last commit](https://img.shields.io/github/last-commit/leynier/python-template.svg?style=flat)](https://github.com/leynier/python-template/commits)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/leynier/python-template)](https://github.com/leynier/python-template/commits)
@@ -19,6 +20,7 @@ Python template with CI/CD ready for production
 - Generation of documentation based on Markdown with [Material for Mkdocs](https://squidfunk.github.io/mkdocs-material)
 - Automatic check of the pythonic style with [flake8](https://flake8.pycqa.org), [black](https://black.readthedocs.io) and [isort](https://pycqa.github.io/isort)
 - Automatic code checking with [pytest](https://pytest.org)
+- Automatic code report with [codecov](https://codecov.io/)
 - Automatic publish to [GitHub Releases](https://docs.github.com/es/free-pro-team@latest/github/administering-a-repository/releasing-projects-on-github)
 - Automatic publish to [PyPI](https://pypi.org)
 - Automatic dependency update check with [dependabot](https://github.com/dependabot)
