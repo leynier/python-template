@@ -1,0 +1,2 @@
+click==7.1.2; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.6"
+typer==0.3.2; python_version >= "3.6"

@@ -1,0 +1,24 @@
+name: Publish
+on:
+  push:
+    tags: v*.*.*
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Set up Poetry 2.1.0
+      uses: abatilo/actions-poetry@v2.1.0
+      with:
+        poetry-version: 1.1.2
+    - name: Run tests
+      run: make tests
+    - name: Publish
+      uses: d1618033/gh-action-python-publish-using-poetry@master
+      with:
+        pypi_username: ${{ secrets.PYPI_USERNAME }}
+        pypi_password: ${{ secrets.PYPI_PASSWORD }}
