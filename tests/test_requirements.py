@@ -7,11 +7,9 @@ def test_requirements():
     )
     with open("./requirements.txt") as actual:
         with open("./requirements_temp.txt") as temp:
-            actual_str = actual.read()
-            temp_str = temp.read()
-            print("----------------------------------")
-            print(actual_str)
-            print("----------------------------------")
-            print(temp_str)
-            print("----------------------------------")
-            assert actual_str == temp_str, "requirements.txt not updated"
+            actual_lines = actual.readlines()
+            temp_lines = temp.readlines()
+            for actual_line, temp_line in zip(actual_lines, temp_lines):
+                actual_line = actual_line.split(";")[0]
+                temp_line = temp_line.split(";")[0]
+                assert actual_line == temp_line, "requirements.txt not updated"
