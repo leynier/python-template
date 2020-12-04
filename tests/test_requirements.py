@@ -9,4 +9,9 @@ def test_requirements():
         with open("./requirements_temp.txt") as temp:
             actual_str = actual.read()
             temp_str = temp.read()
+            print("----------------------------------")
+            print(actual_str)
+            print("----------------------------------")
+            print(temp_str)
+            print("----------------------------------")
             assert actual_str == temp_str, "requirements.txt not updated"
