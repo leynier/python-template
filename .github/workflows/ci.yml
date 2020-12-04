@@ -19,3 +19,5 @@ jobs:
         poetry-version: 1.1.2
     - name: Run tests
       run: make tests
+    - name: Upload coverage
+      uses: codecov/codecov-action@v1
