@@ -1,10 +1,11 @@
 site_name: Python Template
 site_url: https://leynier.github.io/python-template
 repo_url: https://github.com/leynier/python-template
+edit_uri: https://github.com/leynier/python-template/edit/main/docs
 
 theme:
   name: material
-  language: es
+  language: en
   features:
     - navigation.instant
   palette:
