@@ -1,5 +1,5 @@
-export:
-	poetry export -f requirements.txt -o requirements.txt --without-hashes
+install:
+	poetry install
 
 tests: install
 	poetry run flake8 . --count --show-source --statistics --max-line-length=88 --extend-ignore=E203
@@ -7,5 +7,22 @@ tests: install
 	poetry run isort . --profile=black
 	poetry run pytest --cov=./ --cov-report=xml
 
-install:
-	poetry install
+export:
+	poetry export -f requirements.txt -o requirements.txt
+
+export_and_commit: export
+	git config --global user.name 'leynier'
+	git config --global user.email 'leynier41@gmail.com'
+	git add requirements.txt
+	git commit --allow-empty -m "Update requirements.txt"
+	git push
+
+update_index:
+	cp README.md docs/index.md
+
+update_index_and_commit: update_index
+	git config --global user.name 'leynier'
+	git config --global user.email 'leynier41@gmail.com'
+	git add docs/index.md
+	git commit --allow-empty -m "Update docs/index.md"
+	git push
