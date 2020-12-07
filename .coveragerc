@@ -1,0 +1,3 @@
+[run]
+omit =
+    template/__main__.py
