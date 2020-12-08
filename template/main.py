@@ -1,8 +1,8 @@
-import typer
+from fastapi import FastAPI
 
-app = typer.Typer()
+app = FastAPI()
 
 
-@app.command()
+@app.get("/")
 def run():
-    typer.echo("Hello World!")
+    return {"message": "Hello World!"}

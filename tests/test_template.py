@@ -1,11 +1,11 @@
-from typer.testing import CliRunner
+from fastapi.testclient import TestClient
 
 from template.main import app
 
-runner = CliRunner()
+client = TestClient(app)
 
 
 def test_template():
-    result = runner.invoke(app)
-    assert result.exit_code == 0
-    assert "Hello World!" in result.stdout
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json() == {"message": "Hello World!"}
