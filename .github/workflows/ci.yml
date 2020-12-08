@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -23,3 +25,9 @@ jobs:
       uses: codecov/codecov-action@v1
       # with:
       #   token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+    - name: Report results to DeepSource
+      run: |
+        curl https://deepsource.io/cli | sh
+        ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
+      env: 
+        DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
