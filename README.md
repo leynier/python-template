@@ -22,7 +22,7 @@ Python template with CI/CD ready for production
 - Automatic check of the pythonic style with [flake8](https://flake8.pycqa.org), [black](https://black.readthedocs.io) and [isort](https://pycqa.github.io/isort)
 - Automatic code checking with [pytest](https://pytest.org)
 - Automatic code report with [codecov](https://codecov.io)
-- Automatoc code reviews with [deepsource](https://deepsource.io)
+- Automatic code reviews with [deepsource](https://deepsource.io)
 - Automatic publish to [GitHub Releases](https://docs.github.com/es/free-pro-team@latest/github/administering-a-repository/releasing-projects-on-github)
 - Automatic publish to [PyPI](https://pypi.org)
 - Automatic dependency update check with [dependabot](https://github.com/dependabot)
