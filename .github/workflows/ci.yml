@@ -1,9 +1,9 @@
 name: CI
 on:
   push:
-    branches: [ main ]
+    branches: [ main, fastapi ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, fastapi ]
 jobs:
   CI:
     runs-on: ubuntu-latest
