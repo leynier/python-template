@@ -15,6 +15,11 @@
 
 Python template with CI/CD ready for production
 
+## Branches
+
+- [main](https://github.com/leynier/python-template): For packages, console applications and / or command line interfaces implemented with Python
+- [fastapi](https://github.com/leynier/python-template/tree/fastapi): For web applications implemented with [FastAPI](https://fastapi.tiangolo.com)
+
 ## Features
 
 - Management of dependencies with [Poetry](https://python-poetry.org)
