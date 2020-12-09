@@ -1,5 +1,4 @@
 from fastapi.testclient import TestClient
-
 from template.main import app
 
 client = TestClient(app)
