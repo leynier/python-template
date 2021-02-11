@@ -3,7 +3,7 @@ from os.path import join
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 
-api = FastAPI(title="FastAPI Template")
+api = FastAPI(title="{{ cookiecutter.project_name }}")
 
 
 @api.get("/", include_in_schema=False, tags=["General"])

@@ -4,4 +4,4 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY ./template /app/app
+COPY ./{{ cookiecutter.pkg_name }} /app/app

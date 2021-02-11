@@ -1,0 +1,69 @@
+site_name: {{ cookiecutter.project_name }}
+site_url: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository }}
+repo_url: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository }}
+edit_uri: "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository }}"/edit/main/docs
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.instant
+  palette:
+    primary: black
+    accent: light blue
+
+nav:
+  - Home: index.md
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - toc:
+      permalink: 🔗
+
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/{{ cookiecutter.linkedin }}
+      name: LinkedIn
+    - icon: fontawesome/brands/github
+      link: https://github.com/{{ cookiecutter.github_username }}
+      name: GitHub
+    - icon: fontawesome/brands/gitlab
+      link: https://gitlab.com/{{ cookiecutter.gitlab }}
+      name: GitLab
+    - icon: fontawesome/solid/code
+      link: https://profile.codersrank.io/user/{{ cookiecutter.codersrank }}
+      name: Codersrank
+    - icon: fontawesome/brands/dev
+      link: https://dev.to/{{ cookiecutter.devto }}
+      name: Dev.to
+    - icon: fontawesome/brands/stack-overflow
+      link: https://stackoverflow.com/users/8921443/{{ cookiecutter.stackoverflow }}
+      name: Stack Overflow
+    - icon: fontawesome/brands/researchgate
+      link: https://www.researchgate.net/profile/{{ cookiecutter.researchgate }}
+      name: Research Gate
+    - icon: fontawesome/brands/medium
+      link: https://medium.com/@{{ cookiecutter.medium }}
+      name: Medium
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/{{ cookiecutter.twitter }}
+      name: Twitter
+    - icon: fontawesome/brands/telegram
+      link: https://t.me/{{ cookiecutter.telegram }}
+      name: Telegram
+    - icon: fontawesome/brands/facebook
+      link: https://www.facebook.com/{{ cookiecutter.facebook }}
+      name: Facebook
+    - icon: fontawesome/brands/instagram
+      link: https://www.instagram.com/{{ cookiecutter.instagram }}
+      name: Instagram
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/channel/{{ cookiecutter.youtube }}
+      name: Youtube
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:{{ cookiecutter.email }}
+      name: Email
