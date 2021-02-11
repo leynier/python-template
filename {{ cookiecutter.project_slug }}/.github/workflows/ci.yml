@@ -1,3 +1,4 @@
+{% raw %}
 name: CI
 on:
   push:
@@ -31,3 +32,4 @@ jobs:
         ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
       env: 
         DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
+{% endraw %}
