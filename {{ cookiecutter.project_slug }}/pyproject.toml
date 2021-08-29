@@ -9,12 +9,8 @@ documentation = "https://github.com/{{ cookiecutter.github_username }}/{{ cookie
 readme = "README.md"
 license = "MIT"
 
-[tool.poetry.scripts]
-{{ cookiecutter.project_slug }} = "{{ cookiecutter.pkg_name }}.main:app"
-
 [tool.poetry.dependencies]
 python = "^3.6.14"
-typer = "^0.3.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
