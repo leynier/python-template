@@ -16,11 +16,3 @@ enabled = true
 [[analyzers]]
 name = "test-coverage"
 enabled = true
-
-[[transformers]]
-name = "isort"
-enabled = true
-
-[[transformers]]
-name = "black"
-enabled = true

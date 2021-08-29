@@ -47,15 +47,13 @@ We use GitHub to host code, to track issues and feature requests, as well as acc
 Pull requests are the best way to propose changes to the codebase. We use a loose version of Git Flow
 and actively welcome your pull requests:
 
-1. Set up your local development environment. See [USAGE.md](USAGE.md) for instructions.
-2. Make sure to use the latest Flutter stable-channel SDK release.
-3. Create a new branch based on `develop`:
+1. Create a new branch based on `develop`:
    * Feature branches should start with `feature/`
    * Bugfix branches should start with `bug/`
-4. Implement your changes.
-5. Add tests if applicable.
-6. Make sure your code lints.
-7. Issue that pull request!
+2. Implement your changes.
+3. Add tests if applicable.
+4. Make sure your code lints.
+5. Issue that pull request!
 
 ### Any contributions you make will be under the MIT License
 

@@ -1,7 +1,7 @@
 site_name: {{ cookiecutter.project_name }}
 site_url: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository }}
 repo_url: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository }}
-edit_uri: "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository }}"/edit/main/docs
+edit_uri: "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_repository }}/edit/main/docs"
 
 theme:
   name: material
