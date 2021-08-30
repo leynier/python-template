@@ -14,7 +14,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.6.14"
-typer = "^0.3.2"
+typer = "^0.4.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
