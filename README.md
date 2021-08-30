@@ -125,3 +125,7 @@ Where `<branch>` can be `main`, `fastapi`, `typer`, etc.
 ```bash
 cookiecutter gh:leynier/python-template --checkout fastapi
 ```
+
+## License
+
+This project is collaborative and open source under the [MIT license](LICENSE). Contributions are super appreciated.
