@@ -102,3 +102,24 @@ jobs:
           persist-credentials: false
 
       - uses: zizmorcore/zizmor-action@v0.6.2
+
+  # Single required status check for branch protection. Depending on every
+  # other job means the protection rule never needs updating when the matrix
+  # changes -- only this job's name is referenced.
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    needs: [lint, structure, toolchain, zizmor]
+    if: always()
+    steps:
+      - name: Verify every job succeeded
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Job results: $RESULTS"
+          case "$RESULTS" in
+            *failure*|*cancelled*|*skipped*)
+              echo "::error::A required job did not succeed"
+              exit 1
+              ;;
+          esac
