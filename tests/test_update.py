@@ -5,8 +5,6 @@ main benefit of the migration is gone, so it is worth testing explicitly rather
 than trusting that Copier "just works".
 """
 
-from __future__ import annotations
-
 import shutil
 from pathlib import Path
 

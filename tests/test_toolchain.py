@@ -5,8 +5,6 @@ because each one creates a real virtual environment, so they are marked ``slow``
 and can be deselected with ``-m "not slow"``.
 """
 
-from __future__ import annotations
-
 import pytest
 from conftest import answers, assert_ok, run
 

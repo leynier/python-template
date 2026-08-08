@@ -1,7 +1,5 @@
 """Shared fixtures for the template test suite."""
 
-from __future__ import annotations
-
 import os
 import shutil
 import subprocess

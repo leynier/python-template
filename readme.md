@@ -117,18 +117,6 @@ The slow suite is the important one: it generates every project type and runs
 generated project. The previous version of this template had no tests at all,
 which is how it managed to sit broken for years without anyone noticing.
 
-## Previous versions
-
-The Cookiecutter version of this template is preserved on the
-`legacy/cookiecutter-main`, `legacy/cookiecutter-typer` and
-`legacy/cookiecutter-fastapi` branches. It is unmaintained: it targets Python
-3.6, Poetry 1.1 and a retired version of the CodeQL action.
-
-```bash
-# The old, unmaintained way:
-cookiecutter gh:leynier/python-template --checkout legacy/cookiecutter-main
-```
-
 ## License
 
 This project is collaborative and open source under the [MIT license](LICENSE).

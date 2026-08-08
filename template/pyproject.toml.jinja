@@ -14,7 +14,7 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-{%- for v in ["3.10", "3.11", "3.12", "3.13", "3.14"] %}
+{%- for v in ["3.11", "3.12", "3.13", "3.14"] %}
 {%- if v.split('.') | map('int') | list >= python_version.split('.') | map('int') | list %}
     "Programming Language :: Python :: {{ v }}",
 {%- endif %}
@@ -23,12 +23,12 @@ classifiers = [
 ]
 dependencies = [
 {%- if project_type == 'cli' %}
-    "typer>=0.27",
+    "typer>=0.27.1",
 {%- elif project_type == 'api' %}
-    "fastapi[standard]>=0.141",
+    "fastapi[standard]>=0.141.1",
     # Imported directly by the app, so declared directly rather than relying
     # on it being a transitive dependency of FastAPI.
-    "pydantic>=2.10",
+    "pydantic>=2.13.4",
 {%- endif %}
 ]
 
@@ -55,21 +55,21 @@ module-root = "src"
 
 [dependency-groups]
 dev = [
-    "deptry>=0.25",
-    "poethepoet>=0.48",
-    "pre-commit>=4.0",
-    "pytest>=8.3",
-    "pytest-cov>=6.0",
+    "deptry>=0.25.1",
+    "poethepoet>=0.48.0",
+    "pre-commit>=4.6.1",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
 {%- if project_type == 'api' %}
-    "httpx>=0.28",
+    "httpx>=0.28.1",
 {%- endif %}
-    "ruff>=0.16",
+    "ruff>=0.16.2",
     # ty is still 0.0.x; CI runs it non-blocking until it reaches 1.0.
     "ty>=0.0.69",
 ]
 {%- if use_docs %}
 docs = [
-    "mkdocstrings[python]>=1.0",
+    "mkdocstrings[python]>=1.0.6",
     "zensical>=0.0.53",
 ]
 {%- endif %}

@@ -109,10 +109,12 @@ project_type:
 
 python_version:
   type: str
+  # 3.10 is deliberately not offered: it reaches end of life on 2026-10-31.
+  # Drop each version from this list as it approaches its EOL date, and add
+  # new ones once they are released.
   help: Minimum supported Python version
-  default: "3.11"
+  default: "3.13"
   choices:
-    - "3.10"
     - "3.11"
     - "3.12"
     - "3.13"

@@ -21,12 +21,12 @@ jobs:
       contents: read
       actions: read
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Run analysis
-        uses: ossf/scorecard-action@2d1146689b8cda280b9bc96326124645441f03bc # v2.4.4
+        uses: ossf/scorecard-action@v2.4.4
         with:
           results_file: results.sarif
           results_format: sarif
@@ -34,6 +34,6 @@ jobs:
           publish_results: true
 
       - name: Upload results to the Security tab
-        uses: github/codeql-action/upload-sarif@24c7eb380a2dc368f2d129e4c65e51d172983a1e # v4
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: results.sarif

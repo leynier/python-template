@@ -69,9 +69,8 @@ with the previous version.
 
 ### Migration
 
-The Cookiecutter version is preserved, unmaintained, on the
-`legacy/cookiecutter-main`, `legacy/cookiecutter-typer` and
-`legacy/cookiecutter-fastapi` branches.
+None. This release is not backwards compatible with the Cookiecutter template
+and does not try to be. Generate a fresh project and move your code across.
 
 [Unreleased]: https://github.com/leynier/python-template/compare/v0.4.0...HEAD
 [0.4.0]: https://github.com/leynier/python-template/compare/v0.3.1...v0.4.0

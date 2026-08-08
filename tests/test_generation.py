@@ -1,6 +1,6 @@
 """Structural tests: every variant renders, and renders the right files."""
 
-from __future__ import annotations
+import pathlib
 
 import pytest
 from conftest import answers
@@ -158,9 +158,26 @@ def test_python_version_drives_the_ci_matrix(copie) -> None:
 
     assert '"3.12"' in workflow
     assert '"3.13"' in workflow
-    assert '"3.10"' not in workflow
     assert '"3.11"' not in workflow
     assert 'requires-python = ">=3.12"' in (project / "pyproject.toml").read_text()
+
+
+def test_eol_python_versions_are_not_offered(copie) -> None:
+    """Versions at or near end of life must not be selectable.
+
+    Python 3.10 reaches EOL on 2026-10-31. Offering it would generate projects
+    that start life on an unsupported runtime.
+    """
+    import yaml
+
+    config = yaml.safe_load(
+        (pathlib.Path(__file__).resolve().parent.parent / "copier.yml").read_text()
+    )
+    choices = config["python_version"]["choices"]
+
+    assert "3.10" not in choices
+    assert "3.9" not in choices
+    assert config["python_version"]["default"] in choices
 
 
 def test_workflows_have_no_leftover_jinja(copie) -> None:
@@ -178,8 +195,13 @@ def test_workflows_have_no_leftover_jinja(copie) -> None:
         assert "{{ " not in content.replace("${{ ", ""), workflow.name
 
 
-def test_actions_are_sha_pinned(copie) -> None:
-    """Every third-party action is pinned to a full commit SHA."""
+def test_actions_are_version_pinned(copie) -> None:
+    """Every action is pinned to a release tag, never to a branch.
+
+    Tags are used rather than commit SHAs for readability. What must never
+    happen is a floating branch reference like `@main`, which silently changes
+    under you.
+    """
     import re
 
     project = copie.copy(extra_answers=answers()).project_dir
@@ -190,11 +212,24 @@ def test_actions_are_sha_pinned(copie) -> None:
         for match in uses.finditer(workflow.read_text()):
             found += 1
             ref = match["ref"]
-            assert re.fullmatch(r"[0-9a-f]{40}", ref), (
+            assert re.fullmatch(r"v\d+(\.\d+)*", ref), (
                 f"{workflow.name}: {match['action']} is pinned to {ref!r}, "
-                "expected a full commit SHA"
+                "expected a version tag such as v1 or v1.2.3"
             )
     assert found > 0
+
+
+def test_zizmor_config_allows_tag_pins(copie) -> None:
+    """The zizmor policy matches the pinning strategy actually in use.
+
+    zizmor requires commit SHAs by default, so without this config every
+    workflow would report an unpinned-uses finding.
+    """
+    project = copie.copy(extra_answers=answers()).project_dir
+    config = (project / "zizmor.yml").read_text()
+
+    assert "unpinned-uses" in config
+    assert "ref-pin" in config
 
 
 @pytest.mark.parametrize("project_type", PROJECT_TYPES)

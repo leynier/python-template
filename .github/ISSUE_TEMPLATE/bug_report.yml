@@ -1,0 +1,32 @@
+name: Bug report
+description: Report something that is not working in the template
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect to happen instead?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: project-type
+    attributes:
+      label: Which project type did you generate?
+      options: [library, cli, api, not applicable]
+    validations:
+      required: true
+
+  - type: textarea
+    id: answers
+    attributes:
+      label: Contents of .copier-answers.yml
+      description: From the generated project. This tells us exactly how it was generated.
+      render: yaml
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant output
+      render: shell

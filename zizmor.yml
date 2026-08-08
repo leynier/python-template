@@ -1,0 +1,9 @@
+rules:
+  unpinned-uses:
+    config:
+      policies:
+        # Actions are pinned to release tags rather than commit SHAs, for
+        # readability and quieter Dependabot updates. The trade-off is that a
+        # tag can be moved by whoever controls the action, so only pin tags of
+        # actions you trust.
+        "*": ref-pin
