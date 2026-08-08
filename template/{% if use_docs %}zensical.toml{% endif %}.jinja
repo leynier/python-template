@@ -11,9 +11,12 @@ repo_url = "https://github.com/{{ github_username }}/{{ github_repo }}"
 repo_name = "{{ github_username }}/{{ github_repo }}"
 edit_uri = "edit/main/docs/"
 
+plugins = ["mkdocstrings"]
+
 nav = [
   { "Home" = "index.md" },
   { "Usage" = "usage.md" },
+  { "API reference" = "api.md" },
 ]
 
 [project.theme]

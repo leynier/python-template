@@ -36,10 +36,10 @@ Replace this page with the real documentation for your API.
 ## Development
 
 ```bash
-uv sync --all-groups        # install everything
-uv run pytest               # run the tests
-uv run ruff check .         # lint
-uv run ruff format .        # format
-uv run ty check             # type check (advisory)
-uv run --group docs zensical serve   # preview these docs
+uv sync --all-groups   # install everything
+uv run poe check       # lint, format check, dependency check, tests
+uv run poe test        # just the tests
+uv run poe types       # type check (advisory)
+uv run poe docs        # preview these docs
+uv run poe --help      # list every task
 ```

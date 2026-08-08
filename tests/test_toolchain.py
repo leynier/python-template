@@ -78,6 +78,38 @@ def test_docs_build(copie, uv: str) -> None:
 
 
 @pytest.mark.slow
+def test_api_reference_is_actually_rendered(copie, uv: str) -> None:
+    """mkdocstrings really runs under Zensical, rather than emitting raw '::: '.
+
+    Zensical does not have full plugin parity with Material for MkDocs, so this
+    asserts the integration rather than assuming it.
+    """
+    project = copie.copy(extra_answers=answers(use_docs=True)).project_dir
+
+    assert_ok(run([uv, "sync", "--all-groups"], project), "uv sync")
+    assert_ok(
+        run([uv, "run", "--group", "docs", "zensical", "build"], project),
+        "zensical build",
+    )
+
+    page = (project / "site" / "api" / "index.html").read_text()
+    # mkdocstrings-specific markup, not just the docstring text.
+    assert "doc-object" in page
+    # An unprocessed directive would mean the plugin never ran.
+    assert ":::" not in page
+    assert "greet" in page
+
+
+@pytest.mark.slow
+def test_poe_check_passes(copie, uv: str) -> None:
+    """The task runner works and its aggregate task passes on a fresh project."""
+    project = copie.copy(extra_answers=answers()).project_dir
+
+    assert_ok(run([uv, "sync", "--all-groups"], project), "uv sync")
+    assert_ok(run([uv, "run", "poe", "check"], project), "poe check")
+
+
+@pytest.mark.slow
 def test_cli_entrypoint_works(copie, uv: str) -> None:
     """The console script is installed and runs."""
     project = copie.copy(extra_answers=answers(project_type="cli")).project_dir

@@ -23,13 +23,12 @@ uv run pre-commit install
 ## Before opening a pull request
 
 ```bash
-uv run ruff format .
-uv run ruff check --fix .
-uv run pytest
-uv run ty check
+uv run poe format
+uv run poe fix
+uv run poe check
 ```
 
-The first three must pass. `ty check` is advisory while ty is pre-1.0.
+`poe check` must pass. `uv run poe types` is advisory while ty is pre-1.0.
 
 ## Branching
 

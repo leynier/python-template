@@ -1,6 +1,7 @@
 # Python Template
 
 [![CI](https://github.com/leynier/python-template/actions/workflows/ci.yml/badge.svg)](https://github.com/leynier/python-template/actions/workflows/ci.yml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/leynier/python-template/badge)](https://scorecard.dev/viewer/?uri=github.com/leynier/python-template)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Copier](https://img.shields.io/badge/template-copier-2ea44f)](https://copier.readthedocs.io)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
@@ -70,8 +71,9 @@ One prompt, `project_type`, replaces what used to be three separate branches:
 ### Documentation
 
 Built with **[Zensical](https://zensical.org)**, the successor to Material for
-MkDocs from the same team, and deployed to GitHub Pages via OIDC on every push
-to `main`.
+MkDocs from the same team, with **[mkdocstrings](https://mkdocstrings.github.io)**
+generating an API reference from your docstrings. Deployed to GitHub Pages via
+OIDC on every push to `main`.
 
 ### Optional extras
 
@@ -87,8 +89,9 @@ that fails soft:
   `continue-on-error: true`, so it reports findings without gating your build.
   When ty reaches 1.0, drop that line from `.github/workflows/ci.yml`.
 - **Zensical** is at `0.0.x` and does not yet have full plugin parity with
-  Material for MkDocs. It reads `mkdocs.yml`, so moving back is cheap if you
-  need a plugin it does not support yet.
+  Material for MkDocs. mkdocstrings is verified to work — the test suite asserts
+  the API reference is really rendered, not passed through — but other plugins
+  may not be. Zensical reads `mkdocs.yml`, so moving back is cheap.
 
 If you would rather not take those bets, answer `use_docs: false` and swap
 `ty` for mypy in `pyproject.toml`.

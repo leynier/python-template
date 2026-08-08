@@ -56,6 +56,7 @@ module-root = "src"
 [dependency-groups]
 dev = [
     "deptry>=0.25",
+    "poethepoet>=0.48",
     "pre-commit>=4.0",
     "pytest>=8.3",
     "pytest-cov>=6.0",
@@ -67,8 +68,30 @@ dev = [
     "ty>=0.0.69",
 ]
 {%- if use_docs %}
-docs = ["zensical>=0.0.53"]
+docs = [
+    "mkdocstrings[python]>=1.0",
+    "zensical>=0.0.53",
+]
 {%- endif %}
+
+# ------------------------------------------------------------------- tasks --
+# Run with `uv run poe <task>`, e.g. `uv run poe check`.
+
+[tool.poe.tasks]
+lint = { cmd = "ruff check .", help = "Lint the code" }
+fix = { cmd = "ruff check --fix .", help = "Lint and apply safe fixes" }
+format = { cmd = "ruff format .", help = "Format the code" }
+format-check = { cmd = "ruff format --check .", help = "Check formatting" }
+# Advisory while ty is pre-1.0, so a finding here must not fail `poe check`.
+types = { cmd = "ty check", help = "Type check (advisory)" }
+deps = { cmd = "deptry src", help = "Check for unused and undeclared dependencies" }
+test = { cmd = "pytest", help = "Run the tests" }
+cov = { cmd = "pytest --cov --cov-report=term-missing", help = "Run the tests with coverage" }
+{%- if use_docs %}
+docs = { cmd = "zensical serve", help = "Preview the documentation" }
+docs-build = { cmd = "zensical build", help = "Build the documentation" }
+{%- endif %}
+check = { sequence = ["lint", "format-check", "deps", "test"], help = "Run everything CI runs (except the advisory type check)" }
 
 # ------------------------------------------------------------------- ruff --
 # Replaces flake8, black, isort and pyupgrade with a single tool.

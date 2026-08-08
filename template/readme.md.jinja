@@ -58,12 +58,22 @@ This project uses [uv](https://docs.astral.sh/uv) for dependency management and
 
 ```bash
 uv sync --all-groups          # install all dependencies
-uv run pytest                 # run the tests
-uv run ruff check .           # lint
-uv run ruff format .          # format
-uv run ty check               # type check
-uv run deptry src             # check dependency hygiene
 uv run pre-commit install     # enable the git hooks
+```
+
+Tasks are defined in `pyproject.toml` and run with `poe`:
+
+```bash
+uv run poe check              # everything CI runs: lint, format, deps, tests
+uv run poe test               # just the tests
+uv run poe cov                # tests with a coverage report
+uv run poe fix                # lint and apply safe fixes
+uv run poe format             # format
+uv run poe types              # type check (advisory)
+{%- if use_docs %}
+uv run poe docs               # preview the documentation
+{%- endif %}
+uv run poe --help             # list every task
 ```
 
 > [!NOTE]

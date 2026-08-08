@@ -26,14 +26,17 @@ uv run <cmd>           # run inside the project environment
 
 ## Checks to run before finishing
 
+Tasks live in `[tool.poe.tasks]` in `pyproject.toml`:
+
 ```bash
-uv run ruff format .
-uv run ruff check --fix .
-uv run pytest
-uv run ty check        # advisory: ty is pre-1.0
+uv run poe format
+uv run poe fix
+uv run poe check       # lint, format check, dependency check, tests
+uv run poe types       # advisory: ty is pre-1.0
 ```
 
-All of these must pass, except `ty check`, whose findings are informational.
+`poe check` must pass. `poe types` is informational — report its findings but
+do not treat them as blocking.
 
 ## Conventions
 

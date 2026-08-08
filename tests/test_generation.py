@@ -197,6 +197,38 @@ def test_actions_are_sha_pinned(copie) -> None:
     assert found > 0
 
 
+@pytest.mark.parametrize("project_type", PROJECT_TYPES)
+def test_changelog_is_lowercase(copie, project_type: str) -> None:
+    """A starter changelog ships with every project, lowercase per convention."""
+    project = copie.copy(extra_answers=answers(project_type=project_type)).project_dir
+
+    assert (project / "changelog.md").is_file()
+    assert not (project / "CHANGELOG.md").exists()
+
+
+def test_tasks_are_defined_in_pyproject(copie) -> None:
+    """The Makefile was replaced by task definitions in pyproject.toml."""
+    project = copie.copy(extra_answers=answers()).project_dir
+    pyproject = (project / "pyproject.toml").read_text()
+
+    assert not (project / "Makefile").exists()
+    assert "[tool.poe.tasks]" in pyproject
+    for task in ("lint", "format", "test", "check", "types"):
+        assert f"\n{task} = " in pyproject, task
+
+
+def test_api_reference_page(copie) -> None:
+    """Docs include an mkdocstrings API page wired into the nav."""
+    project = copie.copy(extra_answers=answers(use_docs=True)).project_dir
+
+    api = (project / "docs" / "api.md").read_text()
+    assert "::: demo_project" in api
+
+    config = (project / "zensical.toml").read_text()
+    assert 'plugins = ["mkdocstrings"]' in config
+    assert "api.md" in config
+
+
 def test_publish_workflow_does_not_cache(copie) -> None:
     """The release build must not restore a cache it could be poisoned by.
 
