@@ -53,7 +53,7 @@ def test_update_pulls_in_template_changes(template_clone: Path, tmp_path: Path) 
     copier.run_copy(
         str(template_clone),
         str(project),
-        data=BASE_ANSWERS | {"project_type": "library"},
+        data=BASE_ANSWERS | {"workload": "library", "framework": "none"},
         defaults=True,
         unsafe=True,
         vcs_ref="v1.0.0",
@@ -91,7 +91,7 @@ def test_update_preserves_local_edits(template_clone: Path, tmp_path: Path) -> N
     copier.run_copy(
         str(template_clone),
         str(project),
-        data=BASE_ANSWERS | {"project_type": "library"},
+        data=BASE_ANSWERS | {"workload": "library", "framework": "none"},
         defaults=True,
         unsafe=True,
         vcs_ref="v1.0.0",

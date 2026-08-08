@@ -1,0 +1,214 @@
+#!/usr/bin/env python3
+"""Validate the component catalog and compile deterministic artifacts."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from collections import defaultdict
+from pathlib import Path
+from typing import Literal
+
+import yaml
+from pydantic import BaseModel, ConfigDict, Field, TypeAdapter, model_validator
+
+ROOT = Path(__file__).resolve().parent.parent
+CATALOG = ROOT / "catalog"
+GENERATED = CATALOG / "generated"
+
+Layer = Literal[
+    "workload",
+    "framework",
+    "interface",
+    "model_provider",
+    "embedding_provider",
+    "data",
+    "sql_abstraction",
+    "auth",
+    "serving",
+    "training_extension",
+    "mlops",
+    "quality",
+    "deploy",
+]
+Tier = Literal["stable", "platform", "experimental"]
+
+
+class Component(BaseModel):
+    """One selectable building block."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str = Field(pattern=r"^[a-z][a-z0-9-]*$")
+    name: str
+    layer: Layer
+    tier: Tier
+    python: str
+    workloads: list[str] = Field(default_factory=list)
+    roles: list[Literal["sql", "document", "vector", "graph", "cache"]] = Field(
+        default_factory=list
+    )
+    packages: list[str] = Field(default_factory=list)
+
+
+class ComponentCatalog(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: Literal[1]
+    components: list[Component]
+
+    @model_validator(mode="after")
+    def unique_ids(self) -> ComponentCatalog:
+        ids = [component.id for component in self.components]
+        duplicates = sorted({item for item in ids if ids.count(item) > 1})
+        if duplicates:
+            raise ValueError(f"duplicate component ids: {', '.join(duplicates)}")
+        return self
+
+
+class Preset(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    id: str = Field(pattern=r"^[a-z][a-z0-9-]*$")
+    name: str
+    description: str
+    answers: dict[str, object]
+
+
+class PresetCatalog(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: Literal[1]
+    presets: list[Preset]
+
+    @model_validator(mode="after")
+    def exactly_twelve_unique_presets(self) -> PresetCatalog:
+        ids = [preset.id for preset in self.presets]
+        if len(ids) != 12:
+            raise ValueError(f"expected 12 presets, found {len(ids)}")
+        if len(ids) != len(set(ids)):
+            raise ValueError("preset ids must be unique")
+        return self
+
+
+def load_yaml(path: Path) -> object:
+    return yaml.safe_load(path.read_text())
+
+
+def load_catalogs() -> tuple[ComponentCatalog, PresetCatalog]:
+    components = ComponentCatalog.model_validate(load_yaml(CATALOG / "components.yml"))
+    presets = PresetCatalog.model_validate(load_yaml(CATALOG / "presets.yml"))
+    component_ids = {component.id for component in components.components}
+    for preset in presets.presets:
+        selected = _selected_component_ids(preset.answers)
+        unknown = selected - component_ids - {"none"}
+        if unknown:
+            raise ValueError(
+                f"preset {preset.id!r} references unknown components: "
+                f"{', '.join(sorted(unknown))}"
+            )
+    return components, presets
+
+
+def _selected_component_ids(answers: dict[str, object]) -> set[str]:
+    metadata_values = {
+        "agents",
+        "inference",
+        "mcp",
+        "none",
+        "rag",
+        "training",
+    }
+    selected: set[str] = set()
+    for value in answers.values():
+        if isinstance(value, str):
+            selected.add(value)
+        elif isinstance(value, list):
+            selected.update(TypeAdapter(list[str]).validate_python(value))
+    return selected - metadata_values
+
+
+def build_artifacts(
+    components: ComponentCatalog, presets: PresetCatalog
+) -> dict[Path, str]:
+    by_layer: dict[str, list[Component]] = defaultdict(list)
+    for component in components.components:
+        by_layer[component.layer].append(component)
+
+    public_catalog = {
+        "schema_version": 1,
+        "components": [
+            component.model_dump(mode="json") for component in components.components
+        ],
+        "presets": [preset.model_dump(mode="json") for preset in presets.presets],
+    }
+    choices = {
+        layer: {component.name: component.id for component in items}
+        for layer, items in sorted(by_layer.items())
+    }
+
+    rows = [
+        "# Component catalog",
+        "",
+        "This reference is generated from `catalog/components.yml`. Do not edit it by hand.",
+        "",
+        "| Layer | Component | Support | Python |",
+        "| --- | --- | --- | --- |",
+    ]
+    for component in components.components:
+        rows.append(
+            f"| `{component.layer}` | {component.name} (`{component.id}`) "
+            f"| `{component.tier}` | `{component.python}` |"
+        )
+
+    preset_rows = [
+        "# Presets",
+        "",
+        "These editable recipes are generated from `catalog/presets.yml`.",
+        "",
+    ]
+    for preset in presets.presets:
+        preset_rows.extend(
+            [f"## {preset.name}", "", preset.description, "", f"ID: `{preset.id}`", ""]
+        )
+
+    return {
+        GENERATED / "catalog.json": json.dumps(public_catalog, indent=2) + "\n",
+        GENERATED / "choices.yml": yaml.safe_dump(
+            choices, sort_keys=True, allow_unicode=True
+        ),
+        ROOT / "docs" / "reference" / "components.md": "\n".join(rows) + "\n",
+        ROOT / "docs" / "reference" / "presets.md": "\n".join(preset_rows) + "\n",
+    }
+
+
+def compile_catalog(*, check: bool) -> int:
+    components, presets = load_catalogs()
+    artifacts = build_artifacts(components, presets)
+    stale: list[Path] = []
+    for path, expected in artifacts.items():
+        if check:
+            if not path.is_file() or path.read_text() != expected:
+                stale.append(path.relative_to(ROOT))
+            continue
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(expected)
+    if stale:
+        print("Generated catalog artifacts are stale:", file=sys.stderr)
+        for path in stale:
+            print(f"  - {path}", file=sys.stderr)
+        print("Run: uv run python scripts/compile_catalog.py", file=sys.stderr)
+        return 1
+    return 0
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--check", action="store_true")
+    args = parser.parse_args()
+    return compile_catalog(check=args.check)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

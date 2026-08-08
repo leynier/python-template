@@ -5,23 +5,23 @@ import pathlib
 import pytest
 from conftest import answers
 
-PROJECT_TYPES = ["library", "cli", "api"]
+SIMPLE_WORKLOADS = ["library", "cli", "api"]
 
 
-@pytest.mark.parametrize("project_type", PROJECT_TYPES)
-def test_generates_cleanly(copie, project_type: str) -> None:
-    """Each project type renders without error."""
-    result = copie.copy(extra_answers=answers(project_type=project_type))
+@pytest.mark.parametrize("workload", SIMPLE_WORKLOADS)
+def test_generates_cleanly(copie, workload: str) -> None:
+    """Each workload renders without error."""
+    result = copie.copy(extra_answers=answers(workload=workload))
 
     assert result.exception is None, result.exception
     assert result.exit_code == 0
     assert result.project_dir.is_dir()
 
 
-@pytest.mark.parametrize("project_type", PROJECT_TYPES)
-def test_core_layout(copie, project_type: str) -> None:
+@pytest.mark.parametrize("workload", SIMPLE_WORKLOADS)
+def test_core_layout(copie, workload: str) -> None:
     """The src layout, typing marker and answers file are always present."""
-    result = copie.copy(extra_answers=answers(project_type=project_type))
+    result = copie.copy(extra_answers=answers(workload=workload))
     project = result.project_dir
 
     assert (project / "src" / "demo_project" / "__init__.py").is_file()
@@ -32,10 +32,10 @@ def test_core_layout(copie, project_type: str) -> None:
     assert (project / ".copier-answers.yml").is_file()
 
 
-@pytest.mark.parametrize("project_type", PROJECT_TYPES)
-def test_lowercase_readme(copie, project_type: str) -> None:
+@pytest.mark.parametrize("workload", SIMPLE_WORKLOADS)
+def test_lowercase_readme(copie, workload: str) -> None:
     """Readme is lowercase, and the packaging metadata agrees with it."""
-    result = copie.copy(extra_answers=answers(project_type=project_type))
+    result = copie.copy(extra_answers=answers(workload=workload))
     project = result.project_dir
 
     assert (project / "readme.md").is_file()
@@ -44,10 +44,10 @@ def test_lowercase_readme(copie, project_type: str) -> None:
     assert 'readme = "readme.md"' in (project / "pyproject.toml").read_text()
 
 
-@pytest.mark.parametrize("project_type", PROJECT_TYPES)
-def test_convention_files_stay_uppercase(copie, project_type: str) -> None:
+@pytest.mark.parametrize("workload", SIMPLE_WORKLOADS)
+def test_convention_files_stay_uppercase(copie, workload: str) -> None:
     """Files that GitHub and tooling match by exact name keep their case."""
-    result = copie.copy(extra_answers=answers(project_type=project_type))
+    result = copie.copy(extra_answers=answers(workload=workload))
     project = result.project_dir
 
     for name in ("LICENSE", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "SECURITY.md"):
@@ -55,10 +55,10 @@ def test_convention_files_stay_uppercase(copie, project_type: str) -> None:
 
 
 def test_entrypoints_per_type(copie) -> None:
-    """Each project type gets its own entry point module, and only that one."""
-    library = copie.copy(extra_answers=answers(project_type="library")).project_dir
-    cli = copie.copy(extra_answers=answers(project_type="cli")).project_dir
-    api = copie.copy(extra_answers=answers(project_type="api")).project_dir
+    """Each workload gets its own entry point module, and only that one."""
+    library = copie.copy(extra_answers=answers(workload="library")).project_dir
+    cli = copie.copy(extra_answers=answers(workload="cli")).project_dir
+    api = copie.copy(extra_answers=answers(workload="api")).project_dir
 
     assert not (library / "src" / "demo_project" / "cli.py").exists()
     assert not (library / "src" / "demo_project" / "api.py").exists()
@@ -69,6 +69,39 @@ def test_entrypoints_per_type(copie) -> None:
 
     assert (api / "src" / "demo_project" / "api.py").is_file()
     assert not (api / "src" / "demo_project" / "cli.py").exists()
+
+
+def test_simple_presets_remain_first_class(copie) -> None:
+    """The three simple recipes must never require an AI component."""
+    cases = {
+        "python-library": ("library", "none"),
+        "typer-cli": ("cli", "typer"),
+        "fastapi-api": ("api", "fastapi"),
+    }
+    for preset, (workload, framework) in cases.items():
+        project = copie.copy(extra_answers=answers(preset=preset)).project_dir
+        saved = (project / ".copier-answers.yml").read_text()
+        assert f"workload: {workload}" in saved
+        assert f"framework: {framework}" in saved
+        assert "ai_capabilities: none" in saved
+
+
+def test_flask_is_available_for_a_simple_api(copie) -> None:
+    project = copie.copy(
+        extra_answers=answers(
+            preset="custom",
+            workload="api",
+            ai_capabilities="none",
+            framework="flask",
+        )
+    ).project_dir
+
+    api = (project / "src" / "demo_project" / "api.py").read_text()
+    pyproject = (project / "pyproject.toml").read_text()
+    tests = (project / "tests" / "test_demo_project.py").read_text()
+    assert "from flask import Flask" in api
+    assert '"flask>=3.1.2"' in pyproject
+    assert "app.test_client()" in tests
 
 
 def test_optional_features_are_omitted(copie) -> None:
@@ -102,7 +135,7 @@ def test_optional_features_are_included(copie) -> None:
     """Turning features on renders their files."""
     result = copie.copy(
         extra_answers=answers(
-            project_type="api",
+            workload="api",
             use_docs=True,
             publish_to_pypi=True,
             use_docker=True,
@@ -232,10 +265,10 @@ def test_zizmor_config_allows_tag_pins(copie) -> None:
     assert "ref-pin" in config
 
 
-@pytest.mark.parametrize("project_type", PROJECT_TYPES)
-def test_changelog_is_lowercase(copie, project_type: str) -> None:
+@pytest.mark.parametrize("workload", SIMPLE_WORKLOADS)
+def test_changelog_is_lowercase(copie, workload: str) -> None:
     """A starter changelog ships with every project, lowercase per convention."""
-    project = copie.copy(extra_answers=answers(project_type=project_type)).project_dir
+    project = copie.copy(extra_answers=answers(workload=workload)).project_dir
 
     assert (project / "changelog.md").is_file()
     assert not (project / "CHANGELOG.md").exists()
@@ -271,7 +304,7 @@ def test_publish_workflow_does_not_cache(copie) -> None:
     builds the published artifacts should not trust a shared cache.
     """
     project = copie.copy(
-        extra_answers=answers(project_type="library", publish_to_pypi=True)
+        extra_answers=answers(workload="library", publish_to_pypi=True)
     ).project_dir
     publish = (project / ".github" / "workflows" / "publish.yml").read_text()
 
@@ -282,7 +315,7 @@ def test_publish_workflow_does_not_cache(copie) -> None:
 def test_publish_workflow_uses_trusted_publishing(copie) -> None:
     """No PyPI passwords or API tokens anywhere; OIDC only."""
     project = copie.copy(
-        extra_answers=answers(project_type="library", publish_to_pypi=True)
+        extra_answers=answers(workload="library", publish_to_pypi=True)
     ).project_dir
     publish = (project / ".github" / "workflows" / "publish.yml").read_text()
 

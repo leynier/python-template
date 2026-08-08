@@ -355,15 +355,17 @@ wheels = [
 
 [[package]]
 name = "python-template"
-version = "1.0.0"
+version = "0.5.0"
 source = { virtual = "." }
 
 [package.dev-dependencies]
 dev = [
     { name = "copier" },
+    { name = "pydantic" },
     { name = "pytest" },
     { name = "pytest-copie" },
     { name = "pytest-xdist" },
+    { name = "pyyaml" },
     { name = "ruff" },
 ]
 
@@ -372,9 +374,11 @@ dev = [
 [package.metadata.requires-dev]
 dev = [
     { name = "copier", specifier = ">=9.17.1" },
+    { name = "pydantic", specifier = ">=2.13.4,<3" },
     { name = "pytest", specifier = ">=9.1.1" },
     { name = "pytest-copie", specifier = ">=0.3.1" },
     { name = "pytest-xdist", specifier = ">=3.8.0" },
+    { name = "pyyaml", specifier = ">=6.0.3,<7" },
     { name = "ruff", specifier = ">=0.16.2" },
 ]
 

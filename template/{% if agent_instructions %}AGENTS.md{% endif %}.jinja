@@ -6,10 +6,14 @@ Conventions for AI coding agents working in this repository.
 
 - **{{ project_name }}** — {{ description }}
 - Python {{ python_version }}+, `src/` layout, package `{{ module_name }}`.
-{%- if project_type == 'cli' %}
+{%- if workload == 'cli' %}
 - Typer CLI; the entry point is `{{ module_name }}.cli:app`.
-{%- elif project_type == 'api' %}
+{%- elif workload == 'api' %}
+{%- if framework == 'fastapi' %}
 - FastAPI application; the ASGI app is `{{ module_name }}.api:app`.
+{%- else %}
+- Flask application; the WSGI app is `{{ module_name }}.api:app`.
+{%- endif %}
 {%- endif %}
 
 ## Toolchain

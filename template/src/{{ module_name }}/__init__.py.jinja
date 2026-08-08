@@ -2,22 +2,24 @@
 
 __version__ = "0.1.0"
 
-{% if project_type == 'library' -%}
+{% if workload == 'library' -%}
 __all__ = ["greet"]
 
 
 def greet(name: str) -> str:
     """Return a friendly greeting for ``name``."""
     return f"Hello, {name}!"
-{%- elif project_type == 'cli' -%}
+{%- elif workload == 'cli' -%}
 __all__ = ["greet"]
 
 
 def greet(name: str) -> str:
     """Return a friendly greeting for ``name``."""
     return f"Hello, {name}!"
-{%- elif project_type == 'api' -%}
+{%- elif workload == 'api' -%}
 __all__ = ["app"]
 
 from {{ module_name }}.api import app
+{%- else -%}
+__all__: list[str] = []
 {%- endif %}

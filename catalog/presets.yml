@@ -1,0 +1,51 @@
+schema_version: 1
+
+presets:
+  - id: python-library
+    name: Python Library
+    description: A typed, publishable Python package without AI dependencies.
+    answers: {workload: library, ai_capabilities: none, framework: none}
+  - id: typer-cli
+    name: Typer CLI
+    description: A polished command-line application without AI dependencies.
+    answers: {workload: cli, ai_capabilities: none, framework: typer}
+  - id: fastapi-api
+    name: FastAPI API
+    description: A production-ready JSON API without AI dependencies.
+    answers: {workload: api, ai_capabilities: none, framework: fastapi}
+  - id: fastmcp-server
+    name: FastMCP Tool Server
+    description: An MCP server exposing a tested local tool.
+    answers: {workload: mcp, ai_capabilities: mcp, framework: fastmcp}
+  - id: pydantic-ai-openai
+    name: PydanticAI + Harness + OpenAI
+    description: A typed OpenAI agent with optional Harness capabilities.
+    answers: {workload: agent, ai_capabilities: agents, framework: pydantic-ai, model_provider: openai}
+  - id: google-adk-gemini
+    name: Google ADK + Gemini
+    description: An agent built with Google's official agent framework and model.
+    answers: {workload: agent, ai_capabilities: agents, framework: google-adk, model_provider: gemini}
+  - id: strands-bedrock
+    name: Strands Agents + Bedrock
+    description: An AWS-native agent targeting Bedrock.
+    answers: {workload: agent, ai_capabilities: agents, framework: strands-agents, model_provider: bedrock}
+  - id: langgraph-anthropic-api
+    name: LangGraph + Anthropic + FastAPI
+    description: A stateful agent workflow exposed through FastAPI.
+    answers: {workload: agent, ai_capabilities: agents, framework: langgraph, model_provider: anthropic, interfaces: [fastapi]}
+  - id: llamaindex-rag
+    name: LlamaIndex RAG + OpenAI + Pinecone + Gradio
+    description: A hosted RAG chat application with a browser UI.
+    answers: {workload: rag, ai_capabilities: rag, framework: llamaindex, model_provider: openai, embedding_provider: openai, vector_store: pinecone, interfaces: [gradio]}
+  - id: local-lingo-app
+    name: Lingo + Ollama + Beaver + Violetear
+    description: A local-first conversational app with an embedded multimodel database.
+    answers: {workload: agent, ai_capabilities: agents, framework: lingo, model_provider: ollama, document_store: beaver, vector_store: beaver, graph_store: beaver, cache_store: beaver, interfaces: [violetear]}
+  - id: litellm-gateway
+    name: LiteLLM Gateway + Redis + Docker
+    description: A model gateway with Redis-backed caching and Docker deployment.
+    answers: {workload: inference, ai_capabilities: inference, framework: none, serving: litellm, cache_store: redis, deploy_target: docker}
+  - id: hf-finetuning
+    name: Hugging Face fine-tuning + MLflow + BentoML
+    description: A workspace for fine-tuning, tracking and serving a model.
+    answers: {workload: hybrid, ai_capabilities: training, framework: transformers, training_extensions: [datasets, accelerate, peft, trl], quality_tools: [mlflow], serving: bentoml}

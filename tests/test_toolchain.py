@@ -11,16 +11,14 @@ one per assertion, and CI runs them with ``-n auto``.
 import pytest
 from conftest import answers, assert_ok, run
 
-PROJECT_TYPES = ["library", "cli", "api"]
+SIMPLE_WORKLOADS = ["library", "cli", "api"]
 
 
 @pytest.mark.slow
-@pytest.mark.parametrize("project_type", PROJECT_TYPES)
-def test_generated_project_passes_its_own_checks(
-    copie, uv: str, project_type: str
-) -> None:
+@pytest.mark.parametrize("workload", SIMPLE_WORKLOADS)
+def test_generated_project_passes_its_own_checks(copie, uv: str, workload: str) -> None:
     """Install the generated project and run the full quality gate on it."""
-    result = copie.copy(extra_answers=answers(project_type=project_type))
+    result = copie.copy(extra_answers=answers(workload=workload))
     assert result.exception is None, result.exception
     project = result.project_dir
 
@@ -44,21 +42,21 @@ def test_generated_project_passes_its_own_checks(
     ty = run([uv, "run", "ty", "check"], project)
     assert ty.returncode in (0, 1), f"ty crashed:\n{ty.stdout}\n{ty.stderr}"
 
-    if project_type == "cli":
+    if workload == "cli":
         hello = run([uv, "run", "demo-project", "hello", "Ada"], project)
         assert_ok(hello, "cli entry point")
         assert "Hello, Ada!" in hello.stdout
 
 
 @pytest.mark.slow
-@pytest.mark.parametrize("project_type", PROJECT_TYPES)
-def test_generated_project_builds(copie, uv: str, project_type: str) -> None:
+@pytest.mark.parametrize("workload", SIMPLE_WORKLOADS)
+def test_generated_project_builds(copie, uv: str, workload: str) -> None:
     """The project produces an sdist and a wheel.
 
     ``uv build`` provisions its own build environment, so this deliberately
     does not run ``uv sync`` first.
     """
-    result = copie.copy(extra_answers=answers(project_type=project_type))
+    result = copie.copy(extra_answers=answers(workload=workload))
     project = result.project_dir
 
     assert_ok(run([uv, "build"], project), "uv build")
