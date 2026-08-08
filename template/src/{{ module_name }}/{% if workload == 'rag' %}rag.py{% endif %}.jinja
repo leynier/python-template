@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 
-import importlib
 from dataclasses import dataclass, field
 
-FRAMEWORK = "{{ framework }}"
-FRAMEWORK_MODULES = {
-    "langchain": "langchain",
-    "llamaindex": "llama_index",
-    "haystack": "haystack",
-}
+{% if framework == 'langchain' -%}
+import langchain as framework_module
+{%- elif framework == 'llamaindex' -%}
+import llama_index as framework_module
+{%- elif framework == 'haystack' -%}
+import haystack as framework_module
+{%- endif %}
 
 
 @dataclass
@@ -36,7 +36,7 @@ class InMemoryRAG:
 
 def build_rag() -> InMemoryRAG:
     """Validate the selected framework and create the offline retriever."""
-    importlib.import_module(FRAMEWORK_MODULES[FRAMEWORK])
+    assert framework_module is not None
     return InMemoryRAG()
 
 

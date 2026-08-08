@@ -1,0 +1,38 @@
+"""Authentication helpers for the selected strategy."""
+
+{% if auth == 'api-key' -%}
+import secrets
+{%- elif auth == 'oidc' -%}
+from authlib.jose import JsonWebToken
+{%- elif auth == 'supabase-auth' -%}
+from supabase import Client as SupabaseClient
+{%- endif %}
+
+from {{ module_name }}.settings import settings
+
+AUTH_STRATEGY = "{{ auth }}"
+
+{%- if auth == 'api-key' %}
+
+
+def authenticate_api_key(candidate: str) -> bool:
+    """Compare an API key without leaking timing information."""
+    expected = settings.api_key
+    return expected is not None and secrets.compare_digest(
+        candidate, expected.get_secret_value()
+    )
+{%- elif auth == 'oidc' %}
+
+
+def oidc_decoder() -> JsonWebToken:
+    """Build the JWT decoder; fetch and pass the issuer JWKS at the boundary."""
+    assert settings.oidc_issuer and settings.oidc_audience
+    return JsonWebToken(["RS256", "ES256"])
+{%- elif auth == 'supabase-auth' %}
+
+
+def auth_client_type() -> type[SupabaseClient]:
+    """Return the configured Supabase client type without opening a connection."""
+    assert settings.supabase_url
+    return SupabaseClient
+{%- endif %}

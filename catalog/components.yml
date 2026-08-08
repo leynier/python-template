@@ -262,27 +262,27 @@ components:
 
   # Data engines. A project may select at most one provider for each role.
   - {id: sqlite, name: SQLite, layer: data, tier: stable, roles: [sql], python: ">=3.11,<3.15"}
-  - {id: postgresql, name: PostgreSQL, layer: data, tier: stable, roles: [sql], python: ">=3.11,<3.15"}
-  - {id: mysql, name: MySQL, layer: data, tier: stable, roles: [sql], python: ">=3.11,<3.15"}
-  - {id: duckdb, name: DuckDB, layer: data, tier: stable, roles: [sql], python: ">=3.11,<3.15"}
-  - {id: supabase, name: Supabase, layer: data, tier: platform, roles: [sql, document], python: ">=3.11,<3.15"}
-  - {id: mongodb, name: MongoDB, layer: data, tier: stable, roles: [document], python: ">=3.11,<3.15"}
-  - {id: beaver, name: Beaver, layer: data, tier: stable, roles: [document, vector, graph, cache], python: ">=3.12,<3.15"}
-  - {id: pgvector, name: pgvector, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15"}
-  - {id: qdrant, name: Qdrant, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15"}
-  - {id: chroma, name: Chroma, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15"}
-  - {id: lancedb, name: LanceDB, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15"}
-  - {id: weaviate, name: Weaviate, layer: data, tier: platform, roles: [vector], python: ">=3.11,<3.15"}
-  - {id: pinecone, name: Pinecone, layer: data, tier: platform, roles: [vector], python: ">=3.11,<3.15"}
-  - {id: milvus, name: Milvus, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15"}
-  - {id: neo4j, name: Neo4j, layer: data, tier: stable, roles: [graph], python: ">=3.11,<3.15"}
-  - {id: redis, name: Redis, layer: data, tier: stable, roles: [cache], python: ">=3.11,<3.15"}
+  - {id: postgresql, name: PostgreSQL, layer: data, tier: stable, roles: [sql], python: ">=3.11,<3.15", packages: ["psycopg[binary]>=3.3.4,<4"]}
+  - {id: mysql, name: MySQL, layer: data, tier: stable, roles: [sql], python: ">=3.11,<3.15", packages: ["pymysql>=1.2.0,<2"]}
+  - {id: duckdb, name: DuckDB, layer: data, tier: stable, roles: [sql], python: ">=3.11,<3.15", packages: ["duckdb>=1.5.5,<2", "duckdb-engine>=0.17.0,<1"]}
+  - {id: supabase, name: Supabase, layer: data, tier: platform, roles: [sql, document], python: ">=3.11,<3.15", packages: ["supabase>=2.31.0,<3"]}
+  - {id: mongodb, name: MongoDB, layer: data, tier: stable, roles: [document], python: ">=3.11,<3.15", packages: ["pymongo>=4.17.0,<5"]}
+  - {id: beaver, name: Beaver, layer: data, tier: stable, roles: [document, vector, graph, cache], python: ">=3.12,<3.15", packages: ["beaver-db>=2.3.0,<3"]}
+  - {id: pgvector, name: pgvector, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15", packages: ["pgvector>=0.5.0,<1"]}
+  - {id: qdrant, name: Qdrant, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15", packages: ["qdrant-client>=1.19.0,<2"]}
+  - {id: chroma, name: Chroma, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15", packages: ["chromadb>=1.5.9,<2"]}
+  - {id: lancedb, name: LanceDB, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15", packages: ["lancedb>=0.36.0,<1"]}
+  - {id: weaviate, name: Weaviate, layer: data, tier: platform, roles: [vector], python: ">=3.11,<3.15", packages: ["weaviate-client>=4.22.0,<5"]}
+  - {id: pinecone, name: Pinecone, layer: data, tier: platform, roles: [vector], python: ">=3.11,<3.15", packages: ["pinecone>=9.1.0,<10"]}
+  - {id: milvus, name: Milvus, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15", packages: ["pymilvus>=3.0.1,<4"]}
+  - {id: neo4j, name: Neo4j, layer: data, tier: stable, roles: [graph], python: ">=3.11,<3.15", packages: ["neo4j>=6.2.0,<7"]}
+  - {id: redis, name: Redis, layer: data, tier: stable, roles: [cache], python: ">=3.11,<3.15", packages: ["redis>=8.1.0,<9"]}
 
-  - {id: sqlmodel, name: SQLModel, layer: sql_abstraction, tier: stable, python: ">=3.11,<3.15"}
-  - {id: sqlalchemy, name: SQLAlchemy, layer: sql_abstraction, tier: stable, python: ">=3.11,<3.15"}
+  - {id: sqlmodel, name: SQLModel, layer: sql_abstraction, tier: stable, python: ">=3.11,<3.15", packages: ["sqlmodel>=0.0.39,<0.1", "sqlalchemy>=2.0.51,<3", "alembic>=1.19.1,<2"]}
+  - {id: sqlalchemy, name: SQLAlchemy, layer: sql_abstraction, tier: stable, python: ">=3.11,<3.15", packages: ["sqlalchemy>=2.0.51,<3", "alembic>=1.19.1,<2"]}
   - {id: api-key, name: API key, layer: auth, tier: stable, python: ">=3.11,<3.15"}
-  - {id: oidc, name: OAuth / OIDC, layer: auth, tier: platform, python: ">=3.11,<3.15"}
-  - {id: supabase-auth, name: Supabase Auth, layer: auth, tier: platform, python: ">=3.11,<3.15"}
+  - {id: oidc, name: OAuth / OIDC, layer: auth, tier: platform, python: ">=3.11,<3.15", packages: ["authlib>=1.7.2,<2"]}
+  - {id: supabase-auth, name: Supabase Auth, layer: auth, tier: platform, python: ">=3.11,<3.15", packages: ["supabase>=2.31.0,<3"]}
 
   - {id: bentoml, name: BentoML, layer: serving, tier: stable, python: ">=3.11,<3.15"}
   - {id: litellm, name: LiteLLM, layer: serving, tier: stable, python: ">=3.11,<3.15"}

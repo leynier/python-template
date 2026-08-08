@@ -781,7 +781,9 @@
       "roles": [
         "sql"
       ],
-      "packages": []
+      "packages": [
+        "psycopg[binary]>=3.3.4,<4"
+      ]
     },
     {
       "id": "mysql",
@@ -793,7 +795,9 @@
       "roles": [
         "sql"
       ],
-      "packages": []
+      "packages": [
+        "pymysql>=1.2.0,<2"
+      ]
     },
     {
       "id": "duckdb",
@@ -805,7 +809,10 @@
       "roles": [
         "sql"
       ],
-      "packages": []
+      "packages": [
+        "duckdb>=1.5.5,<2",
+        "duckdb-engine>=0.17.0,<1"
+      ]
     },
     {
       "id": "supabase",
@@ -818,7 +825,9 @@
         "sql",
         "document"
       ],
-      "packages": []
+      "packages": [
+        "supabase>=2.31.0,<3"
+      ]
     },
     {
       "id": "mongodb",
@@ -830,7 +839,9 @@
       "roles": [
         "document"
       ],
-      "packages": []
+      "packages": [
+        "pymongo>=4.17.0,<5"
+      ]
     },
     {
       "id": "beaver",
@@ -845,7 +856,9 @@
         "graph",
         "cache"
       ],
-      "packages": []
+      "packages": [
+        "beaver-db>=2.3.0,<3"
+      ]
     },
     {
       "id": "pgvector",
@@ -857,7 +870,9 @@
       "roles": [
         "vector"
       ],
-      "packages": []
+      "packages": [
+        "pgvector>=0.5.0,<1"
+      ]
     },
     {
       "id": "qdrant",
@@ -869,7 +884,9 @@
       "roles": [
         "vector"
       ],
-      "packages": []
+      "packages": [
+        "qdrant-client>=1.19.0,<2"
+      ]
     },
     {
       "id": "chroma",
@@ -881,7 +898,9 @@
       "roles": [
         "vector"
       ],
-      "packages": []
+      "packages": [
+        "chromadb>=1.5.9,<2"
+      ]
     },
     {
       "id": "lancedb",
@@ -893,7 +912,9 @@
       "roles": [
         "vector"
       ],
-      "packages": []
+      "packages": [
+        "lancedb>=0.36.0,<1"
+      ]
     },
     {
       "id": "weaviate",
@@ -905,7 +926,9 @@
       "roles": [
         "vector"
       ],
-      "packages": []
+      "packages": [
+        "weaviate-client>=4.22.0,<5"
+      ]
     },
     {
       "id": "pinecone",
@@ -917,7 +940,9 @@
       "roles": [
         "vector"
       ],
-      "packages": []
+      "packages": [
+        "pinecone>=9.1.0,<10"
+      ]
     },
     {
       "id": "milvus",
@@ -929,7 +954,9 @@
       "roles": [
         "vector"
       ],
-      "packages": []
+      "packages": [
+        "pymilvus>=3.0.1,<4"
+      ]
     },
     {
       "id": "neo4j",
@@ -941,7 +968,9 @@
       "roles": [
         "graph"
       ],
-      "packages": []
+      "packages": [
+        "neo4j>=6.2.0,<7"
+      ]
     },
     {
       "id": "redis",
@@ -953,7 +982,9 @@
       "roles": [
         "cache"
       ],
-      "packages": []
+      "packages": [
+        "redis>=8.1.0,<9"
+      ]
     },
     {
       "id": "sqlmodel",
@@ -963,7 +994,11 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "sqlmodel>=0.0.39,<0.1",
+        "sqlalchemy>=2.0.51,<3",
+        "alembic>=1.19.1,<2"
+      ]
     },
     {
       "id": "sqlalchemy",
@@ -973,7 +1008,10 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "sqlalchemy>=2.0.51,<3",
+        "alembic>=1.19.1,<2"
+      ]
     },
     {
       "id": "api-key",
@@ -993,7 +1031,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "authlib>=1.7.2,<2"
+      ]
     },
     {
       "id": "supabase-auth",
@@ -1003,7 +1043,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "supabase>=2.31.0,<3"
+      ]
     },
     {
       "id": "bentoml",

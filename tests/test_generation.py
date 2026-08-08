@@ -108,6 +108,29 @@ def test_flask_is_available_for_a_simple_api(copie) -> None:
     assert "app.test_client()" in tests
 
 
+def test_sql_and_auth_layers_generate_together(copie) -> None:
+    project = copie.copy(
+        extra_answers=answers(
+            preset="custom",
+            workload="api",
+            framework="fastapi",
+            sql_store="sqlite",
+            sql_abstraction="sqlmodel",
+            auth="api-key",
+        )
+    ).project_dir
+
+    package = project / "src" / "demo_project"
+    pyproject = (project / "pyproject.toml").read_text()
+    assert (package / "data.py").is_file()
+    assert (package / "auth.py").is_file()
+    assert (package / "settings.py").is_file()
+    assert (project / "alembic.ini").is_file()
+    assert (project / "migrations" / "env.py").is_file()
+    assert '"sqlmodel>=0.0.39,<0.1"' in pyproject
+    assert '"alembic>=1.19.1,<2"' in pyproject
+
+
 def test_optional_features_are_omitted(copie) -> None:
     """Turning features off removes their files entirely."""
     result = copie.copy(

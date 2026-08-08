@@ -55,3 +55,12 @@ def test_compiled_dependency_template_contains_every_catalog_package() -> None:
     for component in source["components"]:
         for package in component.get("packages", []):
             assert package in compiled, (component["id"], package)
+
+
+def test_template_paths_fit_windows_checkout_limits() -> None:
+    longest = max(
+        (path.relative_to(REPO).as_posix() for path in (REPO / "template").rglob("*")),
+        key=len,
+    )
+    # Hosted Actions adds roughly 40 characters before the repository path.
+    assert len(longest) < 200, longest

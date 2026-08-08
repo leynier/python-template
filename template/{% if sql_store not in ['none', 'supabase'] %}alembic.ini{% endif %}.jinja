@@ -1,0 +1,37 @@
+[alembic]
+script_location = migrations
+prepend_sys_path = .
+sqlalchemy.url = {% if sql_store == 'sqlite' %}sqlite:///app.db{% elif sql_store == 'postgresql' %}postgresql+psycopg://postgres:postgres@localhost:5432/app{% elif sql_store == 'mysql' %}mysql+pymysql://root:password@localhost:3306/app{% elif sql_store == 'duckdb' %}duckdb:///app.duckdb{% endif %}
+
+[loggers]
+keys = root,sqlalchemy,alembic
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = WARN
+handlers = console
+qualname =
+
+[logger_sqlalchemy]
+level = WARN
+handlers =
+qualname = sqlalchemy.engine
+
+[logger_alembic]
+level = INFO
+handlers =
+qualname = alembic
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(levelname)-5.5s [%(name)s] %(message)s
