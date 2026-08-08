@@ -16,10 +16,12 @@ PRESETS = {
     ],
     "llamaindex-rag": [
         "src/demo_project/rag.py",
+        "src/demo_project/data.py",
         "src/demo_project/interfaces/gradio_app.py",
     ],
     "local-lingo-app": [
         "src/demo_project/agent.py",
+        "src/demo_project/data.py",
         "src/demo_project/interfaces/violetear_app.py",
     ],
 }
@@ -50,4 +52,33 @@ def test_ai_preset_vertical_slice(
         run([uv, "run", "ruff", "format", "--check", "."], project),
         "ruff format",
     )
+    assert_ok(run([uv, "run", "deptry", "src"], project), "deptry")
+    assert_ok(run([uv, "run", "pytest", "-q"], project), "pytest")
+
+
+@pytest.mark.preset
+def test_data_and_auth_vertical_slice(copie, uv: str) -> None:
+    """The SQLModel, Alembic and API-key layers pass the generated gate."""
+    result = copie.copy(
+        extra_answers=answers(
+            preset="custom",
+            workload="api",
+            framework="fastapi",
+            sql_store="sqlite",
+            sql_abstraction="sqlmodel",
+            auth="api-key",
+            use_docs=False,
+            use_codeql=False,
+            use_docker=False,
+        )
+    )
+    assert result.exception is None, result.exception
+    project = result.project_dir
+
+    assert_ok(run([uv, "run", "ruff", "check", "."], project), "ruff check")
+    assert_ok(
+        run([uv, "run", "ruff", "format", "--check", "."], project),
+        "ruff format",
+    )
+    assert_ok(run([uv, "run", "deptry", "src"], project), "deptry")
     assert_ok(run([uv, "run", "pytest", "-q"], project), "pytest")

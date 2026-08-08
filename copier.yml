@@ -330,7 +330,7 @@ sql_abstraction:
   choices:
     SQLModel + Alembic: sqlmodel
     SQLAlchemy + Alembic: sqlalchemy
-  when: "{{ sql_store != 'none' }}"
+  when: "{{ sql_store not in ['none', 'supabase'] }}"
 
 document_store:
   type: str
@@ -381,6 +381,12 @@ cache_store:
     Beaver local bundle: beaver
     Redis: redis
 
+data_config:
+  type: bool
+  default: >-
+    {{ sql_store != 'none' or document_store != 'none' or vector_store != 'none' or graph_store != 'none' or cache_store != 'none' }}
+  when: false
+
 auth:
   type: str
   help: Authentication strategy
@@ -391,6 +397,14 @@ auth:
     Generic OAuth / OIDC: oidc
     Supabase Auth: supabase-auth
   when: "{{ workload in ['api', 'web', 'mcp', 'agent', 'rag', 'inference', 'hybrid'] }}"
+
+# Internal derived switch used in template paths. Keeping this expression out
+# of filenames avoids the Windows 260-character checkout limit.
+runtime_config:
+  type: bool
+  default: >-
+    {{ ai_capabilities != 'none' or sql_store != 'none' or document_store != 'none' or vector_store != 'none' or graph_store != 'none' or cache_store != 'none' or auth != 'none' }}
+  when: false
 
 serving:
   type: str

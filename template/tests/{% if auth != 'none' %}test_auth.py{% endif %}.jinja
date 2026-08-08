@@ -1,0 +1,7 @@
+"""Tests for the selected authentication strategy."""
+
+from {{ module_name }}.auth import AUTH_STRATEGY
+
+
+def test_auth_strategy_is_recorded() -> None:
+    assert AUTH_STRATEGY == "{{ auth }}"

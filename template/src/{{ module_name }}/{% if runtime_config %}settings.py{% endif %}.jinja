@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     """Configuration loaded from environment variables or a local .env file."""
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+{%- if ai_capabilities != 'none' %}
 
     model_provider: str = "{{ model_provider | default('none', true) }}"
     model_name: str = "{% if model_provider | default('none', true) == 'openai' %}gpt-5-mini{% elif model_provider | default('none', true) == 'anthropic' %}claude-sonnet-4-5{% elif model_provider | default('none', true) == 'gemini' %}gemini-2.5-flash{% elif model_provider | default('none', true) == 'bedrock' %}amazon.nova-lite-v1:0{% elif model_provider | default('none', true) == 'ollama' %}qwen3:4b{% else %}configure-me{% endif %}"
@@ -16,6 +17,21 @@ class Settings(BaseSettings):
 {%- if ai_capabilities == 'rag' %}
     embedding_provider: str = "{{ embedding_provider }}"
     embedding_model: str = "{% if embedding_provider == 'sentence-transformers' %}sentence-transformers/all-MiniLM-L6-v2{% else %}configure-me{% endif %}"
+{%- endif %}
+{%- endif %}
+{%- if sql_store != 'none' %}
+
+    database_url: str = "{% if sql_store == 'sqlite' %}sqlite:///app.db{% elif sql_store == 'postgresql' %}postgresql+psycopg://postgres:postgres@localhost:5432/app{% elif sql_store == 'mysql' %}mysql+pymysql://root:password@localhost:3306/app{% elif sql_store == 'duckdb' %}duckdb:///app.duckdb{% else %}configure-me{% endif %}"
+{%- endif %}
+{%- if 'supabase' in [sql_store, document_store] or auth == 'supabase-auth' %}
+    supabase_url: str = "http://127.0.0.1:54321"
+    supabase_key: SecretStr | None = None
+{%- endif %}
+{%- if auth == 'api-key' %}
+    api_key: SecretStr | None = None
+{%- elif auth == 'oidc' %}
+    oidc_issuer: str = "https://issuer.example.com"
+    oidc_audience: str = "{{ project_slug }}"
 {%- endif %}
 
 

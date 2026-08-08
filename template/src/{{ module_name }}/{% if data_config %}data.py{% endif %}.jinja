@@ -1,0 +1,129 @@
+"""Configured data engines without eager network connections."""
+
+from __future__ import annotations
+
+from typing import Any
+
+{% if sql_store not in ['none', 'supabase'] -%}
+import alembic
+from sqlalchemy import Engine, create_engine
+{% if sql_abstraction == 'sqlmodel' -%}
+from sqlmodel import SQLModel
+{% else -%}
+from sqlalchemy.orm import DeclarativeBase
+{% endif -%}
+{% endif -%}
+{%- if sql_store == 'postgresql' -%}
+import psycopg
+{%- elif sql_store == 'mysql' -%}
+import pymysql
+{%- elif sql_store == 'duckdb' -%}
+import duckdb
+import duckdb_engine
+{%- endif %}
+{%- if 'supabase' in [sql_store, document_store] -%}
+from supabase import Client as SupabaseClient
+{%- endif %}
+{%- if document_store == 'mongodb' -%}
+from pymongo import MongoClient
+{%- endif %}
+{%- if 'beaver' in [document_store, vector_store, graph_store, cache_store] -%}
+from beaver import BeaverDB
+{%- endif %}
+{%- if vector_store == 'pgvector' -%}
+from pgvector.sqlalchemy import Vector
+{%- elif vector_store == 'qdrant' -%}
+from qdrant_client import QdrantClient
+{%- elif vector_store == 'chroma' -%}
+import chromadb
+{%- elif vector_store == 'lancedb' -%}
+import lancedb
+{%- elif vector_store == 'weaviate' -%}
+import weaviate
+{%- elif vector_store == 'pinecone' -%}
+from pinecone import Pinecone
+{%- elif vector_store == 'milvus' -%}
+from pymilvus import MilvusClient
+{%- endif %}
+{%- if graph_store == 'neo4j' -%}
+from neo4j import GraphDatabase
+{%- endif %}
+{%- if cache_store == 'redis' -%}
+from redis import Redis
+{%- endif %}
+{{ "\n" if sql_store in ['none', 'supabase'] else "" -}}
+STORES = {
+    "sql": "{{ sql_store }}",
+    "document": "{{ document_store }}",
+    "vector": "{{ vector_store }}",
+    "graph": "{{ graph_store }}",
+    "cache": "{{ cache_store }}",
+}
+
+
+def installed_clients() -> tuple[Any, ...]:
+    """Return imported client types/modules for the selected engines."""
+    clients: list[Any] = []
+{%- if sql_store == 'postgresql' %}
+    clients.extend((alembic, psycopg))
+{%- elif sql_store == 'mysql' %}
+    clients.extend((alembic, pymysql))
+{%- elif sql_store == 'duckdb' %}
+    clients.extend((alembic, duckdb, duckdb_engine))
+{%- elif sql_store == 'sqlite' %}
+    clients.append(alembic)
+{%- endif %}
+{%- if 'supabase' in [sql_store, document_store] %}
+    clients.append(SupabaseClient)
+{%- endif %}
+{%- if document_store == 'mongodb' %}
+    clients.append(MongoClient)
+{%- endif %}
+{%- if 'beaver' in [document_store, vector_store, graph_store, cache_store] %}
+    clients.append(BeaverDB)
+{%- endif %}
+{%- if vector_store == 'pgvector' %}
+    clients.append(Vector)
+{%- elif vector_store == 'qdrant' %}
+    clients.append(QdrantClient)
+{%- elif vector_store == 'chroma' %}
+    clients.append(chromadb)
+{%- elif vector_store == 'lancedb' %}
+    clients.append(lancedb)
+{%- elif vector_store == 'weaviate' %}
+    clients.append(weaviate)
+{%- elif vector_store == 'pinecone' %}
+    clients.append(Pinecone)
+{%- elif vector_store == 'milvus' %}
+    clients.append(MilvusClient)
+{%- endif %}
+{%- if graph_store == 'neo4j' %}
+    clients.append(GraphDatabase)
+{%- endif %}
+{%- if cache_store == 'redis' %}
+    clients.append(Redis)
+{%- endif %}
+    return tuple(clients)
+
+{%- if sql_store not in ['none', 'supabase'] %}
+
+
+def create_sql_engine(url: str | None = None) -> Engine:
+    """Create the selected SQLAlchemy-compatible engine."""
+    from {{ module_name }}.settings import settings
+
+    return create_engine(url or settings.database_url)
+
+
+def create_schema(engine: Engine) -> None:
+    """Create tables registered in the selected abstraction metadata."""
+{%- if sql_abstraction == 'sqlmodel' %}
+    SQLModel.metadata.create_all(engine)
+{%- else %}
+    Base.metadata.create_all(engine)
+
+
+class Base(DeclarativeBase):
+    """Base class for generated SQLAlchemy models."""
+{%- endif %}
+{%- endif %}

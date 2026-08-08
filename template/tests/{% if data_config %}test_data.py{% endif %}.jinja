@@ -1,0 +1,14 @@
+"""Tests for the selected data engines."""
+
+from {{ module_name }}.data import STORES, installed_clients
+
+
+def test_selected_data_engines_are_recorded() -> None:
+    assert STORES == {
+        "sql": "{{ sql_store }}",
+        "document": "{{ document_store }}",
+        "vector": "{{ vector_store }}",
+        "graph": "{{ graph_store }}",
+        "cache": "{{ cache_store }}",
+    }
+    assert isinstance(installed_clients(), tuple)

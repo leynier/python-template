@@ -2,28 +2,44 @@
 
 from __future__ import annotations
 
-import importlib
 from dataclasses import dataclass
 from typing import Any
 
+{% if framework == 'pydantic-ai' and pydantic_ai_harness | default([]) -%}
+import pydantic_ai as framework_module
+import pydantic_ai_harness
+{%- elif framework == 'pydantic-ai' -%}
+import pydantic_ai as framework_module
+{%- elif framework == 'langgraph' -%}
+import langgraph as framework_module
+{%- elif framework == 'langchain' -%}
+import langchain as framework_module
+{%- elif framework == 'llamaindex' -%}
+import llama_index as framework_module
+{%- elif framework == 'crewai' -%}
+import crewai as framework_module
+{%- elif framework == 'smolagents' -%}
+import smolagents as framework_module
+{%- elif framework == 'dspy' -%}
+import dspy as framework_module
+{%- elif framework == 'openai-agents' -%}
+import agents as framework_module
+{%- elif framework == 'google-adk' -%}
+import google.adk as framework_module
+{%- elif framework == 'strands-agents' -%}
+import strands as framework_module
+{%- elif framework == 'autogen' -%}
+import autogen_agentchat as framework_module
+{%- elif framework == 'ag2' -%}
+import autogen as framework_module
+{%- elif framework == 'agno' -%}
+import agno as framework_module
+{%- elif framework == 'lingo' -%}
+import lingo as framework_module
+{%- endif %}
+
 FRAMEWORK = "{{ framework }}"
 PROVIDER = "{{ model_provider }}"
-FRAMEWORK_MODULES = {
-    "pydantic-ai": "pydantic_ai",
-    "langgraph": "langgraph",
-    "langchain": "langchain",
-    "llamaindex": "llama_index",
-    "crewai": "crewai",
-    "smolagents": "smolagents",
-    "dspy": "dspy",
-    "openai-agents": "agents",
-    "google-adk": "google.adk",
-    "strands-agents": "strands",
-    "autogen": "autogen_agentchat",
-    "ag2": "autogen",
-    "agno": "agno",
-    "lingo": "lingo",
-}
 
 
 @dataclass(frozen=True)
@@ -40,7 +56,7 @@ class LocalAgent:
 
 def configured_framework() -> Any:
     """Import and return the configured framework's public module."""
-    return importlib.import_module(FRAMEWORK_MODULES[FRAMEWORK])
+    return framework_module
 
 
 def build_agent() -> LocalAgent:
@@ -51,6 +67,9 @@ def build_agent() -> LocalAgent:
 
 def harness_capabilities() -> tuple[str, ...]:
     """Return the selected optional PydanticAI Harness integrations."""
+{%- if framework == 'pydantic-ai' and pydantic_ai_harness | default([]) %}
+    assert pydantic_ai_harness is not None
+{%- endif %}
     return ({% for capability in pydantic_ai_harness | default([]) %}"{{ capability }}"{% if not loop.last %}, {% endif %}{% endfor %}{% if pydantic_ai_harness | default([]) | length == 1 %},{% endif %})
 
 

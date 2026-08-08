@@ -1,0 +1,65 @@
+"""SDK modules for the selected model and embedding providers."""
+
+from typing import Any
+
+{% if model_provider in ['openai', 'azure-openai', 'openai-compatible', 'deepseek'] -%}
+import openai as model_sdk_module
+{%- elif model_provider == 'anthropic' -%}
+import anthropic as model_sdk_module
+{%- elif model_provider == 'gemini' -%}
+from google import genai as model_sdk_module
+{%- elif model_provider == 'bedrock' -%}
+import boto3 as model_sdk_module
+{%- elif model_provider == 'openrouter' -%}
+import openrouter as model_sdk_module
+{%- elif model_provider == 'groq' -%}
+import groq as model_sdk_module
+{%- elif model_provider == 'mistral' -%}
+import mistralai as model_sdk_module
+{%- elif model_provider == 'cohere' -%}
+import cohere as model_sdk_module
+{%- elif model_provider == 'huggingface' -%}
+import huggingface_hub as model_sdk_module
+{%- elif model_provider == 'ollama' -%}
+import ollama as model_sdk_module
+{%- elif model_provider == 'xai' -%}
+import xai_sdk as model_sdk_module
+{%- elif model_provider == 'together' -%}
+import together as model_sdk_module
+{%- elif model_provider == 'fireworks' -%}
+import fireworks as model_sdk_module
+{%- endif %}
+{%- if ai_capabilities == 'rag' and embedding_provider != model_provider -%}
+{%- if embedding_provider == 'sentence-transformers' -%}
+import sentence_transformers as embedding_sdk_module
+{%- elif embedding_provider == 'openai' -%}
+import openai as embedding_sdk_module
+{%- elif embedding_provider == 'gemini' -%}
+from google import genai as embedding_sdk_module
+{%- elif embedding_provider == 'cohere' -%}
+import cohere as embedding_sdk_module
+{%- elif embedding_provider == 'mistral' -%}
+import mistralai as embedding_sdk_module
+{%- elif embedding_provider == 'huggingface' -%}
+import huggingface_hub as embedding_sdk_module
+{%- elif embedding_provider == 'ollama' -%}
+import ollama as embedding_sdk_module
+{%- endif %}
+{%- endif %}
+
+
+def model_sdk() -> Any:
+    """Return the configured model provider SDK module."""
+    return model_sdk_module
+
+{%- if ai_capabilities == 'rag' %}
+
+
+def embedding_sdk() -> Any:
+    """Return the configured embedding provider SDK module."""
+{%- if embedding_provider == model_provider %}
+    return model_sdk_module
+{%- else %}
+    return embedding_sdk_module
+{%- endif %}
+{%- endif %}
