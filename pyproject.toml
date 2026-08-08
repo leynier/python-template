@@ -34,6 +34,7 @@ testpaths = ["tests"]
 addopts = "--strict-markers --strict-config"
 markers = [
     "slow: generates a project and runs its full toolchain (deselect with '-m \"not slow\"')",
+    "preset: generates and validates an integration-heavy v0.5 preset on Linux",
 ]
 
 [tool.ruff]

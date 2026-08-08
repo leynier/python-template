@@ -28,6 +28,7 @@ def test_core_layout(copie, workload: str) -> None:
     assert (project / "src" / "demo_project" / "py.typed").is_file()
     assert (project / "tests" / "test_demo_project.py").is_file()
     assert (project / "pyproject.toml").is_file()
+    assert not (project / "_catalog_dependencies").exists()
     # Without this file `copier update` cannot work at all.
     assert (project / ".copier-answers.yml").is_file()
 
@@ -69,6 +70,9 @@ def test_entrypoints_per_type(copie) -> None:
 
     assert (api / "src" / "demo_project" / "api.py").is_file()
     assert not (api / "src" / "demo_project" / "cli.py").exists()
+    assert (
+        'demo-project = "demo_project.api:main"' in (api / "pyproject.toml").read_text()
+    )
 
 
 def test_simple_presets_remain_first_class(copie) -> None:
@@ -100,7 +104,7 @@ def test_flask_is_available_for_a_simple_api(copie) -> None:
     pyproject = (project / "pyproject.toml").read_text()
     tests = (project / "tests" / "test_demo_project.py").read_text()
     assert "from flask import Flask" in api
-    assert '"flask>=3.1.2"' in pyproject
+    assert '"flask>=3.1.2,<4"' in pyproject
     assert "app.test_client()" in tests
 
 

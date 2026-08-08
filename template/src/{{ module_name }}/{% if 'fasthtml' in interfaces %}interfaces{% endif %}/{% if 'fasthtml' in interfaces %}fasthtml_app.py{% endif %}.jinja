@@ -1,0 +1,20 @@
+"""FastHTML interface."""
+
+from fasthtml.common import FastHTML, H1, P, serve
+
+app = FastHTML()
+
+
+@app.get("/")
+def home():  # type: ignore[no-untyped-def]
+    """Render the home page."""
+    return H1("{{ project_name }}"), P("{{ description or project_name }}")
+
+
+def main() -> None:
+    """Run the FastHTML application."""
+    serve()
+
+
+if __name__ == "__main__":  # pragma: no cover
+    main()

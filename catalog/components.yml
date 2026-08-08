@@ -73,7 +73,7 @@ components:
     tier: stable
     workloads: [api]
     python: ">=3.11,<3.15"
-    packages: ["fastapi[standard]>=0.141.1,<1", "pydantic>=2.13.4,<3"]
+    packages: ["fastapi[standard]>=0.141.1,<1", "pydantic>=2.13.4,<3", "uvicorn>=0.52.1,<1"]
   - id: flask
     name: Flask
     layer: framework
@@ -94,90 +94,105 @@ components:
     tier: stable
     workloads: [agent]
     python: ">=3.11,<3.15"
+    packages: ["pydantic-ai>=2.27.0,<3"]
   - id: langgraph
     name: LangGraph
     layer: framework
     tier: stable
     workloads: [agent]
     python: ">=3.11,<3.15"
+    packages: ["langgraph>=1.2.10,<2"]
   - id: langchain
     name: LangChain
     layer: framework
     tier: stable
     workloads: [agent, rag]
     python: ">=3.11,<3.15"
+    packages: ["langchain>=1.3.14,<2"]
   - id: llamaindex
     name: LlamaIndex
     layer: framework
     tier: stable
     workloads: [agent, rag]
     python: ">=3.11,<3.15"
+    packages: ["llama-index>=0.14.23,<0.15"]
   - id: crewai
     name: CrewAI
     layer: framework
     tier: stable
     workloads: [agent]
-    python: ">=3.11,<3.15"
+    python: ">=3.11,<3.14"
+    packages: ["crewai>=1.15.13,<2"]
   - id: smolagents
     name: Hugging Face smolagents
     layer: framework
     tier: stable
     workloads: [agent]
     python: ">=3.11,<3.15"
+    packages: ["smolagents>=1.26.0,<2"]
   - id: dspy
     name: DSPy
     layer: framework
     tier: stable
     workloads: [agent]
     python: ">=3.11,<3.15"
+    packages: ["dspy>=3.3.0,<4"]
   - id: openai-agents
     name: OpenAI Agents SDK
     layer: framework
     tier: platform
     workloads: [agent]
     python: ">=3.11,<3.15"
+    packages: ["openai-agents>=0.19.4,<1"]
   - id: google-adk
     name: Google ADK
     layer: framework
     tier: platform
     workloads: [agent]
     python: ">=3.11,<3.15"
+    packages: ["google-adk>=2.6.3,<3"]
   - id: strands-agents
     name: Strands Agents
     layer: framework
     tier: platform
     workloads: [agent]
     python: ">=3.11,<3.15"
+    packages: ["strands-agents>=1.51.0,<2"]
   - id: autogen
     name: Microsoft AutoGen
     layer: framework
     tier: stable
     workloads: [agent]
     python: ">=3.11,<3.15"
+    packages: ["autogen-agentchat>=0.7.5,<1"]
   - id: ag2
     name: AG2
     layer: framework
     tier: stable
     workloads: [agent]
     python: ">=3.11,<3.15"
+    packages: ["ag2>=1.0.1,<2"]
   - id: agno
     name: Agno
     layer: framework
     tier: stable
     workloads: [agent]
     python: ">=3.11,<3.15"
+    packages: ["agno>=2.8.7,<3"]
   - id: lingo
     name: Lingo
     layer: framework
     tier: stable
     workloads: [agent]
     python: ">=3.12,<3.15"
+    packages: ["lingo-ai>=2.1.0,<3"]
   - id: haystack
     name: Haystack
     layer: framework
     tier: stable
     workloads: [rag]
     python: ">=3.11,<3.15"
+    packages: ["haystack-ai>=3.0.0,<4"]
   - id: pytorch
     name: PyTorch
     layer: framework
@@ -217,33 +232,33 @@ components:
 
   # Interfaces are composable and can expose the same application through
   # multiple entrypoints.
-  - {id: streamlit, name: Streamlit, layer: interface, tier: stable, python: ">=3.11,<3.15"}
-  - {id: gradio, name: Gradio, layer: interface, tier: stable, python: ">=3.11,<3.15"}
-  - {id: chainlit, name: Chainlit, layer: interface, tier: stable, python: ">=3.11,<3.15"}
-  - {id: textual, name: Textual, layer: interface, tier: stable, python: ">=3.11,<3.15"}
-  - {id: nicegui, name: NiceGUI, layer: interface, tier: stable, python: ">=3.11,<3.15"}
-  - {id: fasthtml, name: FastHTML, layer: interface, tier: stable, python: ">=3.11,<3.15"}
-  - {id: violetear, name: Violetear, layer: interface, tier: stable, python: ">=3.12,<3.15"}
-  - {id: jupyterlab, name: JupyterLab, layer: interface, tier: stable, python: ">=3.11,<3.15"}
+  - {id: streamlit, name: Streamlit, layer: interface, tier: stable, python: ">=3.11,<3.15", packages: ["streamlit>=1.61.1,<2"]}
+  - {id: gradio, name: Gradio, layer: interface, tier: stable, python: ">=3.11,<3.15", packages: ["gradio>=6.22.0,<7"]}
+  - {id: chainlit, name: Chainlit, layer: interface, tier: stable, python: ">=3.11,<3.14", packages: ["chainlit>=2.11.1,<3"]}
+  - {id: textual, name: Textual, layer: interface, tier: stable, python: ">=3.11,<3.15", packages: ["textual>=8.2.8,<9"]}
+  - {id: nicegui, name: NiceGUI, layer: interface, tier: stable, python: ">=3.11,<3.15", packages: ["nicegui>=3.15.0,<4"]}
+  - {id: fasthtml, name: FastHTML, layer: interface, tier: stable, python: ">=3.11,<3.15", packages: ["python-fasthtml>=0.14.11,<0.15"]}
+  - {id: violetear, name: Violetear, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["violetear[server]>=1.4.1,<2"]}
+  - {id: jupyterlab, name: JupyterLab, layer: interface, tier: stable, python: ">=3.11,<3.15", packages: ["jupyterlab>=4.6.2,<5"]}
 
   # Providers are intentionally independent for generation and embeddings.
-  - {id: openai, name: OpenAI, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: anthropic, name: Anthropic, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: gemini, name: Google Gemini, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: azure-openai, name: Azure OpenAI, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: bedrock, name: AWS Bedrock, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: openrouter, name: OpenRouter, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: groq, name: Groq, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: mistral, name: Mistral, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: cohere, name: Cohere, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: huggingface, name: Hugging Face, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: ollama, name: Ollama, layer: model_provider, tier: stable, python: ">=3.11,<3.15"}
-  - {id: openai-compatible, name: OpenAI-compatible endpoint, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: xai, name: xAI, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: deepseek, name: DeepSeek, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: together, name: Together AI, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: fireworks, name: Fireworks AI, layer: model_provider, tier: platform, python: ">=3.11,<3.15"}
-  - {id: sentence-transformers, name: Sentence Transformers, layer: embedding_provider, tier: stable, python: ">=3.11,<3.15"}
+  - {id: openai, name: OpenAI, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["openai>=2.53.0,<3"]}
+  - {id: anthropic, name: Anthropic, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["anthropic>=0.121.0,<1"]}
+  - {id: gemini, name: Google Gemini, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["google-genai>=2.17.0,<3"]}
+  - {id: azure-openai, name: Azure OpenAI, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["openai>=2.53.0,<3"]}
+  - {id: bedrock, name: AWS Bedrock, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["boto3>=1.43.67,<2"]}
+  - {id: openrouter, name: OpenRouter, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["openrouter>=1.1.37,<2"]}
+  - {id: groq, name: Groq, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["groq>=1.6.0,<2"]}
+  - {id: mistral, name: Mistral, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["mistralai>=2.9.1,<3"]}
+  - {id: cohere, name: Cohere, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["cohere>=7.0.8,<8"]}
+  - {id: huggingface, name: Hugging Face, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["huggingface-hub>=1.27.0,<2"]}
+  - {id: ollama, name: Ollama, layer: model_provider, tier: stable, python: ">=3.11,<3.15", packages: ["ollama>=0.6.2,<1"]}
+  - {id: openai-compatible, name: OpenAI-compatible endpoint, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["openai>=2.53.0,<3"]}
+  - {id: xai, name: xAI, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["xai-sdk>=1.17.0,<2"]}
+  - {id: deepseek, name: DeepSeek, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["openai>=2.53.0,<3"]}
+  - {id: together, name: Together AI, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["together>=2.30.0,<3"]}
+  - {id: fireworks, name: Fireworks AI, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["fireworks-ai>=1.2.6,<2"]}
+  - {id: sentence-transformers, name: Sentence Transformers, layer: embedding_provider, tier: stable, python: ">=3.11,<3.15", packages: ["sentence-transformers>=5.7.0,<6"]}
 
   # Data engines. A project may select at most one provider for each role.
   - {id: sqlite, name: SQLite, layer: data, tier: stable, roles: [sql], python: ">=3.11,<3.15"}

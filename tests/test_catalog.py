@@ -46,3 +46,12 @@ def test_every_preset_is_exposed_by_copier() -> None:
     preset_ids = {preset["id"] for preset in source["presets"]}
 
     assert preset_choices == preset_ids | {"custom"}
+
+
+def test_compiled_dependency_template_contains_every_catalog_package() -> None:
+    source = yaml.safe_load((REPO / "catalog" / "components.yml").read_text())
+    compiled = (REPO / "template" / "_catalog_dependencies.jinja").read_text()
+
+    for component in source["components"]:
+        for package in component.get("packages", []):
+            assert package in compiled, (component["id"], package)

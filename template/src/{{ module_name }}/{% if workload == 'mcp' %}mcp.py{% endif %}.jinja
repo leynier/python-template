@@ -1,0 +1,20 @@
+"""FastMCP server for {{ project_name }}."""
+
+from fastmcp import FastMCP
+
+mcp = FastMCP("{{ project_name }}")
+
+
+@mcp.tool
+def greet(name: str = "world") -> str:
+    """Return a friendly greeting."""
+    return f"Hello, {name}!"
+
+
+def main() -> None:
+    """Run the MCP server over the default stdio transport."""
+    mcp.run()
+
+
+if __name__ == "__main__":  # pragma: no cover
+    main()

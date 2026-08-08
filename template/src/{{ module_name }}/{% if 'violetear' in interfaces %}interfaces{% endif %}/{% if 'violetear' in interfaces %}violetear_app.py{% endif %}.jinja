@@ -1,0 +1,26 @@
+"""Violetear full-stack Python interface."""
+
+from violetear import App
+from violetear.markup import HTML, Document
+
+app = App(title="{{ project_name }}", version="0.1.0")
+
+
+@app.view("/")
+def index() -> Document:
+    """Render the home page."""
+    document = Document(title="{{ project_name }}")
+    document.body.add(
+        HTML.h1(text="{{ project_name }}"),
+        HTML.p(text="{{ description or 'Composable Python and AI application' }}"),
+    )
+    return document
+
+
+def main() -> None:
+    """Run the Violetear application."""
+    app.run()
+
+
+if __name__ == "__main__":  # pragma: no cover
+    main()

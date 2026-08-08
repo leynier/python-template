@@ -22,16 +22,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-{%- if framework == 'typer' %}
-    "typer>=0.27.1",
-{%- elif framework == 'fastapi' %}
-    "fastapi[standard]>=0.141.1",
-    # Imported directly by the app, so declared directly rather than relying
-    # on it being a transitive dependency of FastAPI.
-    "pydantic>=2.13.4",
-{%- elif framework == 'flask' %}
-    "flask>=3.1.2",
-{%- endif %}
+{% include "template/_catalog_dependencies.jinja" %}
 ]
 
 [project.urls]
@@ -42,9 +33,28 @@ Issues = "https://github.com/{{ github_username }}/{{ github_repo }}/issues"
 Documentation = "https://{{ github_username }}.github.io/{{ github_repo }}"
 {%- endif %}
 
-{% if workload == 'cli' -%}
+{% if workload in ['cli', 'api', 'mcp', 'agent', 'rag'] or interfaces | default([]) -%}
 [project.scripts]
+{%- if workload == 'cli' %}
 {{ project_slug }} = "{{ module_name }}.cli:app"
+{%- elif workload == 'api' %}
+{{ project_slug }} = "{{ module_name }}.api:main"
+{%- elif workload == 'mcp' %}
+{{ project_slug }} = "{{ module_name }}.mcp:main"
+{%- elif workload == 'agent' %}
+{{ project_slug }} = "{{ module_name }}.agent:main"
+{%- elif workload == 'rag' %}
+{{ project_slug }} = "{{ module_name }}.rag:main"
+{%- endif %}
+{%- if 'fastapi' in interfaces | default([]) %}
+{{ project_slug }}-fastapi = "{{ module_name }}.interfaces.fastapi_app:main"
+{%- endif %}
+{%- if 'flask' in interfaces | default([]) %}
+{{ project_slug }}-flask = "{{ module_name }}.interfaces.flask_app:main"
+{%- endif %}
+{%- for interface in interfaces | default([]) if interface in ['streamlit', 'gradio', 'textual', 'nicegui', 'fasthtml', 'violetear'] %}
+{{ project_slug }}-{{ interface }} = "{{ module_name }}.interfaces.{{ interface }}_app:main"
+{%- endfor %}
 
 {% endif -%}
 [build-system]
@@ -62,7 +72,7 @@ dev = [
     "pre-commit>=4.6.1",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
-{%- if framework == 'fastapi' %}
+{%- if framework == 'fastapi' or 'fastapi' in interfaces | default([]) %}
     "httpx>=0.28.1",
 {%- endif %}
     "ruff>=0.16.2",

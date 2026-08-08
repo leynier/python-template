@@ -1,0 +1,7 @@
+"""Tests for the selected interfaces."""
+
+from {{ module_name }}.interfaces import AVAILABLE
+
+
+def test_selected_interfaces_are_recorded() -> None:
+    assert AVAILABLE == ({% for interface in interfaces %}"{{ interface }}"{% if not loop.last %}, {% endif %}{% endfor %}{% if interfaces | length == 1 %},{% endif %})

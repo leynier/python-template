@@ -73,6 +73,37 @@ def test_greet() -> None:
     response = app.test_client().get("/greet/world")
     assert response.status_code == 200
     assert response.get_json() == {"message": "Hello, world!"}
+{%- elif workload == 'mcp' -%}
+"""Tests for the {{ module_name }} FastMCP server."""
+
+from {{ module_name }}.mcp import greet, mcp
+
+
+def test_mcp_server_and_tool() -> None:
+    assert mcp.name == "{{ project_name }}"
+    assert greet("Ada") == "Hello, Ada!"
+{%- elif workload == 'agent' -%}
+"""Offline tests for the {{ module_name }} agent."""
+
+from {{ module_name }}.agent import build_agent, harness_capabilities
+
+
+def test_agent_runs_without_provider_credentials() -> None:
+    agent = build_agent()
+    assert agent.run("hello") == "[{{ framework }}/{{ model_provider }}] hello"
+    assert isinstance(harness_capabilities(), tuple)
+{%- elif workload == 'rag' -%}
+"""Offline tests for the {{ module_name }} RAG application."""
+
+from {{ module_name }}.rag import build_rag
+
+
+def test_rag_retrieves_locally_without_credentials() -> None:
+    rag = build_rag()
+    rag.add("Python projects are composable.", "Bananas are yellow.")
+    assert rag.query("Are Python projects composable?") == (
+        "Python projects are composable."
+    )
 {%- else -%}
 """Smoke tests for {{ module_name }}."""
 

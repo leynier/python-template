@@ -1,0 +1,9 @@
+"""Chainlit interface."""
+
+import chainlit as cl
+
+
+@cl.on_message
+async def on_message(message: cl.Message) -> None:
+    """Echo through the initial offline vertical slice."""
+    await cl.Message(content=f"{{ project_name }}: {message.content}").send()

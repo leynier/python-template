@@ -23,7 +23,7 @@ This reference is generated from `catalog/components.yml`. Do not edit it by han
 | `framework` | LangGraph (`langgraph`) | `stable` | `>=3.11,<3.15` |
 | `framework` | LangChain (`langchain`) | `stable` | `>=3.11,<3.15` |
 | `framework` | LlamaIndex (`llamaindex`) | `stable` | `>=3.11,<3.15` |
-| `framework` | CrewAI (`crewai`) | `stable` | `>=3.11,<3.15` |
+| `framework` | CrewAI (`crewai`) | `stable` | `>=3.11,<3.14` |
 | `framework` | Hugging Face smolagents (`smolagents`) | `stable` | `>=3.11,<3.15` |
 | `framework` | DSPy (`dspy`) | `stable` | `>=3.11,<3.15` |
 | `framework` | OpenAI Agents SDK (`openai-agents`) | `platform` | `>=3.11,<3.15` |
@@ -42,7 +42,7 @@ This reference is generated from `catalog/components.yml`. Do not edit it by han
 | `framework` | XGBoost (`xgboost`) | `stable` | `>=3.11,<3.15` |
 | `interface` | Streamlit (`streamlit`) | `stable` | `>=3.11,<3.15` |
 | `interface` | Gradio (`gradio`) | `stable` | `>=3.11,<3.15` |
-| `interface` | Chainlit (`chainlit`) | `stable` | `>=3.11,<3.15` |
+| `interface` | Chainlit (`chainlit`) | `stable` | `>=3.11,<3.14` |
 | `interface` | Textual (`textual`) | `stable` | `>=3.11,<3.15` |
 | `interface` | NiceGUI (`nicegui`) | `stable` | `>=3.11,<3.15` |
 | `interface` | FastHTML (`fasthtml`) | `stable` | `>=3.11,<3.15` |
