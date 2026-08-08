@@ -117,24 +117,23 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
+# Zensical / docs build output
 /site
 
-# mypy
+# Type checkers
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
-# Pyre type checker
 .pyre/
-
-# Custom added
-
-.vscode/**
-requirements_temp.txt
+.ty_cache/
 
 # Ruff
 .ruff_cache/
 
-# Generated docs output
-/site
+# uv
+# uv.lock is committed on purpose: it is what makes CI reproducible.
+.venv/
+
+# Editors
+.vscode/
+.idea/

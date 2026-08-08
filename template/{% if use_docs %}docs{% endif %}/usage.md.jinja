@@ -1,0 +1,45 @@
+# Usage
+
+{% if project_type == 'library' -%}
+## `greet`
+
+```python
+from {{ module_name }} import greet
+
+greet("Ada")  # "Hello, Ada!"
+```
+
+Replace this page with the real documentation for your library.
+{%- elif project_type == 'cli' -%}
+## Commands
+
+```bash
+{{ project_slug }} --help
+{{ project_slug }} --version
+{{ project_slug }} hello Ada
+```
+
+Replace this page with the real documentation for your commands.
+{%- elif project_type == 'api' -%}
+## Endpoints
+
+| Method | Path           | Description              |
+| ------ | -------------- | ------------------------ |
+| GET    | `/health`      | Service health check     |
+| GET    | `/greet/{name}` | Greet the given name    |
+
+Interactive documentation is served at `/docs` when the application is running.
+
+Replace this page with the real documentation for your API.
+{%- endif %}
+
+## Development
+
+```bash
+uv sync --all-groups        # install everything
+uv run pytest               # run the tests
+uv run ruff check .         # lint
+uv run ruff format .        # format
+uv run ty check             # type check (advisory)
+uv run --group docs zensical serve   # preview these docs
+```

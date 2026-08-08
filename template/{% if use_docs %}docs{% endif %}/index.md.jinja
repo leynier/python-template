@@ -1,0 +1,45 @@
+# {{ project_name }}
+
+{{ description }}
+
+## Installation
+
+{% if project_type == 'api' -%}
+```bash
+git clone https://github.com/{{ github_username }}/{{ github_repo }}.git
+cd {{ github_repo }}
+uv sync
+```
+{%- else -%}
+```bash
+uv add {{ project_slug }}
+```
+
+Or with pip:
+
+```bash
+pip install {{ project_slug }}
+```
+{%- endif %}
+
+## Quick start
+
+{% if project_type == 'library' -%}
+```python
+from {{ module_name }} import greet
+
+print(greet("world"))
+```
+{%- elif project_type == 'cli' -%}
+```bash
+{{ project_slug }} hello world
+```
+{%- elif project_type == 'api' -%}
+```bash
+uv run fastapi dev src/{{ module_name }}/api.py
+```
+
+Then open <http://127.0.0.1:8000/docs> for the interactive API documentation.
+{%- endif %}
+
+See [Usage](usage.md) for more.

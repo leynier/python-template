@@ -1,0 +1,139 @@
+# {{ project_name }}
+
+[![CI](https://github.com/{{ github_username }}/{{ github_repo }}/actions/workflows/ci.yml/badge.svg)](https://github.com/{{ github_username }}/{{ github_repo }}/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/{{ github_username }}/{{ github_repo }}/branch/main/graph/badge.svg)](https://codecov.io/gh/{{ github_username }}/{{ github_repo }})
+{%- if publish_to_pypi %}
+[![PyPI](https://img.shields.io/pypi/v/{{ project_slug }}?color=%2334D058&label=pypi)](https://pypi.org/project/{{ project_slug }})
+[![Python versions](https://img.shields.io/pypi/pyversions/{{ project_slug }})](https://pypi.org/project/{{ project_slug }})
+{%- endif %}
+{%- if license != 'none' %}
+[![License](https://img.shields.io/badge/license-{{ license | replace('-', '--') }}-green.svg)](LICENSE)
+{%- endif %}
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+{%- if use_docs %}
+[![Docs](https://img.shields.io/website?url=https%3A%2F%2F{{ github_username }}.github.io%2F{{ github_repo }}&label=docs)](https://{{ github_username }}.github.io/{{ github_repo }})
+{%- endif %}
+
+{{ description }}
+
+## Installation
+
+{% if project_type == 'api' -%}
+```bash
+git clone https://github.com/{{ github_username }}/{{ github_repo }}.git
+cd {{ github_repo }}
+uv sync
+```
+{%- else -%}
+```bash
+uv add {{ project_slug }}
+```
+{%- endif %}
+
+## Usage
+
+{% if project_type == 'library' -%}
+```python
+from {{ module_name }} import greet
+
+print(greet("world"))  # Hello, world!
+```
+{%- elif project_type == 'cli' -%}
+```bash
+{{ project_slug }} hello world
+```
+{%- elif project_type == 'api' -%}
+```bash
+uv run fastapi dev src/{{ module_name }}/api.py
+```
+
+The interactive API documentation is then available at <http://127.0.0.1:8000/docs>.
+{%- endif %}
+
+## Development
+
+This project uses [uv](https://docs.astral.sh/uv) for dependency management and
+[Ruff](https://docs.astral.sh/ruff) for linting and formatting.
+
+```bash
+uv sync --all-groups          # install all dependencies
+uv run pytest                 # run the tests
+uv run ruff check .           # lint
+uv run ruff format .          # format
+uv run ty check               # type check
+uv run deptry src             # check dependency hygiene
+uv run pre-commit install     # enable the git hooks
+```
+
+> [!NOTE]
+> Type checking uses [ty](https://github.com/astral-sh/ty), which is still
+> pre-1.0. CI reports its findings but does not fail the build on them. Once ty
+> reaches 1.0, drop `continue-on-error` from the `quality` job in
+> `.github/workflows/ci.yml`.
+
+{% if use_docker -%}
+## Docker
+
+```bash
+docker build -t {{ project_slug }} .
+docker run --rm -p 8000:8000 {{ project_slug }}
+```
+
+{% endif -%}
+{% if use_docs -%}
+## Documentation
+
+Documentation is built with [Zensical](https://zensical.org) and published to
+GitHub Pages on every push to `main`.
+
+```bash
+uv run --group docs zensical serve
+```
+
+{% endif -%}
+{% if publish_to_pypi -%}
+## Releasing
+
+Releases are published to PyPI with
+[Trusted Publishing](https://docs.pypi.org/trusted-publishers/), so no API
+tokens or secrets are stored in this repository.
+
+**One-time setup**: at <https://pypi.org/manage/account/publishing/>, register a
+publisher with owner `{{ github_username }}`, repository `{{ github_repo }}`,
+workflow `publish.yml` and environment `pypi`.
+
+Then, to release:
+
+```bash
+uv version --bump patch    # or minor / major
+git commit -am "Release v$(uv version --short)"
+git tag "v$(uv version --short)"
+git push --follow-tags
+```
+
+The publish workflow verifies that the tag matches the project version, builds
+the distributions, uploads them to PyPI with Sigstore attestations, and creates
+a GitHub release.
+
+{% endif -%}
+## Template updates
+
+This project was generated from
+[{{ github_username }}/python-template](https://github.com/leynier/python-template)
+with [Copier](https://copier.readthedocs.io). To pull in later improvements to
+the template:
+
+```bash
+uvx copier update
+```
+
+{% if license != 'none' -%}
+## License
+
+Released under the [{{ license }}]({{ 'LICENSE' }}) license.
+{%- else -%}
+## License
+
+This project is proprietary. All rights reserved.
+{%- endif %}

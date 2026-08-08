@@ -1,0 +1,54 @@
+# Contributing to {{ project_name }}
+
+Contributions are welcome and appreciated.
+
+## Ways to help
+
+- Report a bug
+- Propose a new feature
+- Improve the documentation
+- Submit a fix
+
+## Getting set up
+
+This project uses [uv](https://docs.astral.sh/uv). Install it first, then:
+
+```bash
+git clone https://github.com/{{ github_username }}/{{ github_repo }}.git
+cd {{ github_repo }}
+uv sync --all-groups
+uv run pre-commit install
+```
+
+## Before opening a pull request
+
+```bash
+uv run ruff format .
+uv run ruff check --fix .
+uv run pytest
+uv run ty check
+```
+
+The first three must pass. `ty check` is advisory while ty is pre-1.0.
+
+## Branching
+
+- `main` is stable and always releasable.
+- Work on topic branches named `feature/...` or `fix/...`.
+- Open the pull request against `main`.
+
+## Reporting bugs
+
+Open an issue using the bug report template. A good report includes:
+
+- A short summary and the context.
+- Steps to reproduce, with sample code if possible.
+- What you expected to happen, and what happened instead.
+- Your Python version and operating system.
+
+{% if license != 'none' -%}
+## License
+
+By contributing, you agree that your contributions will be licensed under the
+[{{ license }}](LICENSE) license that covers this project.
+{%- endif %}

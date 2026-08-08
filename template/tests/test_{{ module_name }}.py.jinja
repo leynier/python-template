@@ -1,0 +1,60 @@
+{% if project_type == 'library' -%}
+"""Tests for {{ module_name }}."""
+
+from {{ module_name }} import __version__, greet
+
+
+def test_version() -> None:
+    assert __version__ == "0.1.0"
+
+
+def test_greet() -> None:
+    assert greet("world") == "Hello, world!"
+{%- elif project_type == 'cli' -%}
+"""Tests for the {{ module_name }} command line interface."""
+
+from typer.testing import CliRunner
+
+from {{ module_name }} import __version__
+from {{ module_name }}.cli import app
+
+runner = CliRunner()
+
+
+def test_version() -> None:
+    result = runner.invoke(app, ["--version"])
+    assert result.exit_code == 0
+    assert __version__ in result.stdout
+
+
+def test_hello_default() -> None:
+    result = runner.invoke(app, ["hello"])
+    assert result.exit_code == 0
+    assert "Hello, world!" in result.stdout
+
+
+def test_hello_named() -> None:
+    result = runner.invoke(app, ["hello", "{{ author_name.split(' ')[0] or 'friend' }}"])
+    assert result.exit_code == 0
+    assert "Hello, {{ author_name.split(' ')[0] or 'friend' }}!" in result.stdout
+{%- elif project_type == 'api' -%}
+"""Tests for the {{ module_name }} API."""
+
+from fastapi.testclient import TestClient
+
+from {{ module_name }}.api import app
+
+client = TestClient(app)
+
+
+def test_health() -> None:
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json() == {"status": "ok"}
+
+
+def test_greet() -> None:
+    response = client.get("/greet/world")
+    assert response.status_code == 200
+    assert response.json() == {"message": "Hello, world!"}
+{%- endif %}

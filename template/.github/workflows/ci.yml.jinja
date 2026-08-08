@@ -1,0 +1,113 @@
+{%- set supported = [] -%}
+{%- for v in ["3.10", "3.11", "3.12", "3.13", "3.14"] -%}
+{%- if v.split('.') | map('int') | list >= python_version.split('.') | map('int') | list -%}
+{%- set _ = supported.append(v) -%}
+{%- endif -%}
+{%- endfor -%}
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Least privilege by default; jobs opt into more where needed.
+permissions:
+  contents: read
+
+concurrency:
+  group: {% raw %}${{ github.workflow }}-${{ github.ref }}{% endraw %}
+
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, format and types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          python-version: "{{ python_version }}"
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked --all-groups
+
+      - name: Ruff lint
+        run: uv run ruff check --output-format=github .
+
+      - name: Ruff format
+        run: uv run ruff format --check --diff .
+
+      # ty is still 0.0.x. It reports findings but must not gate the build
+      # until it reaches 1.0 -- see readme.md.
+      - name: Type check (advisory)
+        continue-on-error: true
+        run: uv run ty check
+
+      - name: Unused and undeclared dependencies
+        run: uv run deptry src
+
+  test:
+    name: Test {% raw %}${{ matrix.os }} / Python ${{ matrix.python-version }}{% endraw %}
+
+    runs-on: {% raw %}${{ matrix.os }}{% endraw %}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [{% for v in supported %}"{{ v }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          python-version: {% raw %}${{ matrix.python-version }}{% endraw %}
+
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked --all-groups
+
+      - name: Run tests
+        run: uv run pytest --cov --cov-report=xml --cov-report=term-missing
+
+      - name: Upload coverage to Codecov
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '{{ python_version }}'
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          files: ./coverage.xml
+          # Optional for public repositories, but avoids flaky rate-limited
+          # uploads. Add CODECOV_TOKEN in the repository secrets.
+          token: {% raw %}${{ secrets.CODECOV_TOKEN }}{% endraw %}
+
+          fail_ci_if_error: false
+{% if use_docs %}
+  docs:
+    name: Build docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          python-version: "{{ python_version }}"
+          enable-cache: true
+
+      - name: Build documentation
+        run: uv run --group docs zensical build
+{% endif %}

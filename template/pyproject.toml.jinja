@@ -1,0 +1,137 @@
+[project]
+name = "{{ project_slug }}"
+version = "0.1.0"
+description = "{{ description }}"
+readme = "readme.md"
+requires-python = ">={{ python_version }}"
+authors = [{ name = "{{ author_name }}", email = "{{ author_email }}" }]
+{%- if license != 'none' %}
+license = "{{ license }}"
+license-files = ["LICENSE"]
+{%- endif %}
+keywords = []
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+{%- for v in ["3.10", "3.11", "3.12", "3.13", "3.14"] %}
+{%- if v.split('.') | map('int') | list >= python_version.split('.') | map('int') | list %}
+    "Programming Language :: Python :: {{ v }}",
+{%- endif %}
+{%- endfor %}
+    "Typing :: Typed",
+]
+dependencies = [
+{%- if project_type == 'cli' %}
+    "typer>=0.27",
+{%- elif project_type == 'api' %}
+    "fastapi[standard]>=0.141",
+    # Imported directly by the app, so declared directly rather than relying
+    # on it being a transitive dependency of FastAPI.
+    "pydantic>=2.10",
+{%- endif %}
+]
+
+[project.urls]
+Homepage = "https://github.com/{{ github_username }}/{{ github_repo }}"
+Repository = "https://github.com/{{ github_username }}/{{ github_repo }}"
+Issues = "https://github.com/{{ github_username }}/{{ github_repo }}/issues"
+{%- if use_docs %}
+Documentation = "https://{{ github_username }}.github.io/{{ github_repo }}"
+{%- endif %}
+
+{% if project_type == 'cli' -%}
+[project.scripts]
+{{ project_slug }} = "{{ module_name }}.cli:app"
+
+{% endif -%}
+[build-system]
+requires = ["uv_build>=0.12,<0.13"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "{{ module_name }}"
+module-root = "src"
+
+[dependency-groups]
+dev = [
+    "deptry>=0.25",
+    "pre-commit>=4.0",
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+{%- if project_type == 'api' %}
+    "httpx>=0.28",
+{%- endif %}
+    "ruff>=0.16",
+    # ty is still 0.0.x; CI runs it non-blocking until it reaches 1.0.
+    "ty>=0.0.69",
+]
+{%- if use_docs %}
+docs = ["zensical>=0.0.53"]
+{%- endif %}
+
+# ------------------------------------------------------------------- ruff --
+# Replaces flake8, black, isort and pyupgrade with a single tool.
+
+[tool.ruff]
+line-length = 88
+target-version = "py{{ python_version | replace('.', '') }}"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+    "ARG",  # flake8-unused-arguments
+    "SIM",  # flake8-simplify
+    "PTH",  # flake8-use-pathlib
+    "RUF",  # ruff-specific rules
+]
+ignore = [
+    "E501",  # line length is handled by the formatter
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["ARG"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+# --------------------------------------------------------------------- ty --
+# Astral's type checker. Still pre-1.0, so CI runs it non-blocking for now.
+
+[tool.ty.environment]
+python-version = "{{ python_version }}"
+root = ["./src"]
+
+[tool.ty.src]
+include = ["src", "tests"]
+
+# ----------------------------------------------------------------- pytest --
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers --strict-config"
+
+# --------------------------------------------------------------- coverage --
+# Replaces the old .coveragerc file.
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]
+
+# ----------------------------------------------------------------- deptry --
+
+[tool.deptry]
+known_first_party = ["{{ module_name }}"]

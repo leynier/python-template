@@ -1,0 +1,34 @@
+"""FastAPI application for {{ project_name }}."""
+
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI(
+    title="{{ project_name }}",
+    description="{{ description or project_name }}",
+    version="0.1.0",
+)
+
+
+class Health(BaseModel):
+    """Service health payload."""
+
+    status: str
+
+
+class Greeting(BaseModel):
+    """Greeting payload."""
+
+    message: str
+
+
+@app.get("/health", tags=["system"])
+async def health() -> Health:
+    """Report service health."""
+    return Health(status="ok")
+
+
+@app.get("/greet/{name}", tags=["greeting"])
+async def greet(name: str) -> Greeting:
+    """Greet the given name."""
+    return Greeting(message=f"Hello, {name}!")
