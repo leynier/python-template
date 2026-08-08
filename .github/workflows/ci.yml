@@ -55,7 +55,7 @@ jobs:
       - run: uv sync --locked --all-groups
 
       - name: Fast tests
-        run: uv run pytest -m "not slow" -v
+        run: uv run pytest -m "not slow" -n auto
 
   toolchain:
     name: Generated project / ${{ matrix.os }}
@@ -80,7 +80,7 @@ jobs:
       # This is what stops the template from rotting: it generates every
       # variant and runs the full toolchain inside each generated project.
       - name: Slow tests
-        run: uv run pytest -m slow -v
+        run: uv run pytest -m slow -n auto
 
   zizmor:
     name: Workflow security
