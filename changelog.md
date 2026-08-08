@@ -10,6 +10,22 @@ in particular whenever `ty` or Zensical, both still pre-1.0, change their APIs.
 
 ## [Unreleased]
 
+## [0.4.1]
+
+### Changed
+
+- Raise the `uv_build` floor in generated projects to `>=0.12.1`, matching the
+  bump Dependabot made to this repository, so the two do not drift.
+
+### Added
+
+- This repository now carries the `SECURITY.md` and CodeQL workflow it was
+  already generating for other projects. OpenSSF Scorecard flagged the
+  inconsistency.
+- A test asserting the repository keeps the files and workflows it generates,
+  including that some job still produces the `CI` status check that branch
+  protection requires.
+
 ## [0.4.0]
 
 Complete rebuild of the template. The generated project shares almost nothing
@@ -72,5 +88,6 @@ with the previous version.
 None. This release is not backwards compatible with the Cookiecutter template
 and does not try to be. Generate a fresh project and move your code across.
 
-[Unreleased]: https://github.com/leynier/python-template/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/leynier/python-template/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/leynier/python-template/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/leynier/python-template/compare/v0.3.1...v0.4.0
