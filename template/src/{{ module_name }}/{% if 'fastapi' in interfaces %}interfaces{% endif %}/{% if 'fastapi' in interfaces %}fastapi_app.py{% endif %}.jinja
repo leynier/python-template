@@ -1,0 +1,42 @@
+"""FastAPI interface for the configured AI workload."""
+
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+{% if workload == 'agent' -%}
+from {{ module_name }}.agent import build_agent
+{%- else -%}
+from {{ module_name }}.rag import build_rag
+{%- endif %}
+
+app = FastAPI(title="{{ project_name }}")
+
+
+class Prompt(BaseModel):
+    """Input payload."""
+
+    text: str
+
+
+@app.get("/health")
+async def health() -> dict[str, str]:
+    """Report service health."""
+    return {"status": "ok"}
+
+
+@app.post("/run")
+async def run(payload: Prompt) -> dict[str, str]:
+    """Run the configured local agent or retriever."""
+    {% if workload == 'agent' -%}
+    output = build_agent().run(payload.text)
+    {%- else -%}
+    output = build_rag().query(payload.text)
+    {%- endif %}
+    return {"output": output}
+
+
+def main() -> None:
+    """Run the ASGI application."""
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)

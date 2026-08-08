@@ -1,0 +1,19 @@
+"""NiceGUI interface."""
+
+from nicegui import ui
+
+
+def build_page() -> None:
+    """Build the page without starting the server."""
+    ui.label("{{ project_name }}")
+    ui.markdown("{{ description or 'Composable Python and AI application' }}")
+
+
+def main() -> None:
+    """Build and run the NiceGUI application."""
+    build_page()
+    ui.run(title="{{ project_name }}")
+
+
+if __name__ == "__main__":  # pragma: no cover
+    main()

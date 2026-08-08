@@ -1,0 +1,51 @@
+"""Small offline RAG vertical slice for {{ project_name }}."""
+
+from __future__ import annotations
+
+import importlib
+from dataclasses import dataclass, field
+
+FRAMEWORK = "{{ framework }}"
+FRAMEWORK_MODULES = {
+    "langchain": "langchain",
+    "llamaindex": "llama_index",
+    "haystack": "haystack",
+}
+
+
+@dataclass
+class InMemoryRAG:
+    """Deterministic retriever used until an external vector store is configured."""
+
+    documents: list[str] = field(default_factory=list)
+
+    def add(self, *documents: str) -> None:
+        """Add documents to the local collection."""
+        self.documents.extend(documents)
+
+    def query(self, question: str) -> str:
+        """Return the document with the largest word overlap."""
+        words = set(question.lower().split())
+        if not self.documents:
+            return "No documents indexed."
+        return max(
+            self.documents,
+            key=lambda document: len(words & set(document.lower().split())),
+        )
+
+
+def build_rag() -> InMemoryRAG:
+    """Validate the selected framework and create the offline retriever."""
+    importlib.import_module(FRAMEWORK_MODULES[FRAMEWORK])
+    return InMemoryRAG()
+
+
+def main() -> None:
+    """Run the local demonstration."""
+    rag = build_rag()
+    rag.add("{{ project_name }} is ready for retrieval augmented generation.")
+    print(rag.query("What is ready for generation?"))
+
+
+if __name__ == "__main__":  # pragma: no cover
+    main()

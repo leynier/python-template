@@ -4,6 +4,8 @@ _templates_suffix: .jinja
 
 _exclude:
   - "copier.yml"
+  - "_catalog_dependencies"
+  - "_catalog_dependencies.jinja"
   # Source texts for the LICENSE file. They are pulled in with {% include %}
   # by the LICENSE template, so they must never be copied on their own.
   - "licenses"
@@ -502,6 +504,8 @@ python_version:
   validator: >-
     {% if (framework in ['lingo'] or 'violetear' in interfaces or 'beaver' in [document_store, vector_store, graph_store, cache_store]) and python_version == '3.11' %}
     The selected stack requires Python 3.12 or newer
+    {% elif (framework == 'crewai' or 'chainlit' in interfaces) and python_version == '3.14' %}
+    The selected stack currently requires Python 3.13 or older
     {% endif %}
 
 license:

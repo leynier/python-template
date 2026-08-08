@@ -1,0 +1,5 @@
+"""Selected user-facing interfaces for {{ project_name }}."""
+
+AVAILABLE = ({% for interface in interfaces %}"{{ interface }}"{% if not loop.last %}, {% endif %}{% endfor %}{% if interfaces | length == 1 %},{% endif %})
+
+__all__ = ["AVAILABLE"]

@@ -1,0 +1,13 @@
+"""Streamlit interface."""
+
+import streamlit as st
+
+
+def main() -> None:
+    """Render the Streamlit application."""
+    st.title("{{ project_name }}")
+    st.write("{{ description or 'Composable Python and AI application' }}")
+
+
+if __name__ == "__main__":  # pragma: no cover
+    main()

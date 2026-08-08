@@ -137,7 +137,8 @@
       "roles": [],
       "packages": [
         "fastapi[standard]>=0.141.1,<1",
-        "pydantic>=2.13.4,<3"
+        "pydantic>=2.13.4,<3",
+        "uvicorn>=0.52.1,<1"
       ]
     },
     {
@@ -178,7 +179,9 @@
         "agent"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "pydantic-ai>=2.27.0,<3"
+      ]
     },
     {
       "id": "langgraph",
@@ -190,7 +193,9 @@
         "agent"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "langgraph>=1.2.10,<2"
+      ]
     },
     {
       "id": "langchain",
@@ -203,7 +208,9 @@
         "rag"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "langchain>=1.3.14,<2"
+      ]
     },
     {
       "id": "llamaindex",
@@ -216,19 +223,23 @@
         "rag"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "llama-index>=0.14.23,<0.15"
+      ]
     },
     {
       "id": "crewai",
       "name": "CrewAI",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.11,<3.14",
       "workloads": [
         "agent"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "crewai>=1.15.13,<2"
+      ]
     },
     {
       "id": "smolagents",
@@ -240,7 +251,9 @@
         "agent"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "smolagents>=1.26.0,<2"
+      ]
     },
     {
       "id": "dspy",
@@ -252,7 +265,9 @@
         "agent"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "dspy>=3.3.0,<4"
+      ]
     },
     {
       "id": "openai-agents",
@@ -264,7 +279,9 @@
         "agent"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "openai-agents>=0.19.4,<1"
+      ]
     },
     {
       "id": "google-adk",
@@ -276,7 +293,9 @@
         "agent"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "google-adk>=2.6.3,<3"
+      ]
     },
     {
       "id": "strands-agents",
@@ -288,7 +307,9 @@
         "agent"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "strands-agents>=1.51.0,<2"
+      ]
     },
     {
       "id": "autogen",
@@ -300,7 +321,9 @@
         "agent"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "autogen-agentchat>=0.7.5,<1"
+      ]
     },
     {
       "id": "ag2",
@@ -312,7 +335,9 @@
         "agent"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "ag2>=1.0.1,<2"
+      ]
     },
     {
       "id": "agno",
@@ -324,7 +349,9 @@
         "agent"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "agno>=2.8.7,<3"
+      ]
     },
     {
       "id": "lingo",
@@ -336,7 +363,9 @@
         "agent"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "lingo-ai>=2.1.0,<3"
+      ]
     },
     {
       "id": "haystack",
@@ -348,7 +377,9 @@
         "rag"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "haystack-ai>=3.0.0,<4"
+      ]
     },
     {
       "id": "pytorch",
@@ -436,7 +467,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "streamlit>=1.61.1,<2"
+      ]
     },
     {
       "id": "gradio",
@@ -446,17 +479,21 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "gradio>=6.22.0,<7"
+      ]
     },
     {
       "id": "chainlit",
       "name": "Chainlit",
       "layer": "interface",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.11,<3.14",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "chainlit>=2.11.1,<3"
+      ]
     },
     {
       "id": "textual",
@@ -466,7 +503,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "textual>=8.2.8,<9"
+      ]
     },
     {
       "id": "nicegui",
@@ -476,7 +515,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "nicegui>=3.15.0,<4"
+      ]
     },
     {
       "id": "fasthtml",
@@ -486,7 +527,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "python-fasthtml>=0.14.11,<0.15"
+      ]
     },
     {
       "id": "violetear",
@@ -496,7 +539,9 @@
       "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "violetear[server]>=1.4.1,<2"
+      ]
     },
     {
       "id": "jupyterlab",
@@ -506,7 +551,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "jupyterlab>=4.6.2,<5"
+      ]
     },
     {
       "id": "openai",
@@ -516,7 +563,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "openai>=2.53.0,<3"
+      ]
     },
     {
       "id": "anthropic",
@@ -526,7 +575,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "anthropic>=0.121.0,<1"
+      ]
     },
     {
       "id": "gemini",
@@ -536,7 +587,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "google-genai>=2.17.0,<3"
+      ]
     },
     {
       "id": "azure-openai",
@@ -546,7 +599,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "openai>=2.53.0,<3"
+      ]
     },
     {
       "id": "bedrock",
@@ -556,7 +611,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "boto3>=1.43.67,<2"
+      ]
     },
     {
       "id": "openrouter",
@@ -566,7 +623,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "openrouter>=1.1.37,<2"
+      ]
     },
     {
       "id": "groq",
@@ -576,7 +635,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "groq>=1.6.0,<2"
+      ]
     },
     {
       "id": "mistral",
@@ -586,7 +647,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "mistralai>=2.9.1,<3"
+      ]
     },
     {
       "id": "cohere",
@@ -596,7 +659,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "cohere>=7.0.8,<8"
+      ]
     },
     {
       "id": "huggingface",
@@ -606,7 +671,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "huggingface-hub>=1.27.0,<2"
+      ]
     },
     {
       "id": "ollama",
@@ -616,7 +683,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "ollama>=0.6.2,<1"
+      ]
     },
     {
       "id": "openai-compatible",
@@ -626,7 +695,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "openai>=2.53.0,<3"
+      ]
     },
     {
       "id": "xai",
@@ -636,7 +707,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "xai-sdk>=1.17.0,<2"
+      ]
     },
     {
       "id": "deepseek",
@@ -646,7 +719,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "openai>=2.53.0,<3"
+      ]
     },
     {
       "id": "together",
@@ -656,7 +731,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "together>=2.30.0,<3"
+      ]
     },
     {
       "id": "fireworks",
@@ -666,7 +743,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "fireworks-ai>=1.2.6,<2"
+      ]
     },
     {
       "id": "sentence-transformers",
@@ -676,7 +755,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "sentence-transformers>=5.7.0,<6"
+      ]
     },
     {
       "id": "sqlite",

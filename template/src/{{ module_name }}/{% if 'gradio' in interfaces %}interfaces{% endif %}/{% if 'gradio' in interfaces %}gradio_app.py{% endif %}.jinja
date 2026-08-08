@@ -1,0 +1,17 @@
+"""Gradio interface."""
+
+import gradio as gr
+
+
+def create_app() -> gr.Interface:
+    """Build the Gradio application without starting a server."""
+    return gr.Interface(lambda text: f"{{ project_name }}: {text}", "text", "text")
+
+
+def main() -> None:
+    """Launch the Gradio application."""
+    create_app().launch()
+
+
+if __name__ == "__main__":  # pragma: no cover
+    main()
