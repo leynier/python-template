@@ -1,4 +1,0 @@
-[run]
-omit =
-    {{ cookiecutter.pkg_name }}/__main__.py
-    tests/*

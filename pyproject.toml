@@ -1,0 +1,43 @@
+[project]
+name = "python-template"
+version = "1.0.0"
+description = "Modern Python project template: Copier, uv, Ruff, ty and Zensical"
+readme = "readme.md"
+requires-python = ">=3.13"
+authors = [
+    { name = "Leynier Gutiérrez González", email = "leynier41@gmail.com" },
+]
+license = "MIT"
+license-files = ["LICENSE"]
+
+# This project is a Copier template, not an installable package.
+[build-system]
+requires = ["uv_build>=0.12,<0.13"]
+build-backend = "uv_build"
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "copier>=9.17.1",
+    "pytest>=9.1.1",
+    "pytest-copie>=0.3.1",
+    "pytest-xdist>=3.8.0",
+    "ruff>=0.16.2",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers --strict-config"
+markers = [
+    "slow: generates a project and runs its full toolchain (deselect with '-m \"not slow\"')",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "C4", "UP", "SIM", "PTH", "RUF"]
+ignore = ["E501"]

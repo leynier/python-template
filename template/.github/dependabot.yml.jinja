@@ -1,0 +1,48 @@
+version: 2
+
+# A cooldown keeps Dependabot from adopting a release the moment it is
+# published, which is the window in which a compromised version does its damage.
+# It matters more here because actions are pinned to tags rather than commit
+# SHAs, so an update is trusted on the publisher's say-so.
+updates:
+  # Python dependencies, resolved through uv.lock.
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+      semver-minor-days: 7
+      semver-patch-days: 3
+    groups:
+      python-dev:
+        dependency-type: "development"
+
+  # Keeps the action versions in .github/workflows up to date.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ["*"]
+{% if use_docker %}
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+{%- endif %}
+{%- if use_devcontainer %}
+
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+{%- endif %}

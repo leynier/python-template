@@ -1,0 +1,125 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint the template repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@v9.0.0
+        with:
+          python-version: "3.13"
+          enable-cache: true
+
+      - run: uv sync --locked --all-groups
+
+      - name: Ruff
+        run: |
+          uv run ruff check --output-format=github .
+          uv run ruff format --check --diff .
+
+      - name: Validate copier.yml
+        run: uv run python -c "import yaml,pathlib; yaml.safe_load(pathlib.Path('copier.yml').read_text())"
+
+  structure:
+    name: Generation tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          # Copier resolves the template version from git history and tags.
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@v9.0.0
+        with:
+          python-version: "3.13"
+          enable-cache: true
+
+      - run: uv sync --locked --all-groups
+
+      - name: Fast tests
+        run: uv run pytest -m "not slow" -n auto
+
+  toolchain:
+    name: Generated project / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@v9.0.0
+        with:
+          python-version: "3.13"
+          enable-cache: true
+
+      - run: uv sync --locked --all-groups
+
+      # This is what stops the template from rotting: it generates every
+      # variant and runs the full toolchain inside each generated project.
+      #
+      # --basetemp matters more than it looks. Generated projects land in
+      # pytest's temp dir, and uv installs into their virtualenvs by hardlinking
+      # from its cache. A hardlink cannot cross volumes, and on Windows runners
+      # the default temp dir is on C: while the uv cache is on D:, so every
+      # package gets copied instead of linked. Putting both on the same volume
+      # is the difference between a six minute job and a fast one.
+      - name: Slow tests
+        run: uv run pytest -m slow -n auto --basetemp="${{ runner.temp }}/pytest"
+
+
+  zizmor:
+    name: Workflow security
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: zizmorcore/zizmor-action@v0.6.2
+
+  # Single required status check for branch protection. Depending on every
+  # other job means the protection rule never needs updating when the matrix
+  # changes -- only this job's name is referenced.
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    needs: [lint, structure, toolchain, zizmor]
+    if: always()
+    steps:
+      - name: Verify every job succeeded
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Job results: $RESULTS"
+          case "$RESULTS" in
+            *failure*|*cancelled*|*skipped*)
+              echo "::error::A required job did not succeed"
+              exit 1
+              ;;
+          esac

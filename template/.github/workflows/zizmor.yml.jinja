@@ -1,0 +1,34 @@
+name: Workflow security
+
+# Audits these GitHub Actions workflows for script injection, excessive
+# permissions, unpinned actions and other known-dangerous patterns.
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/**"]
+  pull_request:
+    branches: [main]
+    paths: [".github/workflows/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  zizmor:
+    name: zizmor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: zizmorcore/zizmor-action@v0.6.2
+        with:
+          # Findings are surfaced as inline annotations rather than uploaded to
+          # GitHub Advanced Security, because code scanning is not available on
+          # private repositories without a GHAS licence and the upload would
+          # fail there. If this repository is public, you can swap these for
+          # `advanced-security: true` and add `security-events: write` to the
+          # job permissions to get the findings in the Security tab instead.
+          advanced-security: false
+          annotations: true

@@ -1,0 +1,48 @@
+# syntax=docker/dockerfile:1
+
+# ---------------------------------------------------------------- builder --
+FROM ghcr.io/astral-sh/uv:python{{ python_version }}-bookworm-slim AS builder
+
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_PYTHON_DOWNLOADS=never
+
+WORKDIR /app
+
+# Install dependencies first so this layer is cached independently of the
+# application source.
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project --no-dev
+
+COPY . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev
+
+# --------------------------------------------------------------- runtime ---
+FROM python:{{ python_version }}-slim-bookworm AS runtime
+
+# Run as an unprivileged user.
+RUN groupadd --system app && useradd --system --gid app --create-home app
+
+COPY --from=builder --chown=app:app /app /app
+
+ENV PATH="/app/.venv/bin:$PATH" \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+USER app
+
+EXPOSE 8000
+
+{% if project_type == 'api' -%}
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
+    CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health').status == 200 else 1)"
+
+CMD ["uvicorn", "{{ module_name }}.api:app", "--host", "0.0.0.0", "--port", "8000"]
+{%- elif project_type == 'cli' -%}
+ENTRYPOINT ["{{ project_slug }}"]
+{%- else -%}
+CMD ["python", "-c", "import {{ module_name }}; print({{ module_name }}.__version__)"]
+{%- endif %}

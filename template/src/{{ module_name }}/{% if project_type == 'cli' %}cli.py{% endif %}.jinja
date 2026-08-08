@@ -1,0 +1,41 @@
+"""Command line interface for {{ project_name }}."""
+
+import typer
+
+from {{ module_name }} import __version__, greet
+
+app = typer.Typer(
+    name="{{ project_slug }}",
+    help="{{ description or project_name }}",
+    no_args_is_help=True,
+)
+
+
+def _version_callback(value: bool) -> None:
+    if value:
+        typer.echo(f"{{ project_slug }} {__version__}")
+        raise typer.Exit
+
+
+@app.callback()
+def main(
+    version: bool = typer.Option(
+        False,
+        "--version",
+        "-v",
+        help="Show the version and exit.",
+        callback=_version_callback,
+        is_eager=True,
+    ),
+) -> None:
+    """{{ description or project_name }}."""
+
+
+@app.command()
+def hello(name: str = typer.Argument("world", help="Who to greet.")) -> None:
+    """Print a friendly greeting."""
+    typer.echo(greet(name))
+
+
+if __name__ == "__main__":  # pragma: no cover
+    app()

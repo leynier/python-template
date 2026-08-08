@@ -1,0 +1,34 @@
+# Security Policy
+
+## Supported versions
+
+The latest released version of {{ project_name }} receives security updates.
+
+## Reporting a vulnerability
+
+Please **do not** open a public issue for security vulnerabilities.
+
+Report them privately through
+[GitHub Security Advisories](https://github.com/{{ github_username }}/{{ github_repo }}/security/advisories/new),
+or by email to <{{ author_email }}>.
+
+Please include:
+
+- A description of the vulnerability and its impact.
+- Steps to reproduce, ideally with a minimal proof of concept.
+- Any known mitigations or workarounds.
+
+You can expect an initial response within 7 days. Once the issue is confirmed,
+we will work on a fix and coordinate disclosure with you.
+
+## Supply chain
+
+{% if publish_to_pypi -%}
+Releases are published to PyPI using
+[Trusted Publishing](https://docs.pypi.org/trusted-publishers/) with Sigstore
+attestations, so no long-lived API tokens exist for this project. You can verify
+the provenance of any release artifact against this repository.
+
+{% endif -%}
+GitHub Actions are pinned to full commit SHAs and audited with
+[zizmor](https://github.com/zizmorcore/zizmor) on every change.

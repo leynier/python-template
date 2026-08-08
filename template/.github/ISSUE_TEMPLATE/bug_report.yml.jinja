@@ -1,0 +1,52 @@
+name: Bug report
+description: Report something that is not working
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect to happen instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can we reproduce it?
+      description: The smallest piece of code that shows the problem.
+      render: python
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: "{{ project_name }} version"
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version
+      description: The output of `python --version`.
+      placeholder: "{{ python_version }}.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [Linux, macOS, Windows, Other]
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant output
+      description: Any traceback or log output. This is rendered as code, so no backticks needed.
+      render: shell

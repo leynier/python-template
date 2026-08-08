@@ -1,0 +1,284 @@
+_min_copier_version: "9.0.0"
+_subdirectory: template
+_templates_suffix: .jinja
+
+_exclude:
+  - "copier.yml"
+  # Source texts for the LICENSE file. They are pulled in with {% include %}
+  # by the LICENSE template, so they must never be copied on their own.
+  - "licenses"
+  - "~*"
+  - "*.py[co]"
+  - "__pycache__"
+  - ".git"
+  - ".DS_Store"
+
+_tasks:
+  - command: git init --initial-branch=main
+    when: "{{ _copier_operation == 'copy' }}"
+  - command: uv sync --all-groups
+    when: "{{ _copier_operation == 'copy' }}"
+
+_message_after_copy: |
+  Your project "{{ project_name }}" is ready.
+
+      cd {{ project_slug }}
+      uv run pytest
+
+  {% if publish_to_pypi %}
+  Before your first release, configure PyPI Trusted Publishing at
+  https://pypi.org/manage/account/publishing/ with:
+
+      owner:     {{ github_username }}
+      repository: {{ github_repo }}
+      workflow:   publish.yml
+      environment: pypi
+  {% endif %}
+
+_message_after_update: |
+  Template updated to {{ _copier_answers._commit }}.
+  Review the diff, then run `uv sync` and `uv run pytest`.
+
+# ---------------------------------------------------------------- identity --
+
+project_name:
+  type: str
+  help: Human readable name of the project
+  default: My Project
+  validator: "{% if not project_name.strip() %}Cannot be empty{% endif %}"
+
+project_slug:
+  type: str
+  help: Directory and distribution name (kebab-case)
+  default: "{{ project_name | lower | replace(' ', '-') | replace('_', '-') }}"
+  validator: >-
+    {% if not project_slug | regex_search('^[a-z][a-z0-9-]*$') %}
+    Must be lowercase, start with a letter, and contain only letters, digits and hyphens
+    {% endif %}
+
+module_name:
+  type: str
+  help: Importable Python package name (snake_case)
+  default: "{{ project_slug | lower | replace('-', '_') }}"
+  validator: >-
+    {% if not module_name | regex_search('^[a-z_][a-z0-9_]*$') %}
+    Must be a valid Python identifier: lowercase letters, digits and underscores
+    {% endif %}
+
+description:
+  type: str
+  help: One line description of the project
+  default: ""
+
+author_name:
+  type: str
+  help: Your full name
+  default: ""
+  validator: "{% if not author_name.strip() %}Cannot be empty{% endif %}"
+
+author_email:
+  type: str
+  help: Your email address
+  default: ""
+  validator: >-
+    {% if not author_email | regex_search('^[^@\s]+@[^@\s]+\.[^@\s]+$') %}
+    Must be a valid email address
+    {% endif %}
+
+github_username:
+  type: str
+  help: GitHub username or organization that will host the repository
+  default: ""
+  validator: "{% if not github_username.strip() %}Cannot be empty{% endif %}"
+
+github_repo:
+  type: str
+  help: GitHub repository name
+  default: "{{ project_slug }}"
+
+# ------------------------------------------------------------------ shape --
+
+project_type:
+  type: str
+  help: What kind of project is this?
+  default: library
+  choices:
+    Library - an importable package: library
+    CLI application - built with Typer: cli
+    Web API - built with FastAPI: api
+
+python_version:
+  type: str
+  # 3.10 is deliberately not offered: it reaches end of life on 2026-10-31.
+  # Drop each version from this list as it approaches its EOL date, and add
+  # new ones once they are released.
+  help: Minimum supported Python version
+  default: "3.13"
+  choices:
+    - "3.11"
+    - "3.12"
+    - "3.13"
+    - "3.14"
+
+license:
+  type: str
+  help: License for the project
+  default: MIT
+  choices:
+    MIT: MIT
+    Apache-2.0: Apache-2.0
+    BSD-3-Clause: BSD-3-Clause
+    GPL-3.0-or-later: GPL-3.0-or-later
+    None - proprietary: none
+
+copyright_year:
+  type: str
+  # Copier has no date global and jinja2-time is not bundled, so adding a
+  # dynamic default would mean an extra dependency that breaks plain
+  # `uvx copier`. Maintainers: bump this default each January.
+  help: Copyright year
+  default: "2026"
+  when: "{{ license != 'none' }}"
+  validator: >-
+    {% if not copyright_year | regex_search('^[0-9]{4}$') %}
+    Must be a four digit year
+    {% endif %}
+
+# --------------------------------------------------------------- features --
+
+use_docs:
+  type: bool
+  help: Generate a documentation site with Zensical?
+  default: true
+
+publish_to_pypi:
+  type: bool
+  help: Publish to PyPI on tag, using Trusted Publishing (no secrets)?
+  default: "{{ project_type != 'api' }}"
+
+use_docker:
+  type: bool
+  help: Include a multi-stage Dockerfile?
+  default: "{{ project_type == 'api' }}"
+
+use_devcontainer:
+  type: bool
+  help: Include a VS Code devcontainer?
+  default: false
+
+use_codeql:
+  type: bool
+  help: Enable GitHub CodeQL security scanning?
+  default: true
+
+agent_instructions:
+  type: bool
+  help: Include AGENTS.md so AI coding agents know the project conventions?
+  default: true
+
+# ---------------------------------------------------------------- socials --
+# Replaces the 14 mandatory fields of the previous cookiecutter template.
+# Each handle is only asked for when its network is selected, and every one
+# defaults to your GitHub username.
+
+social_links:
+  type: str
+  multiselect: true
+  help: Which social links should appear in the documentation footer?
+  default:
+    - github
+  choices:
+    GitHub: github
+    LinkedIn: linkedin
+    X (Twitter): x
+    Mastodon: mastodon
+    Bluesky: bluesky
+    Telegram: telegram
+    GitLab: gitlab
+    Dev.to: devto
+    Medium: medium
+    Stack Overflow: stackoverflow
+    YouTube: youtube
+    Instagram: instagram
+    Facebook: facebook
+    ResearchGate: researchgate
+    Email: email
+  when: "{{ use_docs }}"
+
+linkedin_handle:
+  type: str
+  help: LinkedIn handle
+  default: "{{ github_username }}"
+  when: "{{ use_docs and 'linkedin' in social_links }}"
+
+x_handle:
+  type: str
+  help: X (Twitter) handle, without the @
+  default: "{{ github_username }}"
+  when: "{{ use_docs and 'x' in social_links }}"
+
+mastodon_url:
+  type: str
+  help: Full Mastodon profile URL (instances differ, so no default)
+  default: "https://fosstodon.org/@{{ github_username }}"
+  when: "{{ use_docs and 'mastodon' in social_links }}"
+
+bluesky_handle:
+  type: str
+  help: Bluesky handle (e.g. name.bsky.social)
+  default: "{{ github_username }}.bsky.social"
+  when: "{{ use_docs and 'bluesky' in social_links }}"
+
+telegram_handle:
+  type: str
+  help: Telegram handle
+  default: "{{ github_username }}"
+  when: "{{ use_docs and 'telegram' in social_links }}"
+
+gitlab_handle:
+  type: str
+  help: GitLab handle
+  default: "{{ github_username }}"
+  when: "{{ use_docs and 'gitlab' in social_links }}"
+
+devto_handle:
+  type: str
+  help: Dev.to handle
+  default: "{{ github_username }}"
+  when: "{{ use_docs and 'devto' in social_links }}"
+
+medium_handle:
+  type: str
+  help: Medium handle, without the @
+  default: "{{ github_username }}"
+  when: "{{ use_docs and 'medium' in social_links }}"
+
+stackoverflow_id:
+  type: str
+  help: Stack Overflow user path (e.g. 8921443/leynier)
+  default: "{{ github_username }}"
+  when: "{{ use_docs and 'stackoverflow' in social_links }}"
+
+youtube_id:
+  type: str
+  help: YouTube channel ID or @handle
+  default: "@{{ github_username }}"
+  when: "{{ use_docs and 'youtube' in social_links }}"
+
+instagram_handle:
+  type: str
+  help: Instagram handle
+  default: "{{ github_username }}"
+  when: "{{ use_docs and 'instagram' in social_links }}"
+
+facebook_handle:
+  type: str
+  help: Facebook handle
+  default: "{{ github_username }}"
+  when: "{{ use_docs and 'facebook' in social_links }}"
+
+researchgate_handle:
+  type: str
+  help: ResearchGate profile name
+  default: "{{ github_username }}"
+  when: "{{ use_docs and 'researchgate' in social_links }}"

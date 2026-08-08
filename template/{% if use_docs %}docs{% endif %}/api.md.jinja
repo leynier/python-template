@@ -1,0 +1,15 @@
+# API reference
+
+Generated from the docstrings in the source by
+[mkdocstrings](https://mkdocstrings.github.io).
+
+::: {{ module_name }}
+{% if project_type == 'cli' %}
+## Command line interface
+
+::: {{ module_name }}.cli
+{%- elif project_type == 'api' %}
+## Application
+
+::: {{ module_name }}.api
+{%- endif %}

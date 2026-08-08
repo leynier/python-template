@@ -1,0 +1,182 @@
+[project]
+site_name = "{{ project_name }}"
+site_url = "https://{{ github_username }}.github.io/{{ github_repo }}/"
+site_description = "{{ description }}"
+site_author = "{{ author_name }}"
+{%- if license != 'none' %}
+copyright = "Copyright &copy; {{ copyright_year }} {{ author_name }}"
+{%- endif %}
+
+repo_url = "https://github.com/{{ github_username }}/{{ github_repo }}"
+repo_name = "{{ github_username }}/{{ github_repo }}"
+edit_uri = "edit/main/docs/"
+
+plugins = ["mkdocstrings"]
+
+nav = [
+  { "Home" = "index.md" },
+  { "Usage" = "usage.md" },
+  { "API reference" = "api.md" },
+]
+
+[project.theme]
+language = "en"
+features = [
+  "content.action.edit",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.tooltips",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  "navigation.sections",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  "toc.follow",
+]
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+{% if 'github' in social_links %}
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/{{ github_username }}"
+{%- endif %}
+{%- if 'linkedin' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/linkedin"
+link = "https://www.linkedin.com/in/{{ linkedin_handle }}"
+{%- endif %}
+{%- if 'x' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/x-twitter"
+link = "https://x.com/{{ x_handle }}"
+{%- endif %}
+{%- if 'mastodon' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/mastodon"
+link = "{{ mastodon_url }}"
+{%- endif %}
+{%- if 'bluesky' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/bluesky"
+link = "https://bsky.app/profile/{{ bluesky_handle }}"
+{%- endif %}
+{%- if 'telegram' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/telegram"
+link = "https://t.me/{{ telegram_handle }}"
+{%- endif %}
+{%- if 'gitlab' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/gitlab"
+link = "https://gitlab.com/{{ gitlab_handle }}"
+{%- endif %}
+{%- if 'devto' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/dev"
+link = "https://dev.to/{{ devto_handle }}"
+{%- endif %}
+{%- if 'medium' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/medium"
+link = "https://medium.com/@{{ medium_handle }}"
+{%- endif %}
+{%- if 'stackoverflow' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/stack-overflow"
+link = "https://stackoverflow.com/users/{{ stackoverflow_id }}"
+{%- endif %}
+{%- if 'youtube' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/youtube"
+link = "https://www.youtube.com/{{ youtube_id }}"
+{%- endif %}
+{%- if 'instagram' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/instagram"
+link = "https://www.instagram.com/{{ instagram_handle }}"
+{%- endif %}
+{%- if 'facebook' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/facebook"
+link = "https://www.facebook.com/{{ facebook_handle }}"
+{%- endif %}
+{%- if 'researchgate' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/brands/researchgate"
+link = "https://www.researchgate.net/profile/{{ researchgate_handle }}"
+{%- endif %}
+{%- if 'email' in social_links %}
+
+[[project.extra.social]]
+icon = "fontawesome/solid/paper-plane"
+link = "mailto:{{ author_email }}"
+{%- endif %}
+
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+toc = { permalink = true }
+pymdownx.betterem = {}
+pymdownx.caret = {}
+pymdownx.details = {}
+pymdownx.emoji = {
+  emoji_generator = "zensical.extensions.emoji.to_svg",
+  emoji_index = "zensical.extensions.emoji.twemoji",
+}
+pymdownx.highlight = {
+  anchor_linenums = true,
+  line_spans = "__span",
+  pygments_lang_class = true,
+}
+pymdownx.inlinehilite = {}
+pymdownx.keys = {}
+pymdownx.magiclink = {}
+pymdownx.mark = {}
+pymdownx.smartsymbols = {}
+pymdownx.superfences = {
+  custom_fences = [
+    {
+      name = "mermaid",
+      class = "mermaid",
+      format = "pymdownx.superfences.fence_code_format",
+    },
+  ],
+}
+pymdownx.tabbed = { alternate_style = true, combine_header_slug = true }
+pymdownx.tasklist = { custom_checkbox = true }
+pymdownx.tilde = {}

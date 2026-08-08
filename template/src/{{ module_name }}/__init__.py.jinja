@@ -1,0 +1,23 @@
+"""{{ description or project_name }}."""
+
+__version__ = "0.1.0"
+
+{% if project_type == 'library' -%}
+__all__ = ["greet"]
+
+
+def greet(name: str) -> str:
+    """Return a friendly greeting for ``name``."""
+    return f"Hello, {name}!"
+{%- elif project_type == 'cli' -%}
+__all__ = ["greet"]
+
+
+def greet(name: str) -> str:
+    """Return a friendly greeting for ``name``."""
+    return f"Hello, {name}!"
+{%- elif project_type == 'api' -%}
+__all__ = ["app"]
+
+from {{ module_name }}.api import app
+{%- endif %}

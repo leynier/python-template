@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Packaging
+build/
+dist/
+*.egg-info/
+
+# Environments
+# uv.lock is committed on purpose: it is what makes CI reproducible.
+.venv/
+.env
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Tool caches
+.ruff_cache/
+.ty_cache/
+.mypy_cache/
+
+# Documentation build output
+/site
+
+# Editors
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
