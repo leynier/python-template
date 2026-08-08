@@ -403,7 +403,7 @@ auth:
 runtime_config:
   type: bool
   default: >-
-    {{ ai_capabilities != 'none' or sql_store != 'none' or document_store != 'none' or vector_store != 'none' or graph_store != 'none' or cache_store != 'none' or auth != 'none' }}
+    {{ ai_capabilities in ['agents', 'rag', 'inference', 'training'] or sql_store != 'none' or document_store != 'none' or vector_store != 'none' or graph_store != 'none' or cache_store != 'none' or auth != 'none' }}
   when: false
 
 serving:
@@ -421,6 +421,10 @@ serving:
     Ollama: ollama-serving
     Ray Serve: ray-serve
   when: "{{ workload in ['inference', 'hybrid'] }}"
+  validator: >-
+    {% if workload in ['inference', 'hybrid'] and serving == 'none' %}
+    Inference and hybrid workloads require a serving engine
+    {% endif %}
 
 training_extensions:
   type: str
@@ -518,7 +522,7 @@ python_version:
   validator: >-
     {% if (framework in ['lingo'] or 'violetear' in interfaces or 'beaver' in [document_store, vector_store, graph_store, cache_store]) and python_version == '3.11' %}
     The selected stack requires Python 3.12 or newer
-    {% elif (framework == 'crewai' or 'chainlit' in interfaces) and python_version == '3.14' %}
+    {% elif (framework in ['crewai', 'keras'] or 'chainlit' in interfaces or serving == 'vllm') and python_version == '3.14' %}
     The selected stack currently requires Python 3.13 or older
     {% endif %}
 

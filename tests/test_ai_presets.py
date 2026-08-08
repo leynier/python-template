@@ -1,9 +1,11 @@
 """Linux integration tests for the agent, MCP, RAG and interface presets."""
 
 from pathlib import Path
+from shutil import copytree, ignore_patterns
 
 import pytest
 from conftest import answers, assert_ok, run
+from copier import run_copy
 
 PRESETS = {
     "fastmcp-server": ["src/demo_project/mcp.py"],
@@ -23,6 +25,10 @@ PRESETS = {
         "src/demo_project/agent.py",
         "src/demo_project/data.py",
         "src/demo_project/interfaces/violetear_app.py",
+    ],
+    "litellm-gateway": [
+        "src/demo_project/serving.py",
+        "src/demo_project/data.py",
     ],
 }
 
@@ -82,3 +88,79 @@ def test_data_and_auth_vertical_slice(copie, uv: str) -> None:
     )
     assert_ok(run([uv, "run", "deptry", "src"], project), "deptry")
     assert_ok(run([uv, "run", "pytest", "-q"], project), "pytest")
+
+
+@pytest.mark.preset
+def test_ml_hybrid_vertical_slice(copie, uv: str) -> None:
+    """A lightweight hybrid stack validates training, serving and workspace wiring."""
+    result = copie.copy(
+        extra_answers=answers(
+            preset="custom",
+            workload="hybrid",
+            ai_capabilities="training",
+            framework="scikit-learn",
+            serving="bentoml",
+            training_extensions=["optuna"],
+            mlops_tools=["polars", "pandera"],
+            quality_tools=["opentelemetry"],
+            deploy_target="none",
+            use_docs=False,
+            use_codeql=False,
+            use_docker=False,
+        )
+    )
+    assert result.exception is None, result.exception
+    project = result.project_dir
+
+    assert (project / "packages/training/pyproject.toml").is_file()
+    assert (project / "packages/service/pyproject.toml").is_file()
+    assert_ok(run([uv, "run", "ruff", "check", "."], project), "ruff check")
+    assert_ok(
+        run([uv, "run", "ruff", "format", "--check", "."], project),
+        "ruff format",
+    )
+    assert_ok(run([uv, "run", "deptry", "src"], project), "deptry")
+    assert_ok(run([uv, "run", "pytest", "-q"], project), "pytest")
+
+
+def test_hf_finetuning_preset_renders_without_downloading_models(
+    tmp_path: Path,
+) -> None:
+    """The heavyweight reference preset has its complete workspace and dependency set."""
+    template = tmp_path / "template"
+    copytree(
+        Path.cwd(),
+        template,
+        ignore=ignore_patterns(".git", ".venv", ".pytest_cache", "__pycache__"),
+    )
+    project = tmp_path / "hf-project"
+    run_copy(
+        str(template),
+        project,
+        data=answers(
+            preset="hf-finetuning",
+            use_docs=False,
+            use_codeql=False,
+            use_docker=False,
+        ),
+        defaults=True,
+        unsafe=True,
+        skip_tasks=True,
+    )
+
+    pyproject = (project / "pyproject.toml").read_text()
+    for dependency in (
+        "transformers>=",
+        "torch>=",
+        "datasets>=",
+        "accelerate>=",
+        "peft>=",
+        "trl>=",
+        "bentoml>=",
+        "mlflow>=",
+    ):
+        assert dependency in pyproject
+    assert (project / "src/demo_project/training.py").is_file()
+    assert (project / "src/demo_project/serving.py").is_file()
+    assert (project / "packages/training/pyproject.toml").is_file()
+    assert (project / "packages/service/pyproject.toml").is_file()

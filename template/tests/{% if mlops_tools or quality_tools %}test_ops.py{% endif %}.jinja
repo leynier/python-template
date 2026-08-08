@@ -1,0 +1,9 @@
+"""Tests for selected operations and quality tools."""
+
+from {{ module_name }}.ops import MLOPS_TOOLS, QUALITY_TOOLS, installed_ops_tools
+
+
+def test_selected_ops_tools_are_installed() -> None:
+    assert MLOPS_TOOLS == ({% for tool in mlops_tools | default([]) %}"{{ tool }}"{% if not loop.last %}, {% endif %}{% endfor %}{% if mlops_tools | default([]) | length == 1 %},{% endif %})
+    assert QUALITY_TOOLS == ({% for tool in quality_tools | default([]) %}"{{ tool }}"{% if not loop.last %}, {% endif %}{% endfor %}{% if quality_tools | default([]) | length == 1 %},{% endif %})
+    assert len(installed_ops_tools()) == len(MLOPS_TOOLS) + len(QUALITY_TOOLS)

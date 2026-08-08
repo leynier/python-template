@@ -37,7 +37,7 @@ This reference is generated from `catalog/components.yml`. Do not edit it by han
 | `framework` | PyTorch (`pytorch`) | `stable` | `>=3.11,<3.15` |
 | `framework` | Hugging Face Transformers (`transformers`) | `stable` | `>=3.11,<3.15` |
 | `framework` | JAX (`jax`) | `stable` | `>=3.11,<3.15` |
-| `framework` | Keras / TensorFlow (`keras`) | `stable` | `>=3.11,<3.15` |
+| `framework` | Keras / TensorFlow (`keras`) | `stable` | `>=3.11,<3.14` |
 | `framework` | scikit-learn (`scikit-learn`) | `stable` | `>=3.11,<3.15` |
 | `framework` | XGBoost (`xgboost`) | `stable` | `>=3.11,<3.15` |
 | `interface` | Streamlit (`streamlit`) | `stable` | `>=3.11,<3.15` |
@@ -88,7 +88,7 @@ This reference is generated from `catalog/components.yml`. Do not edit it by han
 | `auth` | Supabase Auth (`supabase-auth`) | `platform` | `>=3.11,<3.15` |
 | `serving` | BentoML (`bentoml`) | `stable` | `>=3.11,<3.15` |
 | `serving` | LiteLLM (`litellm`) | `stable` | `>=3.11,<3.15` |
-| `serving` | vLLM (`vllm`) | `platform` | `>=3.11,<3.15` |
+| `serving` | vLLM (`vllm`) | `platform` | `>=3.11,<3.14` |
 | `serving` | Ollama (`ollama-serving`) | `stable` | `>=3.11,<3.15` |
 | `serving` | Ray Serve (`ray-serve`) | `stable` | `>=3.11,<3.15` |
 | `training_extension` | Lightning (`lightning`) | `stable` | `>=3.11,<3.15` |

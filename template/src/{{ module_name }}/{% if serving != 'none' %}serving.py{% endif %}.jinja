@@ -1,0 +1,31 @@
+"""Adapter for the selected model-serving engine."""
+
+from typing import Any
+
+{% if serving == 'bentoml' -%}
+import bentoml as serving_module
+{%- elif serving == 'litellm' -%}
+import litellm as serving_module
+{%- elif serving == 'vllm' -%}
+import vllm as serving_module
+{%- elif serving == 'ollama-serving' -%}
+import ollama as serving_module
+{%- elif serving == 'ray-serve' -%}
+from ray import serve as serving_module
+{%- endif %}
+
+SERVING_ENGINE = "{{ serving }}"
+
+
+def serving_sdk() -> Any:
+    """Return the configured serving SDK without starting a server."""
+    return serving_module
+
+
+def main() -> None:
+    """Report the selected engine; add model loading at the application boundary."""
+    print(f"Serving engine: {SERVING_ENGINE}")
+
+
+if __name__ == "__main__":  # pragma: no cover
+    main()

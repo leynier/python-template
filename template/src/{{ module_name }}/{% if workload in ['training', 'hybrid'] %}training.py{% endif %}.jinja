@@ -1,0 +1,60 @@
+{% set extension_modules = {
+    'lightning': 'lightning',
+    'datasets': 'datasets',
+    'accelerate': 'accelerate',
+    'peft': 'peft',
+    'trl': 'trl',
+    'optuna': 'optuna',
+} -%}
+"""Offline-testable {{ framework }} training scaffold."""
+
+from __future__ import annotations
+
+from typing import Any
+
+{% if framework == 'pytorch' -%}
+import torch as framework_module
+{% elif framework == 'transformers' -%}
+import transformers as framework_module
+import torch as backend_module
+{% elif framework == 'jax' -%}
+import jax as framework_module
+{% elif framework == 'keras' -%}
+import keras as framework_module
+import tensorflow as backend_module
+{% elif framework == 'scikit-learn' -%}
+import sklearn as framework_module
+{% elif framework == 'xgboost' -%}
+import xgboost as framework_module
+{% endif %}
+# isort: split
+{% for extension in training_extensions | default([]) | sort -%}
+import {{ extension_modules[extension] }} as {{ extension | replace('-', '_') }}_module
+{% endfor %}
+FRAMEWORK = "{{ framework }}"
+EXTENSIONS = ({% for extension in training_extensions | default([]) %}"{{ extension }}"{% if not loop.last %}, {% endif %}{% endfor %}{% if training_extensions | default([]) | length == 1 %},{% endif %})
+
+
+def installed_training_tools() -> tuple[Any, ...]:
+    """Return installed framework and extension modules."""
+    tools: list[Any] = [framework_module]
+{% if framework in ['transformers', 'keras'] %}    tools.append(backend_module)
+{% endif -%}
+{% for extension in training_extensions | default([]) %}    tools.append({{ extension | replace('-', '_') }}_module)
+{% endfor %}    return tuple(tools)
+
+
+def train(values: list[float]) -> dict[str, float]:
+    """Run a deterministic local training placeholder without downloading models."""
+    installed_training_tools()
+    mean = sum(values) / len(values) if values else 0.0
+    return {"examples": float(len(values)), "mean": mean}
+
+
+def main() -> None:
+    """Run the offline training demonstration."""
+    print(train([1.0, 2.0, 3.0]))
+
+
+if __name__ == "__main__":  # pragma: no cover
+    main()

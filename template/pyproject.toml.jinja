@@ -33,7 +33,7 @@ Issues = "https://github.com/{{ github_username }}/{{ github_repo }}/issues"
 Documentation = "https://{{ github_username }}.github.io/{{ github_repo }}"
 {%- endif %}
 
-{% if workload in ['cli', 'api', 'mcp', 'agent', 'rag'] or interfaces | default([]) -%}
+{% if workload in ['cli', 'api', 'mcp', 'agent', 'rag', 'inference', 'training', 'hybrid'] or interfaces | default([]) -%}
 [project.scripts]
 {%- if workload == 'cli' %}
 {{ project_slug }} = "{{ module_name }}.cli:app"
@@ -45,6 +45,13 @@ Documentation = "https://{{ github_username }}.github.io/{{ github_repo }}"
 {{ project_slug }} = "{{ module_name }}.agent:main"
 {%- elif workload == 'rag' %}
 {{ project_slug }} = "{{ module_name }}.rag:main"
+{%- elif workload == 'inference' %}
+{{ project_slug }} = "{{ module_name }}.serving:main"
+{%- elif workload == 'training' %}
+{{ project_slug }} = "{{ module_name }}.training:main"
+{%- elif workload == 'hybrid' %}
+{{ project_slug }}-train = "{{ module_name }}.training:main"
+{{ project_slug }}-serve = "{{ module_name }}.serving:main"
 {%- endif %}
 {%- if 'fastapi' in interfaces | default([]) %}
 {{ project_slug }}-fastapi = "{{ module_name }}.interfaces.fastapi_app:main"
@@ -64,6 +71,11 @@ build-backend = "uv_build"
 [tool.uv.build-backend]
 module-name = "{{ module_name }}"
 module-root = "src"
+
+{%- if workload == 'hybrid' %}
+[tool.uv.workspace]
+members = ["packages/*"]
+{%- endif %}
 
 [dependency-groups]
 dev = [

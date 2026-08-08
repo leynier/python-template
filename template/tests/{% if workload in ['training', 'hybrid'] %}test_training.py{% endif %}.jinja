@@ -1,0 +1,9 @@
+"""Tests for the offline training scaffold."""
+
+from {{ module_name }}.training import EXTENSIONS, FRAMEWORK, train
+
+
+def test_training_stack_and_offline_metric() -> None:
+    assert FRAMEWORK == "{{ framework }}"
+    assert EXTENSIONS == ({% for extension in training_extensions | default([]) %}"{{ extension }}"{% if not loop.last %}, {% endif %}{% endfor %}{% if training_extensions | default([]) | length == 1 %},{% endif %})
+    assert train([1.0, 3.0]) == {"examples": 2.0, "mean": 2.0}
