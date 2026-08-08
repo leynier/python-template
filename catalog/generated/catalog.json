@@ -1,0 +1,1524 @@
+{
+  "schema_version": 1,
+  "components": [
+    {
+      "id": "library",
+      "name": "Python library",
+      "layer": "workload",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "cli",
+      "name": "CLI application",
+      "layer": "workload",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "api",
+      "name": "API service",
+      "layer": "workload",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "web",
+      "name": "Python web application",
+      "layer": "workload",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "tui",
+      "name": "Terminal UI",
+      "layer": "workload",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "mcp",
+      "name": "MCP server",
+      "layer": "workload",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "agent",
+      "name": "AI agent",
+      "layer": "workload",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "rag",
+      "name": "RAG application",
+      "layer": "workload",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "inference",
+      "name": "Model inference service",
+      "layer": "workload",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "training",
+      "name": "Model training project",
+      "layer": "workload",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "hybrid",
+      "name": "Training and serving workspace",
+      "layer": "workload",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "typer",
+      "name": "Typer",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "cli"
+      ],
+      "roles": [],
+      "packages": [
+        "typer>=0.27.1,<1"
+      ]
+    },
+    {
+      "id": "fastapi",
+      "name": "FastAPI",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "api"
+      ],
+      "roles": [],
+      "packages": [
+        "fastapi[standard]>=0.141.1,<1",
+        "pydantic>=2.13.4,<3"
+      ]
+    },
+    {
+      "id": "flask",
+      "name": "Flask",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "api"
+      ],
+      "roles": [],
+      "packages": [
+        "flask>=3.1.2,<4"
+      ]
+    },
+    {
+      "id": "fastmcp",
+      "name": "FastMCP",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "mcp"
+      ],
+      "roles": [],
+      "packages": [
+        "fastmcp>=3.4.6,<4"
+      ]
+    },
+    {
+      "id": "pydantic-ai",
+      "name": "PydanticAI",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "langgraph",
+      "name": "LangGraph",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "langchain",
+      "name": "LangChain",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent",
+        "rag"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "llamaindex",
+      "name": "LlamaIndex",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent",
+        "rag"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "crewai",
+      "name": "CrewAI",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "smolagents",
+      "name": "Hugging Face smolagents",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "dspy",
+      "name": "DSPy",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "openai-agents",
+      "name": "OpenAI Agents SDK",
+      "layer": "framework",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "google-adk",
+      "name": "Google ADK",
+      "layer": "framework",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "strands-agents",
+      "name": "Strands Agents",
+      "layer": "framework",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "autogen",
+      "name": "Microsoft AutoGen",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "ag2",
+      "name": "AG2",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "agno",
+      "name": "Agno",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "agent"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "lingo",
+      "name": "Lingo",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.12,<3.15",
+      "workloads": [
+        "agent"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "haystack",
+      "name": "Haystack",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "rag"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "pytorch",
+      "name": "PyTorch",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "training",
+        "hybrid"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "transformers",
+      "name": "Hugging Face Transformers",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "training",
+        "hybrid"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "jax",
+      "name": "JAX",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "training",
+        "hybrid"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "keras",
+      "name": "Keras / TensorFlow",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "training",
+        "hybrid"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "scikit-learn",
+      "name": "scikit-learn",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "training",
+        "hybrid"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "xgboost",
+      "name": "XGBoost",
+      "layer": "framework",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [
+        "training",
+        "hybrid"
+      ],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "streamlit",
+      "name": "Streamlit",
+      "layer": "interface",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "gradio",
+      "name": "Gradio",
+      "layer": "interface",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "chainlit",
+      "name": "Chainlit",
+      "layer": "interface",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "textual",
+      "name": "Textual",
+      "layer": "interface",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "nicegui",
+      "name": "NiceGUI",
+      "layer": "interface",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "fasthtml",
+      "name": "FastHTML",
+      "layer": "interface",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "violetear",
+      "name": "Violetear",
+      "layer": "interface",
+      "tier": "stable",
+      "python": ">=3.12,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "jupyterlab",
+      "name": "JupyterLab",
+      "layer": "interface",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "gemini",
+      "name": "Google Gemini",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "azure-openai",
+      "name": "Azure OpenAI",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "bedrock",
+      "name": "AWS Bedrock",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "openrouter",
+      "name": "OpenRouter",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "groq",
+      "name": "Groq",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "cohere",
+      "name": "Cohere",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "ollama",
+      "name": "Ollama",
+      "layer": "model_provider",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "openai-compatible",
+      "name": "OpenAI-compatible endpoint",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "xai",
+      "name": "xAI",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "together",
+      "name": "Together AI",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "fireworks",
+      "name": "Fireworks AI",
+      "layer": "model_provider",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "sentence-transformers",
+      "name": "Sentence Transformers",
+      "layer": "embedding_provider",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "sqlite",
+      "name": "SQLite",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "sql"
+      ],
+      "packages": []
+    },
+    {
+      "id": "postgresql",
+      "name": "PostgreSQL",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "sql"
+      ],
+      "packages": []
+    },
+    {
+      "id": "mysql",
+      "name": "MySQL",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "sql"
+      ],
+      "packages": []
+    },
+    {
+      "id": "duckdb",
+      "name": "DuckDB",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "sql"
+      ],
+      "packages": []
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "layer": "data",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "sql",
+        "document"
+      ],
+      "packages": []
+    },
+    {
+      "id": "mongodb",
+      "name": "MongoDB",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "document"
+      ],
+      "packages": []
+    },
+    {
+      "id": "beaver",
+      "name": "Beaver",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.12,<3.15",
+      "workloads": [],
+      "roles": [
+        "document",
+        "vector",
+        "graph",
+        "cache"
+      ],
+      "packages": []
+    },
+    {
+      "id": "pgvector",
+      "name": "pgvector",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "vector"
+      ],
+      "packages": []
+    },
+    {
+      "id": "qdrant",
+      "name": "Qdrant",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "vector"
+      ],
+      "packages": []
+    },
+    {
+      "id": "chroma",
+      "name": "Chroma",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "vector"
+      ],
+      "packages": []
+    },
+    {
+      "id": "lancedb",
+      "name": "LanceDB",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "vector"
+      ],
+      "packages": []
+    },
+    {
+      "id": "weaviate",
+      "name": "Weaviate",
+      "layer": "data",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "vector"
+      ],
+      "packages": []
+    },
+    {
+      "id": "pinecone",
+      "name": "Pinecone",
+      "layer": "data",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "vector"
+      ],
+      "packages": []
+    },
+    {
+      "id": "milvus",
+      "name": "Milvus",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "vector"
+      ],
+      "packages": []
+    },
+    {
+      "id": "neo4j",
+      "name": "Neo4j",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "graph"
+      ],
+      "packages": []
+    },
+    {
+      "id": "redis",
+      "name": "Redis",
+      "layer": "data",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [
+        "cache"
+      ],
+      "packages": []
+    },
+    {
+      "id": "sqlmodel",
+      "name": "SQLModel",
+      "layer": "sql_abstraction",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "sqlalchemy",
+      "name": "SQLAlchemy",
+      "layer": "sql_abstraction",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "api-key",
+      "name": "API key",
+      "layer": "auth",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "oidc",
+      "name": "OAuth / OIDC",
+      "layer": "auth",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "supabase-auth",
+      "name": "Supabase Auth",
+      "layer": "auth",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "bentoml",
+      "name": "BentoML",
+      "layer": "serving",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "litellm",
+      "name": "LiteLLM",
+      "layer": "serving",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "vllm",
+      "name": "vLLM",
+      "layer": "serving",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "ollama-serving",
+      "name": "Ollama",
+      "layer": "serving",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "ray-serve",
+      "name": "Ray Serve",
+      "layer": "serving",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "lightning",
+      "name": "Lightning",
+      "layer": "training_extension",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "datasets",
+      "name": "Hugging Face Datasets",
+      "layer": "training_extension",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "accelerate",
+      "name": "Accelerate",
+      "layer": "training_extension",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "peft",
+      "name": "PEFT",
+      "layer": "training_extension",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "trl",
+      "name": "TRL",
+      "layer": "training_extension",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "optuna",
+      "name": "Optuna",
+      "layer": "training_extension",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "prefect",
+      "name": "Prefect",
+      "layer": "mlops",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "dagster",
+      "name": "Dagster",
+      "layer": "mlops",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "temporal",
+      "name": "Temporal",
+      "layer": "mlops",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "celery",
+      "name": "Celery",
+      "layer": "mlops",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "dvc",
+      "name": "DVC",
+      "layer": "mlops",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "feast",
+      "name": "Feast",
+      "layer": "mlops",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "evidently",
+      "name": "Evidently",
+      "layer": "mlops",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "polars",
+      "name": "Polars",
+      "layer": "mlops",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "pandera",
+      "name": "Pandera",
+      "layer": "mlops",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "deepeval",
+      "name": "DeepEval",
+      "layer": "quality",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "ragas",
+      "name": "Ragas",
+      "layer": "quality",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "pydantic-evals",
+      "name": "Pydantic Evals",
+      "layer": "quality",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "opentelemetry",
+      "name": "OpenTelemetry",
+      "layer": "quality",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "langfuse",
+      "name": "Langfuse",
+      "layer": "quality",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "phoenix",
+      "name": "Phoenix",
+      "layer": "quality",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "mlflow",
+      "name": "MLflow",
+      "layer": "quality",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "langsmith",
+      "name": "LangSmith",
+      "layer": "quality",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "wandb",
+      "name": "Weights & Biases",
+      "layer": "quality",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "docker",
+      "name": "Docker / Compose",
+      "layer": "deploy",
+      "tier": "stable",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "render",
+      "name": "Render",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "fly",
+      "name": "Fly.io",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "railway",
+      "name": "Railway",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "hf-spaces",
+      "name": "Hugging Face Spaces",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "modal",
+      "name": "Modal",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "runpod",
+      "name": "RunPod",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "bentocloud",
+      "name": "BentoCloud",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "aws-ecs",
+      "name": "AWS ECS",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "aws-sagemaker",
+      "name": "AWS SageMaker",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "cloud-run",
+      "name": "Google Cloud Run",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "vertex-ai",
+      "name": "Vertex AI",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "azure-container-apps",
+      "name": "Azure Container Apps",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    },
+    {
+      "id": "azure-ml",
+      "name": "Azure ML",
+      "layer": "deploy",
+      "tier": "platform",
+      "python": ">=3.11,<3.15",
+      "workloads": [],
+      "roles": [],
+      "packages": []
+    }
+  ],
+  "presets": [
+    {
+      "id": "python-library",
+      "name": "Python Library",
+      "description": "A typed, publishable Python package without AI dependencies.",
+      "answers": {
+        "workload": "library",
+        "ai_capabilities": "none",
+        "framework": "none"
+      }
+    },
+    {
+      "id": "typer-cli",
+      "name": "Typer CLI",
+      "description": "A polished command-line application without AI dependencies.",
+      "answers": {
+        "workload": "cli",
+        "ai_capabilities": "none",
+        "framework": "typer"
+      }
+    },
+    {
+      "id": "fastapi-api",
+      "name": "FastAPI API",
+      "description": "A production-ready JSON API without AI dependencies.",
+      "answers": {
+        "workload": "api",
+        "ai_capabilities": "none",
+        "framework": "fastapi"
+      }
+    },
+    {
+      "id": "fastmcp-server",
+      "name": "FastMCP Tool Server",
+      "description": "An MCP server exposing a tested local tool.",
+      "answers": {
+        "workload": "mcp",
+        "ai_capabilities": "mcp",
+        "framework": "fastmcp"
+      }
+    },
+    {
+      "id": "pydantic-ai-openai",
+      "name": "PydanticAI + Harness + OpenAI",
+      "description": "A typed OpenAI agent with optional Harness capabilities.",
+      "answers": {
+        "workload": "agent",
+        "ai_capabilities": "agents",
+        "framework": "pydantic-ai",
+        "model_provider": "openai"
+      }
+    },
+    {
+      "id": "google-adk-gemini",
+      "name": "Google ADK + Gemini",
+      "description": "An agent built with Google's official agent framework and model.",
+      "answers": {
+        "workload": "agent",
+        "ai_capabilities": "agents",
+        "framework": "google-adk",
+        "model_provider": "gemini"
+      }
+    },
+    {
+      "id": "strands-bedrock",
+      "name": "Strands Agents + Bedrock",
+      "description": "An AWS-native agent targeting Bedrock.",
+      "answers": {
+        "workload": "agent",
+        "ai_capabilities": "agents",
+        "framework": "strands-agents",
+        "model_provider": "bedrock"
+      }
+    },
+    {
+      "id": "langgraph-anthropic-api",
+      "name": "LangGraph + Anthropic + FastAPI",
+      "description": "A stateful agent workflow exposed through FastAPI.",
+      "answers": {
+        "workload": "agent",
+        "ai_capabilities": "agents",
+        "framework": "langgraph",
+        "model_provider": "anthropic",
+        "interfaces": [
+          "fastapi"
+        ]
+      }
+    },
+    {
+      "id": "llamaindex-rag",
+      "name": "LlamaIndex RAG + OpenAI + Pinecone + Gradio",
+      "description": "A hosted RAG chat application with a browser UI.",
+      "answers": {
+        "workload": "rag",
+        "ai_capabilities": "rag",
+        "framework": "llamaindex",
+        "model_provider": "openai",
+        "embedding_provider": "openai",
+        "vector_store": "pinecone",
+        "interfaces": [
+          "gradio"
+        ]
+      }
+    },
+    {
+      "id": "local-lingo-app",
+      "name": "Lingo + Ollama + Beaver + Violetear",
+      "description": "A local-first conversational app with an embedded multimodel database.",
+      "answers": {
+        "workload": "agent",
+        "ai_capabilities": "agents",
+        "framework": "lingo",
+        "model_provider": "ollama",
+        "document_store": "beaver",
+        "vector_store": "beaver",
+        "graph_store": "beaver",
+        "cache_store": "beaver",
+        "interfaces": [
+          "violetear"
+        ]
+      }
+    },
+    {
+      "id": "litellm-gateway",
+      "name": "LiteLLM Gateway + Redis + Docker",
+      "description": "A model gateway with Redis-backed caching and Docker deployment.",
+      "answers": {
+        "workload": "inference",
+        "ai_capabilities": "inference",
+        "framework": "none",
+        "serving": "litellm",
+        "cache_store": "redis",
+        "deploy_target": "docker"
+      }
+    },
+    {
+      "id": "hf-finetuning",
+      "name": "Hugging Face fine-tuning + MLflow + BentoML",
+      "description": "A workspace for fine-tuning, tracking and serving a model.",
+      "answers": {
+        "workload": "hybrid",
+        "ai_capabilities": "training",
+        "framework": "transformers",
+        "training_extensions": [
+          "datasets",
+          "accelerate",
+          "peft",
+          "trl"
+        ],
+        "quality_tools": [
+          "mlflow"
+        ],
+        "serving": "bentoml"
+      }
+    }
+  ]
+}

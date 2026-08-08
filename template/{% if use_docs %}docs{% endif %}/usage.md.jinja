@@ -1,6 +1,6 @@
 # Usage
 
-{% if project_type == 'library' -%}
+{% if workload == 'library' -%}
 ## `greet`
 
 ```python
@@ -10,7 +10,7 @@ greet("Ada")  # "Hello, Ada!"
 ```
 
 Replace this page with the real documentation for your library.
-{%- elif project_type == 'cli' -%}
+{%- elif workload == 'cli' -%}
 ## Commands
 
 ```bash
@@ -20,7 +20,7 @@ Replace this page with the real documentation for your library.
 ```
 
 Replace this page with the real documentation for your commands.
-{%- elif project_type == 'api' -%}
+{%- elif workload == 'api' -%}
 ## Endpoints
 
 | Method | Path           | Description              |

@@ -1,3 +1,4 @@
+{% if framework == 'fastapi' -%}
 """FastAPI application for {{ project_name }}."""
 
 from fastapi import FastAPI
@@ -32,3 +33,22 @@ async def health() -> Health:
 async def greet(name: str) -> Greeting:
     """Greet the given name."""
     return Greeting(message=f"Hello, {name}!")
+{%- elif framework == 'flask' -%}
+"""Flask application for {{ project_name }}."""
+
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+
+@app.get("/health")
+def health():  # type: ignore[no-untyped-def]
+    """Report service health."""
+    return jsonify(status="ok")
+
+
+@app.get("/greet/<name>")
+def greet(name: str):  # type: ignore[no-untyped-def]
+    """Greet the given name."""
+    return jsonify(message=f"Hello, {name}!")
+{%- endif %}

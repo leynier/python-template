@@ -1,0 +1,48 @@
+"""The declarative catalog is the single source of truth for v0.5."""
+
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+import yaml
+
+REPO = Path(__file__).resolve().parent.parent
+
+
+def test_catalog_compiles_without_drift() -> None:
+    result = subprocess.run(
+        [sys.executable, "scripts/compile_catalog.py", "--check"],
+        cwd=REPO,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
+
+
+def test_catalog_and_public_artifact_match() -> None:
+    source = yaml.safe_load((REPO / "catalog" / "components.yml").read_text())
+    generated = json.loads(
+        (REPO / "catalog" / "generated" / "catalog.json").read_text()
+    )
+
+    assert [item["id"] for item in generated["components"]] == [
+        item["id"] for item in source["components"]
+    ]
+    assert len(generated["presets"]) == 12
+
+
+def test_deliberately_excluded_projects_stay_excluded() -> None:
+    text = (REPO / "catalog" / "components.yml").read_text().lower()
+    for excluded in ("autogoal", "odmantic", "fastui", "reflex"):
+        assert excluded not in text
+
+
+def test_every_preset_is_exposed_by_copier() -> None:
+    config = yaml.safe_load((REPO / "copier.yml").read_text())
+    preset_choices = set(config["preset"]["choices"].values())
+    source = yaml.safe_load((REPO / "catalog" / "presets.yml").read_text())
+    preset_ids = {preset["id"] for preset in source["presets"]}
+
+    assert preset_choices == preset_ids | {"custom"}

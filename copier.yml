@@ -98,14 +98,394 @@ github_repo:
 
 # ------------------------------------------------------------------ shape --
 
-project_type:
+preset:
   type: str
-  help: What kind of project is this?
-  default: library
+  help: Start from an editable recipe or configure every layer yourself
+  default: python-library
   choices:
-    Library - an importable package: library
-    CLI application - built with Typer: cli
-    Web API - built with FastAPI: api
+    Python Library: python-library
+    Typer CLI: typer-cli
+    FastAPI API: fastapi-api
+    FastMCP Tool Server: fastmcp-server
+    PydanticAI + Harness + OpenAI: pydantic-ai-openai
+    Google ADK + Gemini: google-adk-gemini
+    Strands Agents + Bedrock: strands-bedrock
+    LangGraph + Anthropic + FastAPI: langgraph-anthropic-api
+    LlamaIndex RAG + OpenAI + Pinecone + Gradio: llamaindex-rag
+    Lingo + Ollama + Beaver + Violetear: local-lingo-app
+    LiteLLM Gateway + Redis + Docker: litellm-gateway
+    Hugging Face fine-tuning + MLflow + BentoML: hf-finetuning
+    Custom - compose every layer: custom
+
+workload:
+  type: str
+  help: What is the primary workload?
+  default: >-
+    {%- if preset == 'typer-cli' -%}cli
+    {%- elif preset == 'fastapi-api' -%}api
+    {%- elif preset == 'fastmcp-server' -%}mcp
+    {%- elif preset in ['pydantic-ai-openai', 'google-adk-gemini', 'strands-bedrock', 'langgraph-anthropic-api', 'local-lingo-app'] -%}agent
+    {%- elif preset == 'llamaindex-rag' -%}rag
+    {%- elif preset == 'litellm-gateway' -%}inference
+    {%- elif preset == 'hf-finetuning' -%}hybrid
+    {%- else -%}library{%- endif -%}
+  choices:
+    Library - importable package: library
+    CLI application: cli
+    API service: api
+    Python web application: web
+    Terminal UI: tui
+    MCP server: mcp
+    AI agent: agent
+    RAG application: rag
+    Model inference service: inference
+    Model training project: training
+    Training and serving workspace: hybrid
+
+ai_capabilities:
+  type: str
+  help: Which AI capability drives this project?
+  default: >-
+    {%- if workload == 'mcp' -%}mcp
+    {%- elif workload == 'agent' -%}agents
+    {%- elif workload == 'rag' -%}rag
+    {%- elif workload == 'inference' -%}inference
+    {%- elif workload in ['training', 'hybrid'] -%}training
+    {%- else -%}none{%- endif -%}
+  choices:
+    None - keep the project simple: none
+    MCP tools and resources: mcp
+    AI agents: agents
+    Retrieval-augmented generation: rag
+    Model inference: inference
+    Training and fine-tuning: training
+  validator: >-
+    {% if workload in ['library', 'cli', 'api', 'web', 'tui'] and ai_capabilities != 'none' and preset in ['python-library', 'typer-cli', 'fastapi-api'] %}
+    The selected simple preset intentionally has no AI capabilities; choose Custom to add them
+    {% endif %}
+
+framework:
+  type: str
+  help: Primary framework for this workload
+  default: >-
+    {%- if preset == 'typer-cli' or workload == 'cli' -%}typer
+    {%- elif preset == 'fastapi-api' or workload == 'api' -%}fastapi
+    {%- elif preset == 'fastmcp-server' or workload == 'mcp' -%}fastmcp
+    {%- elif preset == 'pydantic-ai-openai' -%}pydantic-ai
+    {%- elif preset == 'google-adk-gemini' -%}google-adk
+    {%- elif preset == 'strands-bedrock' -%}strands-agents
+    {%- elif preset == 'langgraph-anthropic-api' -%}langgraph
+    {%- elif preset == 'llamaindex-rag' -%}llamaindex
+    {%- elif preset == 'local-lingo-app' -%}lingo
+    {%- elif preset == 'hf-finetuning' -%}transformers
+    {%- else -%}none{%- endif -%}
+  choices:
+    None: none
+    Typer: typer
+    FastAPI: fastapi
+    Flask: flask
+    FastMCP: fastmcp
+    PydanticAI: pydantic-ai
+    LangGraph: langgraph
+    LangChain: langchain
+    LlamaIndex: llamaindex
+    CrewAI: crewai
+    Hugging Face smolagents: smolagents
+    DSPy: dspy
+    OpenAI Agents SDK: openai-agents
+    Google ADK: google-adk
+    Strands Agents: strands-agents
+    Microsoft AutoGen: autogen
+    AG2: ag2
+    Agno: agno
+    Lingo: lingo
+    Haystack: haystack
+    PyTorch: pytorch
+    Hugging Face Transformers: transformers
+    JAX: jax
+    Keras / TensorFlow: keras
+    scikit-learn: scikit-learn
+    XGBoost: xgboost
+  validator: >-
+    {% set allowed = {
+      'library': ['none'],
+      'cli': ['typer'],
+      'api': ['fastapi', 'flask'],
+      'web': ['none'],
+      'tui': ['none'],
+      'mcp': ['fastmcp'],
+      'agent': ['pydantic-ai', 'langgraph', 'langchain', 'llamaindex', 'crewai', 'smolagents', 'dspy', 'openai-agents', 'google-adk', 'strands-agents', 'autogen', 'ag2', 'agno', 'lingo'],
+      'rag': ['langchain', 'llamaindex', 'haystack'],
+      'inference': ['none'],
+      'training': ['pytorch', 'transformers', 'jax', 'keras', 'scikit-learn', 'xgboost'],
+      'hybrid': ['pytorch', 'transformers', 'jax', 'keras', 'scikit-learn', 'xgboost']
+    } %}
+    {% if framework not in allowed[workload] %}{{ framework }} is not compatible with the {{ workload }} workload{% endif %}
+
+pydantic_ai_harness:
+  type: str
+  multiselect: true
+  help: Optional PydanticAI Harness capabilities
+  default: "{{ ['skills'] if preset == 'pydantic-ai-openai' else [] }}"
+  choices:
+    Agent skills: skills
+    ACP: acp
+    Browser use: browser-use
+    Code mode: code-mode
+    DBOS durable execution: dbos
+    Dynamic workflows: dynamic-workflow
+    Exa search: exa
+    Logfire: logfire
+    Modal: modal
+    MongoDB: mongodb
+    StackOne: stackone
+    Temporal: temporal
+  when: "{{ framework == 'pydantic-ai' }}"
+
+model_provider:
+  type: str
+  help: Provider for generative models
+  default: >-
+    {%- if preset in ['pydantic-ai-openai', 'llamaindex-rag'] -%}openai
+    {%- elif preset == 'google-adk-gemini' -%}gemini
+    {%- elif preset == 'strands-bedrock' -%}bedrock
+    {%- elif preset == 'langgraph-anthropic-api' -%}anthropic
+    {%- elif preset == 'local-lingo-app' -%}ollama
+    {%- else -%}openai{%- endif -%}
+  choices:
+    OpenAI: openai
+    Anthropic: anthropic
+    Google Gemini: gemini
+    Azure OpenAI: azure-openai
+    AWS Bedrock: bedrock
+    OpenRouter: openrouter
+    Groq: groq
+    Mistral: mistral
+    Cohere: cohere
+    Hugging Face: huggingface
+    Ollama: ollama
+    OpenAI-compatible endpoint: openai-compatible
+    xAI: xai
+    DeepSeek: deepseek
+    Together AI: together
+    Fireworks AI: fireworks
+  when: "{{ ai_capabilities in ['agents', 'rag', 'inference'] }}"
+
+embedding_provider:
+  type: str
+  help: Provider for embeddings (independent from the generative model)
+  default: "{{ 'openai' if preset == 'llamaindex-rag' else 'sentence-transformers' }}"
+  choices:
+    Local Sentence Transformers: sentence-transformers
+    OpenAI: openai
+    Google Gemini: gemini
+    Cohere: cohere
+    Mistral: mistral
+    Hugging Face: huggingface
+    Ollama: ollama
+  when: "{{ ai_capabilities == 'rag' }}"
+
+interfaces:
+  type: str
+  multiselect: true
+  help: User-facing interfaces and additional entrypoints
+  default: >-
+    {% if preset == 'langgraph-anthropic-api' %}{{ ['fastapi'] }}
+    {% elif preset == 'llamaindex-rag' %}{{ ['gradio'] }}
+    {% elif preset == 'local-lingo-app' %}{{ ['violetear'] }}
+    {% elif workload == 'web' %}{{ ['nicegui'] }}
+    {% elif workload == 'tui' %}{{ ['textual'] }}
+    {% else %}{{ [] }}{% endif %}
+  choices:
+    FastAPI: fastapi
+    Flask: flask
+    Streamlit: streamlit
+    Gradio: gradio
+    Chainlit: chainlit
+    Textual: textual
+    NiceGUI: nicegui
+    FastHTML: fasthtml
+    Violetear: violetear
+    JupyterLab: jupyterlab
+  when: "{{ workload in ['web', 'tui', 'agent', 'rag', 'training', 'hybrid'] }}"
+
+sql_store:
+  type: str
+  help: SQL engine
+  default: none
+  choices:
+    None: none
+    SQLite: sqlite
+    PostgreSQL: postgresql
+    MySQL: mysql
+    DuckDB: duckdb
+    Supabase: supabase
+
+sql_abstraction:
+  type: str
+  help: SQL abstraction and migration layer
+  default: sqlmodel
+  choices:
+    SQLModel + Alembic: sqlmodel
+    SQLAlchemy + Alembic: sqlalchemy
+  when: "{{ sql_store != 'none' }}"
+
+document_store:
+  type: str
+  help: Document store
+  default: "{{ 'beaver' if preset == 'local-lingo-app' else 'none' }}"
+  choices:
+    None: none
+    MongoDB: mongodb
+    Supabase: supabase
+    Beaver local bundle: beaver
+
+vector_store:
+  type: str
+  help: Vector store
+  default: >-
+    {%- if preset == 'llamaindex-rag' -%}pinecone
+    {%- elif preset == 'local-lingo-app' -%}beaver
+    {%- else -%}none{%- endif -%}
+  choices:
+    None: none
+    Beaver local bundle: beaver
+    pgvector: pgvector
+    Qdrant: qdrant
+    Chroma: chroma
+    LanceDB: lancedb
+    Weaviate: weaviate
+    Pinecone: pinecone
+    Milvus: milvus
+
+graph_store:
+  type: str
+  help: Graph store
+  default: "{{ 'beaver' if preset == 'local-lingo-app' else 'none' }}"
+  choices:
+    None: none
+    Beaver local bundle: beaver
+    Neo4j: neo4j
+
+cache_store:
+  type: str
+  help: Cache and event store
+  default: >-
+    {%- if preset == 'local-lingo-app' -%}beaver
+    {%- elif preset == 'litellm-gateway' -%}redis
+    {%- else -%}none{%- endif -%}
+  choices:
+    None: none
+    Beaver local bundle: beaver
+    Redis: redis
+
+auth:
+  type: str
+  help: Authentication strategy
+  default: none
+  choices:
+    None: none
+    API key: api-key
+    Generic OAuth / OIDC: oidc
+    Supabase Auth: supabase-auth
+  when: "{{ workload in ['api', 'web', 'mcp', 'agent', 'rag', 'inference', 'hybrid'] }}"
+
+serving:
+  type: str
+  help: Model serving engine
+  default: >-
+    {%- if preset == 'litellm-gateway' -%}litellm
+    {%- elif preset == 'hf-finetuning' -%}bentoml
+    {%- else -%}none{%- endif -%}
+  choices:
+    None: none
+    BentoML: bentoml
+    LiteLLM: litellm
+    vLLM: vllm
+    Ollama: ollama-serving
+    Ray Serve: ray-serve
+  when: "{{ workload in ['inference', 'hybrid'] }}"
+
+training_extensions:
+  type: str
+  multiselect: true
+  help: Training and optimization extensions
+  default: >-
+    {{ ['datasets', 'accelerate', 'peft', 'trl'] if preset == 'hf-finetuning' else [] }}
+  choices:
+    Lightning: lightning
+    Hugging Face Datasets: datasets
+    Accelerate: accelerate
+    PEFT: peft
+    TRL: trl
+    Optuna: optuna
+  when: "{{ workload in ['training', 'hybrid'] }}"
+
+mlops_tools:
+  type: str
+  multiselect: true
+  help: Data and ML orchestration tools
+  default: []
+  choices:
+    Prefect: prefect
+    Dagster: dagster
+    Temporal: temporal
+    Celery: celery
+    DVC: dvc
+    Feast: feast
+    Evidently: evidently
+    Polars: polars
+    Pandera: pandera
+  when: "{{ workload in ['training', 'hybrid'] }}"
+
+quality_tools:
+  type: str
+  multiselect: true
+  help: Evaluation and observability tools
+  default: "{{ ['mlflow'] if preset == 'hf-finetuning' else [] }}"
+  choices:
+    DeepEval: deepeval
+    Ragas: ragas
+    Pydantic Evals: pydantic-evals
+    OpenTelemetry: opentelemetry
+    Langfuse: langfuse
+    Phoenix: phoenix
+    MLflow: mlflow
+    LangSmith: langsmith
+    Weights & Biases: wandb
+  when: "{{ ai_capabilities != 'none' or workload in ['training', 'hybrid'] }}"
+
+deploy_target:
+  type: str
+  help: Primary deployment target; Docker remains the portable base for services
+  default: "{{ 'docker' if workload not in ['library', 'cli'] else 'none' }}"
+  choices:
+    None: none
+    Docker / Compose: docker
+    Render: render
+    Fly.io: fly
+    Vercel: vercel
+    Railway: railway
+    Hugging Face Spaces: hf-spaces
+    Modal: modal
+    RunPod: runpod
+    BentoCloud: bentocloud
+    AWS ECS: aws-ecs
+    AWS SageMaker: aws-sagemaker
+    Google Cloud Run: cloud-run
+    Vertex AI: vertex-ai
+    Azure Container Apps: azure-container-apps
+    Azure ML: azure-ml
+
+iac_provider:
+  type: str
+  help: Infrastructure as code for the primary deployment target
+  default: none
+  choices:
+    None: none
+    Pulumi with Python: pulumi
+    Terraform: terraform
+  when: "{{ deploy_target not in ['none', 'docker', 'vercel', 'hf-spaces'] }}"
 
 python_version:
   type: str
@@ -119,6 +499,10 @@ python_version:
     - "3.12"
     - "3.13"
     - "3.14"
+  validator: >-
+    {% if (framework in ['lingo'] or 'violetear' in interfaces or 'beaver' in [document_store, vector_store, graph_store, cache_store]) and python_version == '3.11' %}
+    The selected stack requires Python 3.12 or newer
+    {% endif %}
 
 license:
   type: str
@@ -154,12 +538,12 @@ use_docs:
 publish_to_pypi:
   type: bool
   help: Publish to PyPI on tag, using Trusted Publishing (no secrets)?
-  default: "{{ project_type != 'api' }}"
+  default: "{{ workload in ['library', 'cli'] }}"
 
 use_docker:
   type: bool
   help: Include a multi-stage Dockerfile?
-  default: "{{ project_type == 'api' }}"
+  default: "{{ workload not in ['library', 'cli'] }}"
 
 use_devcontainer:
   type: bool

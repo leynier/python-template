@@ -4,7 +4,7 @@
 
 ## Installation
 
-{% if project_type == 'api' -%}
+{% if workload == 'api' -%}
 ```bash
 git clone https://github.com/{{ github_username }}/{{ github_repo }}.git
 cd {{ github_repo }}
@@ -24,22 +24,28 @@ pip install {{ project_slug }}
 
 ## Quick start
 
-{% if project_type == 'library' -%}
+{% if workload == 'library' -%}
 ```python
 from {{ module_name }} import greet
 
 print(greet("world"))
 ```
-{%- elif project_type == 'cli' -%}
+{%- elif workload == 'cli' -%}
 ```bash
 {{ project_slug }} hello world
 ```
-{%- elif project_type == 'api' -%}
+{%- elif workload == 'api' -%}
+{% if framework == 'fastapi' -%}
 ```bash
 uv run fastapi dev src/{{ module_name }}/api.py
 ```
 
 Then open <http://127.0.0.1:8000/docs> for the interactive API documentation.
+{%- else -%}
+```bash
+uv run flask --app {{ module_name }}.api run --debug
+```
+{%- endif %}
 {%- endif %}
 
 See [Usage](usage.md) for more.

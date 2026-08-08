@@ -36,12 +36,17 @@ USER app
 
 EXPOSE 8000
 
-{% if project_type == 'api' -%}
+{% if workload == 'api' and framework == 'fastapi' -%}
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
     CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health').status == 200 else 1)"
 
 CMD ["uvicorn", "{{ module_name }}.api:app", "--host", "0.0.0.0", "--port", "8000"]
-{%- elif project_type == 'cli' -%}
+{%- elif workload == 'api' and framework == 'flask' -%}
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
+    CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health').status == 200 else 1)"
+
+CMD ["flask", "--app", "{{ module_name }}.api:app", "run", "--host", "0.0.0.0", "--port", "8000"]
+{%- elif workload == 'cli' -%}
 ENTRYPOINT ["{{ project_slug }}"]
 {%- else -%}
 CMD ["python", "-c", "import {{ module_name }}; print({{ module_name }}.__version__)"]

@@ -22,13 +22,15 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-{%- if project_type == 'cli' %}
+{%- if framework == 'typer' %}
     "typer>=0.27.1",
-{%- elif project_type == 'api' %}
+{%- elif framework == 'fastapi' %}
     "fastapi[standard]>=0.141.1",
     # Imported directly by the app, so declared directly rather than relying
     # on it being a transitive dependency of FastAPI.
     "pydantic>=2.13.4",
+{%- elif framework == 'flask' %}
+    "flask>=3.1.2",
 {%- endif %}
 ]
 
@@ -40,7 +42,7 @@ Issues = "https://github.com/{{ github_username }}/{{ github_repo }}/issues"
 Documentation = "https://{{ github_username }}.github.io/{{ github_repo }}"
 {%- endif %}
 
-{% if project_type == 'cli' -%}
+{% if workload == 'cli' -%}
 [project.scripts]
 {{ project_slug }} = "{{ module_name }}.cli:app"
 
@@ -60,7 +62,7 @@ dev = [
     "pre-commit>=4.6.1",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
-{%- if project_type == 'api' %}
+{%- if framework == 'fastapi' %}
     "httpx>=0.28.1",
 {%- endif %}
     "ruff>=0.16.2",

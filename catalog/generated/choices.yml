@@ -1,0 +1,139 @@
+auth:
+  API key: api-key
+  OAuth / OIDC: oidc
+  Supabase Auth: supabase-auth
+data:
+  Beaver: beaver
+  Chroma: chroma
+  DuckDB: duckdb
+  LanceDB: lancedb
+  Milvus: milvus
+  MongoDB: mongodb
+  MySQL: mysql
+  Neo4j: neo4j
+  Pinecone: pinecone
+  PostgreSQL: postgresql
+  Qdrant: qdrant
+  Redis: redis
+  SQLite: sqlite
+  Supabase: supabase
+  Weaviate: weaviate
+  pgvector: pgvector
+deploy:
+  AWS ECS: aws-ecs
+  AWS SageMaker: aws-sagemaker
+  Azure Container Apps: azure-container-apps
+  Azure ML: azure-ml
+  BentoCloud: bentocloud
+  Docker / Compose: docker
+  Fly.io: fly
+  Google Cloud Run: cloud-run
+  Hugging Face Spaces: hf-spaces
+  Modal: modal
+  Railway: railway
+  Render: render
+  RunPod: runpod
+  Vercel: vercel
+  Vertex AI: vertex-ai
+embedding_provider:
+  Sentence Transformers: sentence-transformers
+framework:
+  AG2: ag2
+  Agno: agno
+  CrewAI: crewai
+  DSPy: dspy
+  FastAPI: fastapi
+  FastMCP: fastmcp
+  Flask: flask
+  Google ADK: google-adk
+  Haystack: haystack
+  Hugging Face Transformers: transformers
+  Hugging Face smolagents: smolagents
+  JAX: jax
+  Keras / TensorFlow: keras
+  LangChain: langchain
+  LangGraph: langgraph
+  Lingo: lingo
+  LlamaIndex: llamaindex
+  Microsoft AutoGen: autogen
+  OpenAI Agents SDK: openai-agents
+  PyTorch: pytorch
+  PydanticAI: pydantic-ai
+  Strands Agents: strands-agents
+  Typer: typer
+  XGBoost: xgboost
+  scikit-learn: scikit-learn
+interface:
+  Chainlit: chainlit
+  FastHTML: fasthtml
+  Gradio: gradio
+  JupyterLab: jupyterlab
+  NiceGUI: nicegui
+  Streamlit: streamlit
+  Textual: textual
+  Violetear: violetear
+mlops:
+  Celery: celery
+  DVC: dvc
+  Dagster: dagster
+  Evidently: evidently
+  Feast: feast
+  Pandera: pandera
+  Polars: polars
+  Prefect: prefect
+  Temporal: temporal
+model_provider:
+  AWS Bedrock: bedrock
+  Anthropic: anthropic
+  Azure OpenAI: azure-openai
+  Cohere: cohere
+  DeepSeek: deepseek
+  Fireworks AI: fireworks
+  Google Gemini: gemini
+  Groq: groq
+  Hugging Face: huggingface
+  Mistral: mistral
+  Ollama: ollama
+  OpenAI: openai
+  OpenAI-compatible endpoint: openai-compatible
+  OpenRouter: openrouter
+  Together AI: together
+  xAI: xai
+quality:
+  DeepEval: deepeval
+  LangSmith: langsmith
+  Langfuse: langfuse
+  MLflow: mlflow
+  OpenTelemetry: opentelemetry
+  Phoenix: phoenix
+  Pydantic Evals: pydantic-evals
+  Ragas: ragas
+  Weights & Biases: wandb
+serving:
+  BentoML: bentoml
+  LiteLLM: litellm
+  Ollama: ollama-serving
+  Ray Serve: ray-serve
+  vLLM: vllm
+sql_abstraction:
+  SQLAlchemy: sqlalchemy
+  SQLModel: sqlmodel
+training_extension:
+  Accelerate: accelerate
+  Hugging Face Datasets: datasets
+  Lightning: lightning
+  Optuna: optuna
+  PEFT: peft
+  TRL: trl
+workload:
+  AI agent: agent
+  API service: api
+  CLI application: cli
+  MCP server: mcp
+  Model inference service: inference
+  Model training project: training
+  Python library: library
+  Python web application: web
+  RAG application: rag
+  Terminal UI: tui
+  Training and serving workspace: hybrid
