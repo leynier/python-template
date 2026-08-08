@@ -79,8 +79,16 @@ jobs:
 
       # This is what stops the template from rotting: it generates every
       # variant and runs the full toolchain inside each generated project.
+      #
+      # --basetemp matters more than it looks. Generated projects land in
+      # pytest's temp dir, and uv installs into their virtualenvs by hardlinking
+      # from its cache. A hardlink cannot cross volumes, and on Windows runners
+      # the default temp dir is on C: while the uv cache is on D:, so every
+      # package gets copied instead of linked. Putting both on the same volume
+      # is the difference between a six minute job and a fast one.
       - name: Slow tests
-        run: uv run pytest -m slow -n auto
+        run: uv run pytest -m slow -n auto --basetemp="${{ runner.temp }}/pytest"
+
 
   zizmor:
     name: Workflow security
