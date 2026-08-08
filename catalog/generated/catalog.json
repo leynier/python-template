@@ -392,7 +392,9 @@
         "hybrid"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "torch>=2.13.0,<3"
+      ]
     },
     {
       "id": "transformers",
@@ -405,7 +407,10 @@
         "hybrid"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "transformers>=5.14.1,<6",
+        "torch>=2.13.0,<3"
+      ]
     },
     {
       "id": "jax",
@@ -418,20 +423,25 @@
         "hybrid"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "jax>=0.11.0,<0.12"
+      ]
     },
     {
       "id": "keras",
       "name": "Keras / TensorFlow",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.11,<3.14",
       "workloads": [
         "training",
         "hybrid"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "keras>=3.15.1,<4",
+        "tensorflow>=2.21.0,<3"
+      ]
     },
     {
       "id": "scikit-learn",
@@ -444,7 +454,9 @@
         "hybrid"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "scikit-learn>=1.9.0,<2"
+      ]
     },
     {
       "id": "xgboost",
@@ -457,7 +469,9 @@
         "hybrid"
       ],
       "roles": [],
-      "packages": []
+      "packages": [
+        "xgboost>=3.4.0,<4"
+      ]
     },
     {
       "id": "streamlit",
@@ -1055,7 +1069,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "bentoml>=1.4.39,<2"
+      ]
     },
     {
       "id": "litellm",
@@ -1065,17 +1081,21 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "litellm>=1.95.0,<2"
+      ]
     },
     {
       "id": "vllm",
       "name": "vLLM",
       "layer": "serving",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.11,<3.14",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "vllm>=0.26.0,<0.27"
+      ]
     },
     {
       "id": "ollama-serving",
@@ -1085,7 +1105,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "ollama>=0.6.2,<1"
+      ]
     },
     {
       "id": "ray-serve",
@@ -1095,7 +1117,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "ray[serve]>=2.56.1,<3"
+      ]
     },
     {
       "id": "lightning",
@@ -1105,7 +1129,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "lightning>=2.6.5,<3"
+      ]
     },
     {
       "id": "datasets",
@@ -1115,7 +1141,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "datasets>=5.0.1,<6"
+      ]
     },
     {
       "id": "accelerate",
@@ -1125,7 +1153,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "accelerate>=1.14.0,<2"
+      ]
     },
     {
       "id": "peft",
@@ -1135,7 +1165,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "peft>=0.20.0,<0.21"
+      ]
     },
     {
       "id": "trl",
@@ -1145,7 +1177,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "trl>=1.9.2,<2"
+      ]
     },
     {
       "id": "optuna",
@@ -1155,7 +1189,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "optuna>=4.9.0,<5"
+      ]
     },
     {
       "id": "prefect",
@@ -1165,7 +1201,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "prefect>=3.8.2,<4"
+      ]
     },
     {
       "id": "dagster",
@@ -1175,7 +1213,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "dagster>=1.13.17,<2"
+      ]
     },
     {
       "id": "temporal",
@@ -1185,7 +1225,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "temporalio>=1.31.0,<2"
+      ]
     },
     {
       "id": "celery",
@@ -1195,7 +1237,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "celery>=5.6.3,<6"
+      ]
     },
     {
       "id": "dvc",
@@ -1205,7 +1249,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "dvc>=3.67.1,<4"
+      ]
     },
     {
       "id": "feast",
@@ -1215,7 +1261,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "feast>=0.65.0,<1"
+      ]
     },
     {
       "id": "evidently",
@@ -1225,7 +1273,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "evidently>=0.7.21,<1"
+      ]
     },
     {
       "id": "polars",
@@ -1235,7 +1285,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "polars>=1.43.2,<2"
+      ]
     },
     {
       "id": "pandera",
@@ -1245,7 +1297,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "pandera>=0.32.1,<0.33"
+      ]
     },
     {
       "id": "deepeval",
@@ -1255,7 +1309,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "deepeval>=4.1.5,<5"
+      ]
     },
     {
       "id": "ragas",
@@ -1265,7 +1321,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "ragas>=0.4.3,<0.5"
+      ]
     },
     {
       "id": "pydantic-evals",
@@ -1275,7 +1333,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "pydantic-evals>=2.27.0,<3"
+      ]
     },
     {
       "id": "opentelemetry",
@@ -1285,7 +1345,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "opentelemetry-sdk>=1.44.0,<2"
+      ]
     },
     {
       "id": "langfuse",
@@ -1295,7 +1357,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "langfuse>=4.14.3,<5"
+      ]
     },
     {
       "id": "phoenix",
@@ -1305,7 +1369,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "arize-phoenix>=19.19.1,<20"
+      ]
     },
     {
       "id": "mlflow",
@@ -1315,7 +1381,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "mlflow>=3.15.1,<4"
+      ]
     },
     {
       "id": "langsmith",
@@ -1325,7 +1393,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "langsmith>=0.10.17,<0.11"
+      ]
     },
     {
       "id": "wandb",
@@ -1335,7 +1405,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "wandb>=0.28.1,<0.29"
+      ]
     },
     {
       "id": "docker",

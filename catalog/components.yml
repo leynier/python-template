@@ -199,36 +199,42 @@ components:
     tier: stable
     workloads: [training, hybrid]
     python: ">=3.11,<3.15"
+    packages: ["torch>=2.13.0,<3"]
   - id: transformers
     name: Hugging Face Transformers
     layer: framework
     tier: stable
     workloads: [training, hybrid]
     python: ">=3.11,<3.15"
+    packages: ["transformers>=5.14.1,<6", "torch>=2.13.0,<3"]
   - id: jax
     name: JAX
     layer: framework
     tier: stable
     workloads: [training, hybrid]
     python: ">=3.11,<3.15"
+    packages: ["jax>=0.11.0,<0.12"]
   - id: keras
     name: Keras / TensorFlow
     layer: framework
     tier: stable
     workloads: [training, hybrid]
-    python: ">=3.11,<3.15"
+    python: ">=3.11,<3.14"
+    packages: ["keras>=3.15.1,<4", "tensorflow>=2.21.0,<3"]
   - id: scikit-learn
     name: scikit-learn
     layer: framework
     tier: stable
     workloads: [training, hybrid]
     python: ">=3.11,<3.15"
+    packages: ["scikit-learn>=1.9.0,<2"]
   - id: xgboost
     name: XGBoost
     layer: framework
     tier: stable
     workloads: [training, hybrid]
     python: ">=3.11,<3.15"
+    packages: ["xgboost>=3.4.0,<4"]
 
   # Interfaces are composable and can expose the same application through
   # multiple entrypoints.
@@ -284,37 +290,37 @@ components:
   - {id: oidc, name: OAuth / OIDC, layer: auth, tier: platform, python: ">=3.11,<3.15", packages: ["authlib>=1.7.2,<2"]}
   - {id: supabase-auth, name: Supabase Auth, layer: auth, tier: platform, python: ">=3.11,<3.15", packages: ["supabase>=2.31.0,<3"]}
 
-  - {id: bentoml, name: BentoML, layer: serving, tier: stable, python: ">=3.11,<3.15"}
-  - {id: litellm, name: LiteLLM, layer: serving, tier: stable, python: ">=3.11,<3.15"}
-  - {id: vllm, name: vLLM, layer: serving, tier: platform, python: ">=3.11,<3.15"}
-  - {id: ollama-serving, name: Ollama, layer: serving, tier: stable, python: ">=3.11,<3.15"}
-  - {id: ray-serve, name: Ray Serve, layer: serving, tier: stable, python: ">=3.11,<3.15"}
+  - {id: bentoml, name: BentoML, layer: serving, tier: stable, python: ">=3.11,<3.15", packages: ["bentoml>=1.4.39,<2"]}
+  - {id: litellm, name: LiteLLM, layer: serving, tier: stable, python: ">=3.11,<3.15", packages: ["litellm>=1.95.0,<2"]}
+  - {id: vllm, name: vLLM, layer: serving, tier: platform, python: ">=3.11,<3.14", packages: ["vllm>=0.26.0,<0.27"]}
+  - {id: ollama-serving, name: Ollama, layer: serving, tier: stable, python: ">=3.11,<3.15", packages: ["ollama>=0.6.2,<1"]}
+  - {id: ray-serve, name: Ray Serve, layer: serving, tier: stable, python: ">=3.11,<3.15", packages: ["ray[serve]>=2.56.1,<3"]}
 
-  - {id: lightning, name: Lightning, layer: training_extension, tier: stable, python: ">=3.11,<3.15"}
-  - {id: datasets, name: Hugging Face Datasets, layer: training_extension, tier: stable, python: ">=3.11,<3.15"}
-  - {id: accelerate, name: Accelerate, layer: training_extension, tier: stable, python: ">=3.11,<3.15"}
-  - {id: peft, name: PEFT, layer: training_extension, tier: stable, python: ">=3.11,<3.15"}
-  - {id: trl, name: TRL, layer: training_extension, tier: stable, python: ">=3.11,<3.15"}
-  - {id: optuna, name: Optuna, layer: training_extension, tier: stable, python: ">=3.11,<3.15"}
-  - {id: prefect, name: Prefect, layer: mlops, tier: stable, python: ">=3.11,<3.15"}
-  - {id: dagster, name: Dagster, layer: mlops, tier: stable, python: ">=3.11,<3.15"}
-  - {id: temporal, name: Temporal, layer: mlops, tier: stable, python: ">=3.11,<3.15"}
-  - {id: celery, name: Celery, layer: mlops, tier: stable, python: ">=3.11,<3.15"}
-  - {id: dvc, name: DVC, layer: mlops, tier: stable, python: ">=3.11,<3.15"}
-  - {id: feast, name: Feast, layer: mlops, tier: stable, python: ">=3.11,<3.15"}
-  - {id: evidently, name: Evidently, layer: mlops, tier: stable, python: ">=3.11,<3.15"}
-  - {id: polars, name: Polars, layer: mlops, tier: stable, python: ">=3.11,<3.15"}
-  - {id: pandera, name: Pandera, layer: mlops, tier: stable, python: ">=3.11,<3.15"}
+  - {id: lightning, name: Lightning, layer: training_extension, tier: stable, python: ">=3.11,<3.15", packages: ["lightning>=2.6.5,<3"]}
+  - {id: datasets, name: Hugging Face Datasets, layer: training_extension, tier: stable, python: ">=3.11,<3.15", packages: ["datasets>=5.0.1,<6"]}
+  - {id: accelerate, name: Accelerate, layer: training_extension, tier: stable, python: ">=3.11,<3.15", packages: ["accelerate>=1.14.0,<2"]}
+  - {id: peft, name: PEFT, layer: training_extension, tier: stable, python: ">=3.11,<3.15", packages: ["peft>=0.20.0,<0.21"]}
+  - {id: trl, name: TRL, layer: training_extension, tier: stable, python: ">=3.11,<3.15", packages: ["trl>=1.9.2,<2"]}
+  - {id: optuna, name: Optuna, layer: training_extension, tier: stable, python: ">=3.11,<3.15", packages: ["optuna>=4.9.0,<5"]}
+  - {id: prefect, name: Prefect, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["prefect>=3.8.2,<4"]}
+  - {id: dagster, name: Dagster, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["dagster>=1.13.17,<2"]}
+  - {id: temporal, name: Temporal, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["temporalio>=1.31.0,<2"]}
+  - {id: celery, name: Celery, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["celery>=5.6.3,<6"]}
+  - {id: dvc, name: DVC, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["dvc>=3.67.1,<4"]}
+  - {id: feast, name: Feast, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["feast>=0.65.0,<1"]}
+  - {id: evidently, name: Evidently, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["evidently>=0.7.21,<1"]}
+  - {id: polars, name: Polars, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["polars>=1.43.2,<2"]}
+  - {id: pandera, name: Pandera, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["pandera>=0.32.1,<0.33"]}
 
-  - {id: deepeval, name: DeepEval, layer: quality, tier: stable, python: ">=3.11,<3.15"}
-  - {id: ragas, name: Ragas, layer: quality, tier: stable, python: ">=3.11,<3.15"}
-  - {id: pydantic-evals, name: Pydantic Evals, layer: quality, tier: stable, python: ">=3.11,<3.15"}
-  - {id: opentelemetry, name: OpenTelemetry, layer: quality, tier: stable, python: ">=3.11,<3.15"}
-  - {id: langfuse, name: Langfuse, layer: quality, tier: platform, python: ">=3.11,<3.15"}
-  - {id: phoenix, name: Phoenix, layer: quality, tier: stable, python: ">=3.11,<3.15"}
-  - {id: mlflow, name: MLflow, layer: quality, tier: stable, python: ">=3.11,<3.15"}
-  - {id: langsmith, name: LangSmith, layer: quality, tier: platform, python: ">=3.11,<3.15"}
-  - {id: wandb, name: Weights & Biases, layer: quality, tier: platform, python: ">=3.11,<3.15"}
+  - {id: deepeval, name: DeepEval, layer: quality, tier: stable, python: ">=3.11,<3.15", packages: ["deepeval>=4.1.5,<5"]}
+  - {id: ragas, name: Ragas, layer: quality, tier: stable, python: ">=3.11,<3.15", packages: ["ragas>=0.4.3,<0.5"]}
+  - {id: pydantic-evals, name: Pydantic Evals, layer: quality, tier: stable, python: ">=3.11,<3.15", packages: ["pydantic-evals>=2.27.0,<3"]}
+  - {id: opentelemetry, name: OpenTelemetry, layer: quality, tier: stable, python: ">=3.11,<3.15", packages: ["opentelemetry-sdk>=1.44.0,<2"]}
+  - {id: langfuse, name: Langfuse, layer: quality, tier: platform, python: ">=3.11,<3.15", packages: ["langfuse>=4.14.3,<5"]}
+  - {id: phoenix, name: Phoenix, layer: quality, tier: stable, python: ">=3.11,<3.15", packages: ["arize-phoenix>=19.19.1,<20"]}
+  - {id: mlflow, name: MLflow, layer: quality, tier: stable, python: ">=3.11,<3.15", packages: ["mlflow>=3.15.1,<4"]}
+  - {id: langsmith, name: LangSmith, layer: quality, tier: platform, python: ">=3.11,<3.15", packages: ["langsmith>=0.10.17,<0.11"]}
+  - {id: wandb, name: Weights & Biases, layer: quality, tier: platform, python: ">=3.11,<3.15", packages: ["wandb>=0.28.1,<0.29"]}
 
   - {id: docker, name: Docker / Compose, layer: deploy, tier: stable, python: ">=3.11,<3.15"}
   - {id: render, name: Render, layer: deploy, tier: platform, python: ">=3.11,<3.15"}

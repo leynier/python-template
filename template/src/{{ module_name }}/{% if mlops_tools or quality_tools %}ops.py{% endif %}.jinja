@@ -1,0 +1,38 @@
+{% set tool_modules = {
+    'prefect': 'prefect',
+    'dagster': 'dagster',
+    'temporal': 'temporalio',
+    'celery': 'celery',
+    'dvc': 'dvc',
+    'feast': 'feast',
+    'evidently': 'evidently',
+    'polars': 'polars',
+    'pandera': 'pandera',
+    'deepeval': 'deepeval',
+    'ragas': 'ragas',
+    'pydantic-evals': 'pydantic_evals',
+    'opentelemetry': 'opentelemetry.sdk',
+    'langfuse': 'langfuse',
+    'phoenix': 'phoenix',
+    'mlflow': 'mlflow',
+    'langsmith': 'langsmith',
+    'wandb': 'wandb',
+} -%}
+"""Selected orchestration, evaluation and observability SDKs."""
+
+from typing import Any
+
+{% for tool in ((mlops_tools | default([])) + (quality_tools | default([]))) | sort -%}
+import {{ tool_modules[tool] }} as {{ tool | replace('-', '_') }}_module
+{% endfor %}
+MLOPS_TOOLS = ({% for tool in mlops_tools | default([]) %}"{{ tool }}"{% if not loop.last %}, {% endif %}{% endfor %}{% if mlops_tools | default([]) | length == 1 %},{% endif %})
+QUALITY_TOOLS = ({% for tool in quality_tools | default([]) %}"{{ tool }}"{% if not loop.last %}, {% endif %}{% endfor %}{% if quality_tools | default([]) | length == 1 %},{% endif %})
+
+
+def installed_ops_tools() -> tuple[Any, ...]:
+    """Return imported SDK modules in the same order as the selected tools."""
+    tools: list[Any] = []
+{% for tool in (mlops_tools | default([])) + (quality_tools | default([])) %}
+    tools.append({{ tool | replace('-', '_') }}_module)
+{% endfor %}
+    return tuple(tools)

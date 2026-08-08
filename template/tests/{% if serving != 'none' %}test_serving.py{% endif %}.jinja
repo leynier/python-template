@@ -1,0 +1,8 @@
+"""Tests for the serving adapter."""
+
+from {{ module_name }}.serving import SERVING_ENGINE, serving_sdk
+
+
+def test_serving_sdk_is_installed() -> None:
+    assert SERVING_ENGINE == "{{ serving }}"
+    assert serving_sdk() is not None
