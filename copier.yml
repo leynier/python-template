@@ -519,20 +519,16 @@ iac_provider:
 
 python_version:
   type: str
-  # 3.10 is deliberately not offered: it reaches end of life on 2026-10-31.
-  # Drop each version from this list as it approaches its EOL date, and add
-  # new ones once they are released.
+  # v0.5 deliberately starts at Python 3.12. Drop each version from this list
+  # as it approaches EOL, and add new ones once they are released.
   help: Minimum supported Python version
   default: "3.13"
   choices:
-    - "3.11"
     - "3.12"
     - "3.13"
     - "3.14"
   validator: >-
-    {% if (framework in ['lingo'] or 'violetear' in interfaces or 'beaver' in [document_store, vector_store, graph_store, cache_store]) and python_version == '3.11' %}
-    The selected stack requires Python 3.12 or newer
-    {% elif (framework in ['crewai', 'keras'] or 'chainlit' in interfaces or serving == 'vllm') and python_version == '3.14' %}
+    {% if (framework in ['crewai', 'keras'] or 'chainlit' in interfaces or serving == 'vllm') and python_version == '3.14' %}
     The selected stack currently requires Python 3.13 or older
     {% endif %}
 

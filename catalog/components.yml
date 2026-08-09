@@ -7,57 +7,57 @@ components:
     name: Python library
     layer: workload
     tier: stable
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
   - id: cli
     name: CLI application
     layer: workload
     tier: stable
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
   - id: api
     name: API service
     layer: workload
     tier: stable
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
   - id: web
     name: Python web application
     layer: workload
     tier: stable
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
   - id: tui
     name: Terminal UI
     layer: workload
     tier: stable
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
   - id: mcp
     name: MCP server
     layer: workload
     tier: stable
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
   - id: agent
     name: AI agent
     layer: workload
     tier: stable
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
   - id: rag
     name: RAG application
     layer: workload
     tier: stable
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
   - id: inference
     name: Model inference service
     layer: workload
     tier: stable
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
   - id: training
     name: Model training project
     layer: workload
     tier: stable
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
   - id: hybrid
     name: Training and serving workspace
     layer: workload
     tier: stable
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
 
   # Primary frameworks. Only one primary framework is selected per workload.
   - id: typer
@@ -65,119 +65,119 @@ components:
     layer: framework
     tier: stable
     workloads: [cli]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["typer>=0.27.1,<1"]
   - id: fastapi
     name: FastAPI
     layer: framework
     tier: stable
     workloads: [api]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["fastapi[standard]>=0.141.1,<1", "pydantic>=2.13.4,<3", "uvicorn>=0.52.1,<1"]
   - id: flask
     name: Flask
     layer: framework
     tier: stable
     workloads: [api]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["flask>=3.1.2,<4"]
   - id: fastmcp
     name: FastMCP
     layer: framework
     tier: stable
     workloads: [mcp]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["fastmcp>=3.4.6,<4"]
   - id: pydantic-ai
     name: PydanticAI
     layer: framework
     tier: stable
     workloads: [agent]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["pydantic-ai>=2.27.0,<3"]
   - id: langgraph
     name: LangGraph
     layer: framework
     tier: stable
     workloads: [agent]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["langgraph>=1.2.10,<2"]
   - id: langchain
     name: LangChain
     layer: framework
     tier: stable
     workloads: [agent, rag]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["langchain>=1.3.14,<2"]
   - id: llamaindex
     name: LlamaIndex
     layer: framework
     tier: stable
     workloads: [agent, rag]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["llama-index>=0.14.23,<0.15"]
   - id: crewai
     name: CrewAI
     layer: framework
     tier: stable
     workloads: [agent]
-    python: ">=3.11,<3.14"
+    python: ">=3.12,<3.14"
     packages: ["crewai>=1.15.13,<2"]
   - id: smolagents
     name: Hugging Face smolagents
     layer: framework
     tier: stable
     workloads: [agent]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["smolagents>=1.26.0,<2"]
   - id: dspy
     name: DSPy
     layer: framework
     tier: stable
     workloads: [agent]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["dspy>=3.3.0,<4"]
   - id: openai-agents
     name: OpenAI Agents SDK
     layer: framework
     tier: platform
     workloads: [agent]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["openai-agents>=0.19.4,<1"]
   - id: google-adk
     name: Google ADK
     layer: framework
     tier: platform
     workloads: [agent]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["google-adk>=2.6.3,<3"]
   - id: strands-agents
     name: Strands Agents
     layer: framework
     tier: platform
     workloads: [agent]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["strands-agents>=1.51.0,<2"]
   - id: autogen
     name: Microsoft AutoGen
     layer: framework
     tier: stable
     workloads: [agent]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["autogen-agentchat>=0.7.5,<1"]
   - id: ag2
     name: AG2
     layer: framework
     tier: stable
     workloads: [agent]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["ag2>=1.0.1,<2"]
   - id: agno
     name: Agno
     layer: framework
     tier: stable
     workloads: [agent]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["agno>=2.8.7,<3"]
   - id: lingo
     name: Lingo
@@ -191,149 +191,149 @@ components:
     layer: framework
     tier: stable
     workloads: [rag]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["haystack-ai>=3.0.0,<4"]
   - id: pytorch
     name: PyTorch
     layer: framework
     tier: stable
     workloads: [training, hybrid]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["torch>=2.13.0,<3"]
   - id: transformers
     name: Hugging Face Transformers
     layer: framework
     tier: stable
     workloads: [training, hybrid]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["transformers>=5.14.1,<6", "torch>=2.13.0,<3"]
   - id: jax
     name: JAX
     layer: framework
     tier: stable
     workloads: [training, hybrid]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["jax>=0.11.0,<0.12"]
   - id: keras
     name: Keras / TensorFlow
     layer: framework
     tier: stable
     workloads: [training, hybrid]
-    python: ">=3.11,<3.14"
+    python: ">=3.12,<3.14"
     packages: ["keras>=3.15.1,<4", "tensorflow>=2.21.0,<3"]
   - id: scikit-learn
     name: scikit-learn
     layer: framework
     tier: stable
     workloads: [training, hybrid]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["scikit-learn>=1.9.0,<2"]
   - id: xgboost
     name: XGBoost
     layer: framework
     tier: stable
     workloads: [training, hybrid]
-    python: ">=3.11,<3.15"
+    python: ">=3.12,<3.15"
     packages: ["xgboost>=3.4.0,<4"]
 
   # Interfaces are composable and can expose the same application through
   # multiple entrypoints.
-  - {id: streamlit, name: Streamlit, layer: interface, tier: stable, python: ">=3.11,<3.15", packages: ["streamlit>=1.61.1,<2"]}
-  - {id: gradio, name: Gradio, layer: interface, tier: stable, python: ">=3.11,<3.15", packages: ["gradio>=6.22.0,<7"]}
-  - {id: chainlit, name: Chainlit, layer: interface, tier: stable, python: ">=3.11,<3.14", packages: ["chainlit>=2.11.1,<3"]}
-  - {id: textual, name: Textual, layer: interface, tier: stable, python: ">=3.11,<3.15", packages: ["textual>=8.2.8,<9"]}
-  - {id: nicegui, name: NiceGUI, layer: interface, tier: stable, python: ">=3.11,<3.15", packages: ["nicegui>=3.15.0,<4"]}
-  - {id: fasthtml, name: FastHTML, layer: interface, tier: stable, python: ">=3.11,<3.15", packages: ["python-fasthtml>=0.14.11,<0.15"]}
+  - {id: streamlit, name: Streamlit, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["streamlit>=1.61.1,<2"]}
+  - {id: gradio, name: Gradio, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["gradio>=6.22.0,<7"]}
+  - {id: chainlit, name: Chainlit, layer: interface, tier: stable, python: ">=3.12,<3.14", packages: ["chainlit>=2.11.1,<3"]}
+  - {id: textual, name: Textual, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["textual>=8.2.8,<9"]}
+  - {id: nicegui, name: NiceGUI, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["nicegui>=3.15.0,<4"]}
+  - {id: fasthtml, name: FastHTML, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["python-fasthtml>=0.14.11,<0.15"]}
   - {id: violetear, name: Violetear, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["violetear[server]>=1.4.1,<2"]}
-  - {id: jupyterlab, name: JupyterLab, layer: interface, tier: stable, python: ">=3.11,<3.15", packages: ["jupyterlab>=4.6.2,<5"]}
+  - {id: jupyterlab, name: JupyterLab, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["jupyterlab>=4.6.2,<5"]}
 
   # Providers are intentionally independent for generation and embeddings.
-  - {id: openai, name: OpenAI, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["openai>=2.53.0,<3"]}
-  - {id: anthropic, name: Anthropic, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["anthropic>=0.121.0,<1"]}
-  - {id: gemini, name: Google Gemini, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["google-genai>=2.17.0,<3"]}
-  - {id: azure-openai, name: Azure OpenAI, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["openai>=2.53.0,<3"]}
-  - {id: bedrock, name: AWS Bedrock, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["boto3>=1.43.67,<2"]}
-  - {id: openrouter, name: OpenRouter, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["openrouter>=1.1.37,<2"]}
-  - {id: groq, name: Groq, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["groq>=1.6.0,<2"]}
-  - {id: mistral, name: Mistral, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["mistralai>=2.9.1,<3"]}
-  - {id: cohere, name: Cohere, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["cohere>=7.0.8,<8"]}
-  - {id: huggingface, name: Hugging Face, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["huggingface-hub>=1.27.0,<2"]}
-  - {id: ollama, name: Ollama, layer: model_provider, tier: stable, python: ">=3.11,<3.15", packages: ["ollama>=0.6.2,<1"]}
-  - {id: openai-compatible, name: OpenAI-compatible endpoint, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["openai>=2.53.0,<3"]}
-  - {id: xai, name: xAI, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["xai-sdk>=1.17.0,<2"]}
-  - {id: deepseek, name: DeepSeek, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["openai>=2.53.0,<3"]}
-  - {id: together, name: Together AI, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["together>=2.30.0,<3"]}
-  - {id: fireworks, name: Fireworks AI, layer: model_provider, tier: platform, python: ">=3.11,<3.15", packages: ["fireworks-ai>=1.2.6,<2"]}
-  - {id: sentence-transformers, name: Sentence Transformers, layer: embedding_provider, tier: stable, python: ">=3.11,<3.15", packages: ["sentence-transformers>=5.7.0,<6"]}
+  - {id: openai, name: OpenAI, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["openai>=2.53.0,<3"]}
+  - {id: anthropic, name: Anthropic, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["anthropic>=0.121.0,<1"]}
+  - {id: gemini, name: Google Gemini, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["google-genai>=2.17.0,<3"]}
+  - {id: azure-openai, name: Azure OpenAI, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["openai>=2.53.0,<3"]}
+  - {id: bedrock, name: AWS Bedrock, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["boto3>=1.43.67,<2"]}
+  - {id: openrouter, name: OpenRouter, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["openrouter>=1.1.37,<2"]}
+  - {id: groq, name: Groq, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["groq>=1.6.0,<2"]}
+  - {id: mistral, name: Mistral, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["mistralai>=2.9.1,<3"]}
+  - {id: cohere, name: Cohere, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["cohere>=7.0.8,<8"]}
+  - {id: huggingface, name: Hugging Face, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["huggingface-hub>=1.27.0,<2"]}
+  - {id: ollama, name: Ollama, layer: model_provider, tier: stable, python: ">=3.12,<3.15", packages: ["ollama>=0.6.2,<1"]}
+  - {id: openai-compatible, name: OpenAI-compatible endpoint, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["openai>=2.53.0,<3"]}
+  - {id: xai, name: xAI, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["xai-sdk>=1.17.0,<2"]}
+  - {id: deepseek, name: DeepSeek, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["openai>=2.53.0,<3"]}
+  - {id: together, name: Together AI, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["together>=2.30.0,<3"]}
+  - {id: fireworks, name: Fireworks AI, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["fireworks-ai>=1.2.6,<2"]}
+  - {id: sentence-transformers, name: Sentence Transformers, layer: embedding_provider, tier: stable, python: ">=3.12,<3.15", packages: ["sentence-transformers>=5.7.0,<6"]}
 
   # Data engines. A project may select at most one provider for each role.
-  - {id: sqlite, name: SQLite, layer: data, tier: stable, roles: [sql], python: ">=3.11,<3.15"}
-  - {id: postgresql, name: PostgreSQL, layer: data, tier: stable, roles: [sql], python: ">=3.11,<3.15", packages: ["psycopg[binary]>=3.3.4,<4"]}
-  - {id: mysql, name: MySQL, layer: data, tier: stable, roles: [sql], python: ">=3.11,<3.15", packages: ["pymysql>=1.2.0,<2"]}
-  - {id: duckdb, name: DuckDB, layer: data, tier: stable, roles: [sql], python: ">=3.11,<3.15", packages: ["duckdb>=1.5.5,<2", "duckdb-engine>=0.17.0,<1"]}
-  - {id: supabase, name: Supabase, layer: data, tier: platform, roles: [sql, document], python: ">=3.11,<3.15", packages: ["supabase>=2.31.0,<3"]}
-  - {id: mongodb, name: MongoDB, layer: data, tier: stable, roles: [document], python: ">=3.11,<3.15", packages: ["pymongo>=4.17.0,<5"]}
+  - {id: sqlite, name: SQLite, layer: data, tier: stable, roles: [sql], python: ">=3.12,<3.15"}
+  - {id: postgresql, name: PostgreSQL, layer: data, tier: stable, roles: [sql], python: ">=3.12,<3.15", packages: ["psycopg[binary]>=3.3.4,<4"]}
+  - {id: mysql, name: MySQL, layer: data, tier: stable, roles: [sql], python: ">=3.12,<3.15", packages: ["pymysql>=1.2.0,<2"]}
+  - {id: duckdb, name: DuckDB, layer: data, tier: stable, roles: [sql], python: ">=3.12,<3.15", packages: ["duckdb>=1.5.5,<2", "duckdb-engine>=0.17.0,<1"]}
+  - {id: supabase, name: Supabase, layer: data, tier: platform, roles: [sql, document], python: ">=3.12,<3.15", packages: ["supabase>=2.31.0,<3"]}
+  - {id: mongodb, name: MongoDB, layer: data, tier: stable, roles: [document], python: ">=3.12,<3.15", packages: ["pymongo>=4.17.0,<5"]}
   - {id: beaver, name: Beaver, layer: data, tier: stable, roles: [document, vector, graph, cache], python: ">=3.12,<3.15", packages: ["beaver-db>=2.3.0,<3"]}
-  - {id: pgvector, name: pgvector, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15", packages: ["pgvector>=0.5.0,<1"]}
-  - {id: qdrant, name: Qdrant, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15", packages: ["qdrant-client>=1.19.0,<2"]}
-  - {id: chroma, name: Chroma, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15", packages: ["chromadb>=1.5.9,<2"]}
-  - {id: lancedb, name: LanceDB, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15", packages: ["lancedb>=0.36.0,<1"]}
-  - {id: weaviate, name: Weaviate, layer: data, tier: platform, roles: [vector], python: ">=3.11,<3.15", packages: ["weaviate-client>=4.22.0,<5"]}
-  - {id: pinecone, name: Pinecone, layer: data, tier: platform, roles: [vector], python: ">=3.11,<3.15", packages: ["pinecone>=9.1.0,<10"]}
-  - {id: milvus, name: Milvus, layer: data, tier: stable, roles: [vector], python: ">=3.11,<3.15", packages: ["pymilvus>=3.0.1,<4"]}
-  - {id: neo4j, name: Neo4j, layer: data, tier: stable, roles: [graph], python: ">=3.11,<3.15", packages: ["neo4j>=6.2.0,<7"]}
-  - {id: redis, name: Redis, layer: data, tier: stable, roles: [cache], python: ">=3.11,<3.15", packages: ["redis>=8.1.0,<9"]}
+  - {id: pgvector, name: pgvector, layer: data, tier: stable, roles: [vector], python: ">=3.12,<3.15", packages: ["pgvector>=0.5.0,<1"]}
+  - {id: qdrant, name: Qdrant, layer: data, tier: stable, roles: [vector], python: ">=3.12,<3.15", packages: ["qdrant-client>=1.19.0,<2"]}
+  - {id: chroma, name: Chroma, layer: data, tier: stable, roles: [vector], python: ">=3.12,<3.15", packages: ["chromadb>=1.5.9,<2"]}
+  - {id: lancedb, name: LanceDB, layer: data, tier: stable, roles: [vector], python: ">=3.12,<3.15", packages: ["lancedb>=0.36.0,<1"]}
+  - {id: weaviate, name: Weaviate, layer: data, tier: platform, roles: [vector], python: ">=3.12,<3.15", packages: ["weaviate-client>=4.22.0,<5"]}
+  - {id: pinecone, name: Pinecone, layer: data, tier: platform, roles: [vector], python: ">=3.12,<3.15", packages: ["pinecone>=9.1.0,<10"]}
+  - {id: milvus, name: Milvus, layer: data, tier: stable, roles: [vector], python: ">=3.12,<3.15", packages: ["pymilvus>=3.0.1,<4"]}
+  - {id: neo4j, name: Neo4j, layer: data, tier: stable, roles: [graph], python: ">=3.12,<3.15", packages: ["neo4j>=6.2.0,<7"]}
+  - {id: redis, name: Redis, layer: data, tier: stable, roles: [cache], python: ">=3.12,<3.15", packages: ["redis>=8.1.0,<9"]}
 
-  - {id: sqlmodel, name: SQLModel, layer: sql_abstraction, tier: stable, python: ">=3.11,<3.15", packages: ["sqlmodel>=0.0.39,<0.1", "sqlalchemy>=2.0.51,<3", "alembic>=1.19.1,<2"]}
-  - {id: sqlalchemy, name: SQLAlchemy, layer: sql_abstraction, tier: stable, python: ">=3.11,<3.15", packages: ["sqlalchemy>=2.0.51,<3", "alembic>=1.19.1,<2"]}
-  - {id: api-key, name: API key, layer: auth, tier: stable, python: ">=3.11,<3.15"}
-  - {id: oidc, name: OAuth / OIDC, layer: auth, tier: platform, python: ">=3.11,<3.15", packages: ["authlib>=1.7.2,<2"]}
-  - {id: supabase-auth, name: Supabase Auth, layer: auth, tier: platform, python: ">=3.11,<3.15", packages: ["supabase>=2.31.0,<3"]}
+  - {id: sqlmodel, name: SQLModel, layer: sql_abstraction, tier: stable, python: ">=3.12,<3.15", packages: ["sqlmodel>=0.0.39,<0.1", "sqlalchemy>=2.0.51,<3", "alembic>=1.19.1,<2"]}
+  - {id: sqlalchemy, name: SQLAlchemy, layer: sql_abstraction, tier: stable, python: ">=3.12,<3.15", packages: ["sqlalchemy>=2.0.51,<3", "alembic>=1.19.1,<2"]}
+  - {id: api-key, name: API key, layer: auth, tier: stable, python: ">=3.12,<3.15"}
+  - {id: oidc, name: OAuth / OIDC, layer: auth, tier: platform, python: ">=3.12,<3.15", packages: ["authlib>=1.7.2,<2"]}
+  - {id: supabase-auth, name: Supabase Auth, layer: auth, tier: platform, python: ">=3.12,<3.15", packages: ["supabase>=2.31.0,<3"]}
 
-  - {id: bentoml, name: BentoML, layer: serving, tier: stable, python: ">=3.11,<3.15", packages: ["bentoml>=1.4.39,<2"]}
-  - {id: litellm, name: LiteLLM, layer: serving, tier: stable, python: ">=3.11,<3.15", packages: ["litellm>=1.95.0,<2"]}
-  - {id: vllm, name: vLLM, layer: serving, tier: platform, python: ">=3.11,<3.14", packages: ["vllm>=0.26.0,<0.27"]}
-  - {id: ollama-serving, name: Ollama, layer: serving, tier: stable, python: ">=3.11,<3.15", packages: ["ollama>=0.6.2,<1"]}
-  - {id: ray-serve, name: Ray Serve, layer: serving, tier: stable, python: ">=3.11,<3.15", packages: ["ray[serve]>=2.56.1,<3"]}
+  - {id: bentoml, name: BentoML, layer: serving, tier: stable, python: ">=3.12,<3.15", packages: ["bentoml>=1.4.39,<2"]}
+  - {id: litellm, name: LiteLLM, layer: serving, tier: stable, python: ">=3.12,<3.15", packages: ["litellm>=1.95.0,<2"]}
+  - {id: vllm, name: vLLM, layer: serving, tier: platform, python: ">=3.12,<3.14", packages: ["vllm>=0.26.0,<0.27"]}
+  - {id: ollama-serving, name: Ollama, layer: serving, tier: stable, python: ">=3.12,<3.15", packages: ["ollama>=0.6.2,<1"]}
+  - {id: ray-serve, name: Ray Serve, layer: serving, tier: stable, python: ">=3.12,<3.15", packages: ["ray[serve]>=2.56.1,<3"]}
 
-  - {id: lightning, name: Lightning, layer: training_extension, tier: stable, python: ">=3.11,<3.15", packages: ["lightning>=2.6.5,<3"]}
-  - {id: datasets, name: Hugging Face Datasets, layer: training_extension, tier: stable, python: ">=3.11,<3.15", packages: ["datasets>=5.0.1,<6"]}
-  - {id: accelerate, name: Accelerate, layer: training_extension, tier: stable, python: ">=3.11,<3.15", packages: ["accelerate>=1.14.0,<2"]}
-  - {id: peft, name: PEFT, layer: training_extension, tier: stable, python: ">=3.11,<3.15", packages: ["peft>=0.20.0,<0.21"]}
-  - {id: trl, name: TRL, layer: training_extension, tier: stable, python: ">=3.11,<3.15", packages: ["trl>=1.9.2,<2"]}
-  - {id: optuna, name: Optuna, layer: training_extension, tier: stable, python: ">=3.11,<3.15", packages: ["optuna>=4.9.0,<5"]}
-  - {id: prefect, name: Prefect, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["prefect>=3.8.2,<4"]}
-  - {id: dagster, name: Dagster, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["dagster>=1.13.17,<2"]}
-  - {id: temporal, name: Temporal, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["temporalio>=1.31.0,<2"]}
-  - {id: celery, name: Celery, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["celery>=5.6.3,<6"]}
-  - {id: dvc, name: DVC, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["dvc>=3.67.1,<4"]}
-  - {id: feast, name: Feast, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["feast>=0.65.0,<1"]}
-  - {id: evidently, name: Evidently, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["evidently>=0.7.21,<1"]}
-  - {id: polars, name: Polars, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["polars>=1.43.2,<2"]}
-  - {id: pandera, name: Pandera, layer: mlops, tier: stable, python: ">=3.11,<3.15", packages: ["pandera>=0.32.1,<0.33"]}
+  - {id: lightning, name: Lightning, layer: training_extension, tier: stable, python: ">=3.12,<3.15", packages: ["lightning>=2.6.5,<3"]}
+  - {id: datasets, name: Hugging Face Datasets, layer: training_extension, tier: stable, python: ">=3.12,<3.15", packages: ["datasets>=5.0.1,<6"]}
+  - {id: accelerate, name: Accelerate, layer: training_extension, tier: stable, python: ">=3.12,<3.15", packages: ["accelerate>=1.14.0,<2"]}
+  - {id: peft, name: PEFT, layer: training_extension, tier: stable, python: ">=3.12,<3.15", packages: ["peft>=0.20.0,<0.21"]}
+  - {id: trl, name: TRL, layer: training_extension, tier: stable, python: ">=3.12,<3.15", packages: ["trl>=1.9.2,<2"]}
+  - {id: optuna, name: Optuna, layer: training_extension, tier: stable, python: ">=3.12,<3.15", packages: ["optuna>=4.9.0,<5"]}
+  - {id: prefect, name: Prefect, layer: mlops, tier: stable, python: ">=3.12,<3.15", packages: ["prefect>=3.8.2,<4"]}
+  - {id: dagster, name: Dagster, layer: mlops, tier: stable, python: ">=3.12,<3.15", packages: ["dagster>=1.13.17,<2"]}
+  - {id: temporal, name: Temporal, layer: mlops, tier: stable, python: ">=3.12,<3.15", packages: ["temporalio>=1.31.0,<2"]}
+  - {id: celery, name: Celery, layer: mlops, tier: stable, python: ">=3.12,<3.15", packages: ["celery>=5.6.3,<6"]}
+  - {id: dvc, name: DVC, layer: mlops, tier: stable, python: ">=3.12,<3.15", packages: ["dvc>=3.67.1,<4"]}
+  - {id: feast, name: Feast, layer: mlops, tier: stable, python: ">=3.12,<3.15", packages: ["feast>=0.65.0,<1"]}
+  - {id: evidently, name: Evidently, layer: mlops, tier: stable, python: ">=3.12,<3.15", packages: ["evidently>=0.7.21,<1"]}
+  - {id: polars, name: Polars, layer: mlops, tier: stable, python: ">=3.12,<3.15", packages: ["polars>=1.43.2,<2"]}
+  - {id: pandera, name: Pandera, layer: mlops, tier: stable, python: ">=3.12,<3.15", packages: ["pandera>=0.32.1,<0.33"]}
 
-  - {id: deepeval, name: DeepEval, layer: quality, tier: stable, python: ">=3.11,<3.15", packages: ["deepeval>=4.1.5,<5"]}
-  - {id: ragas, name: Ragas, layer: quality, tier: stable, python: ">=3.11,<3.15", packages: ["ragas>=0.4.3,<0.5"]}
-  - {id: pydantic-evals, name: Pydantic Evals, layer: quality, tier: stable, python: ">=3.11,<3.15", packages: ["pydantic-evals>=2.27.0,<3"]}
-  - {id: opentelemetry, name: OpenTelemetry, layer: quality, tier: stable, python: ">=3.11,<3.15", packages: ["opentelemetry-sdk>=1.44.0,<2"]}
-  - {id: langfuse, name: Langfuse, layer: quality, tier: platform, python: ">=3.11,<3.15", packages: ["langfuse>=4.14.3,<5"]}
-  - {id: phoenix, name: Phoenix, layer: quality, tier: stable, python: ">=3.11,<3.15", packages: ["arize-phoenix>=19.19.1,<20"]}
-  - {id: mlflow, name: MLflow, layer: quality, tier: stable, python: ">=3.11,<3.15", packages: ["mlflow>=3.15.1,<4"]}
-  - {id: langsmith, name: LangSmith, layer: quality, tier: platform, python: ">=3.11,<3.15", packages: ["langsmith>=0.10.17,<0.11"]}
-  - {id: wandb, name: Weights & Biases, layer: quality, tier: platform, python: ">=3.11,<3.15", packages: ["wandb>=0.28.1,<0.29"]}
+  - {id: deepeval, name: DeepEval, layer: quality, tier: stable, python: ">=3.12,<3.15", packages: ["deepeval>=4.1.5,<5"]}
+  - {id: ragas, name: Ragas, layer: quality, tier: stable, python: ">=3.12,<3.15", packages: ["ragas>=0.4.3,<0.5"]}
+  - {id: pydantic-evals, name: Pydantic Evals, layer: quality, tier: stable, python: ">=3.12,<3.15", packages: ["pydantic-evals>=2.27.0,<3"]}
+  - {id: opentelemetry, name: OpenTelemetry, layer: quality, tier: stable, python: ">=3.12,<3.15", packages: ["opentelemetry-sdk>=1.44.0,<2"]}
+  - {id: langfuse, name: Langfuse, layer: quality, tier: platform, python: ">=3.12,<3.15", packages: ["langfuse>=4.14.3,<5"]}
+  - {id: phoenix, name: Phoenix, layer: quality, tier: stable, python: ">=3.12,<3.15", packages: ["arize-phoenix>=19.19.1,<20"]}
+  - {id: mlflow, name: MLflow, layer: quality, tier: stable, python: ">=3.12,<3.15", packages: ["mlflow>=3.15.1,<4"]}
+  - {id: langsmith, name: LangSmith, layer: quality, tier: platform, python: ">=3.12,<3.15", packages: ["langsmith>=0.10.17,<0.11"]}
+  - {id: wandb, name: Weights & Biases, layer: quality, tier: platform, python: ">=3.12,<3.15", packages: ["wandb>=0.28.1,<0.29"]}
 
-  - {id: docker, name: Docker / Compose, layer: deploy, tier: stable, python: ">=3.11,<3.15"}
-  - {id: render, name: Render, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: fly, name: Fly.io, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: vercel, name: Vercel, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: railway, name: Railway, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: hf-spaces, name: Hugging Face Spaces, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: modal, name: Modal, layer: deploy, tier: platform, python: ">=3.11,<3.15", packages: ["modal>=1.5.3,<2"]}
-  - {id: runpod, name: RunPod, layer: deploy, tier: platform, python: ">=3.11,<3.15", packages: ["runpod>=1.11.0,<2"]}
-  - {id: bentocloud, name: BentoCloud, layer: deploy, tier: platform, python: ">=3.11,<3.15", packages: ["bentoml>=1.4.39,<2"]}
-  - {id: aws-ecs, name: AWS ECS, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: aws-sagemaker, name: AWS SageMaker, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: cloud-run, name: Google Cloud Run, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: vertex-ai, name: Vertex AI, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: azure-container-apps, name: Azure Container Apps, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: azure-ml, name: Azure ML, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
+  - {id: docker, name: Docker / Compose, layer: deploy, tier: stable, python: ">=3.12,<3.15"}
+  - {id: render, name: Render, layer: deploy, tier: platform, python: ">=3.12,<3.15"}
+  - {id: fly, name: Fly.io, layer: deploy, tier: platform, python: ">=3.12,<3.15"}
+  - {id: vercel, name: Vercel, layer: deploy, tier: platform, python: ">=3.12,<3.15"}
+  - {id: railway, name: Railway, layer: deploy, tier: platform, python: ">=3.12,<3.15"}
+  - {id: hf-spaces, name: Hugging Face Spaces, layer: deploy, tier: platform, python: ">=3.12,<3.15"}
+  - {id: modal, name: Modal, layer: deploy, tier: platform, python: ">=3.12,<3.15", packages: ["modal>=1.5.3,<2"]}
+  - {id: runpod, name: RunPod, layer: deploy, tier: platform, python: ">=3.12,<3.15", packages: ["runpod>=1.11.0,<2"]}
+  - {id: bentocloud, name: BentoCloud, layer: deploy, tier: platform, python: ">=3.12,<3.15", packages: ["bentoml>=1.4.39,<2"]}
+  - {id: aws-ecs, name: AWS ECS, layer: deploy, tier: platform, python: ">=3.12,<3.15"}
+  - {id: aws-sagemaker, name: AWS SageMaker, layer: deploy, tier: platform, python: ">=3.12,<3.15"}
+  - {id: cloud-run, name: Google Cloud Run, layer: deploy, tier: platform, python: ">=3.12,<3.15"}
+  - {id: vertex-ai, name: Vertex AI, layer: deploy, tier: platform, python: ">=3.12,<3.15"}
+  - {id: azure-container-apps, name: Azure Container Apps, layer: deploy, tier: platform, python: ">=3.12,<3.15"}
+  - {id: azure-ml, name: Azure ML, layer: deploy, tier: platform, python: ">=3.12,<3.15"}

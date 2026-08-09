@@ -238,8 +238,7 @@ def test_python_version_drives_the_ci_matrix(copie) -> None:
 def test_eol_python_versions_are_not_offered(copie) -> None:
     """Versions at or near end of life must not be selectable.
 
-    Python 3.10 reaches EOL on 2026-10-31. Offering it would generate projects
-    that start life on an unsupported runtime.
+    v0.5 intentionally starts at 3.12, and older versions must not return.
     """
     import yaml
 
@@ -250,6 +249,7 @@ def test_eol_python_versions_are_not_offered(copie) -> None:
 
     assert "3.10" not in choices
     assert "3.9" not in choices
+    assert "3.11" not in choices
     assert config["python_version"]["default"] in choices
 
 

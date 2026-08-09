@@ -14,7 +14,7 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-{%- for v in ["3.11", "3.12", "3.13", "3.14"] %}
+{%- for v in ["3.12", "3.13", "3.14"] %}
 {%- if v.split('.') | map('int') | list >= python_version.split('.') | map('int') | list %}
     "Programming Language :: Python :: {{ v }}",
 {%- endif %}
