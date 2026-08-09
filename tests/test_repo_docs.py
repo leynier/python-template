@@ -31,10 +31,14 @@ def test_zensical_navigation_points_to_real_repository_docs() -> None:
 def test_vercel_builds_the_zensical_static_output() -> None:
     config = json.loads((REPO / "vercel.json").read_text())
 
+    # The repository has a pyproject.toml for its own tooling, but the deployed
+    # artifact is static. Without this override Vercel selects its Python preset
+    # and rejects the repository for not having an application entry point.
+    assert config["framework"] is None
     assert config["outputDirectory"] == "site"
     assert "zensical build" in config["buildCommand"]
     assert "--strict" in config["buildCommand"]
-    assert "uv sync --locked" in config["installCommand"]
+    assert config["installCommand"] == "uv sync --locked --only-group docs"
 
 
 def test_ci_builds_repository_documentation() -> None:
