@@ -1,0 +1,4 @@
+interface:
+  display_name: "Validate Python Stack"
+  short_description: "Validate catalog rules and generated project toolchains"
+  default_prompt: "Use $validate-python-stack to verify this template or a generated project before delivery."

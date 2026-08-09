@@ -8,6 +8,19 @@ from conftest import answers
 SIMPLE_WORKLOADS = ["library", "cli", "api"]
 
 
+def test_template_source_paths_fit_windows_git() -> None:
+    """Leave room for the deep temporary roots used by Windows CI."""
+    template_root = pathlib.Path(__file__).parents[1] / "template"
+    relative_paths = [
+        str(path.relative_to(template_root.parent))
+        for path in template_root.rglob("*")
+        if path.is_file()
+    ]
+    longest = max(relative_paths, key=len)
+
+    assert len(longest) <= 185, f"Template path is too long ({len(longest)}): {longest}"
+
+
 @pytest.mark.parametrize("workload", SIMPLE_WORKLOADS)
 def test_generates_cleanly(copie, workload: str) -> None:
     """Each workload renders without error."""

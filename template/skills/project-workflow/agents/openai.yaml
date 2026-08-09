@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Workflow"
+  short_description: "Develop and verify this generated Python project"
+  default_prompt: "Use $project-workflow to make a change in this generated project and run its relevant quality gates."
