@@ -1,0 +1,4 @@
+interface:
+  display_name: "Compose Python Stack"
+  short_description: "Design and generate a compatible Python or AI stack"
+  default_prompt: "Use $compose-python-stack to choose compatible layers and generate a project from this repository."

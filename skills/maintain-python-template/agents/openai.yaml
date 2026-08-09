@@ -1,0 +1,4 @@
+interface:
+  display_name: "Maintain Python Template"
+  short_description: "Extend the component catalog and Copier templates safely"
+  default_prompt: "Use $maintain-python-template to add or change a component while preserving catalog and generation invariants."
