@@ -11,10 +11,22 @@ body:
       required: true
 
   - type: dropdown
-    id: project-type
+    id: workload
     attributes:
-      label: Which project type did you generate?
-      options: [library, cli, api, not applicable]
+      label: Which workload did you generate?
+      options:
+        - library
+        - cli
+        - api
+        - web
+        - tui
+        - mcp
+        - agent
+        - rag
+        - inference
+        - training
+        - hybrid
+        - repository or documentation
     validations:
       required: true
 
@@ -22,11 +34,21 @@ body:
     id: answers
     attributes:
       label: Contents of .copier-answers.yml
-      description: From the generated project. This tells us exactly how it was generated.
+      description: From the generated project, with secrets removed. This identifies every selected layer.
       render: yaml
+
+  - type: input
+    id: version
+    attributes:
+      label: Template version or commit
+      placeholder: v0.5.0 or a commit SHA
+    validations:
+      required: true
 
   - type: textarea
     id: logs
     attributes:
       label: Relevant output
       render: shell
+    validations:
+      required: true

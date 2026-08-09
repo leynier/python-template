@@ -2,122 +2,163 @@
 
 [![CI](https://github.com/leynier/python-template/actions/workflows/ci.yml/badge.svg)](https://github.com/leynier/python-template/actions/workflows/ci.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/leynier/python-template/badge)](https://scorecard.dev/viewer/?uri=github.com/leynier/python-template)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Copier](https://img.shields.io/badge/template-copier-2ea44f)](https://copier.readthedocs.io)
+[![Documentation](https://img.shields.io/badge/docs-python--template.leynier.dev-5c6ac4)](https://python-template.leynier.dev)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Copier](https://img.shields.io/badge/template-Copier-2ea44f)](https://copier.readthedocs.io)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Last commit](https://img.shields.io/github/last-commit/leynier/python-template.svg?style=flat)](https://github.com/leynier/python-template/commits)
-[![Github Stars](https://img.shields.io/github/stars/leynier/python-template?style=flat&logo=github)](https://github.com/leynier/python-template/stargazers)
+[![Last commit](https://img.shields.io/github/last-commit/leynier/python-template.svg)](https://github.com/leynier/python-template/commits)
+[![GitHub stars](https://img.shields.io/github/stars/leynier/python-template?logo=github)](https://github.com/leynier/python-template/stargazers)
 
-A modern Python project template with CI/CD ready for production.
+Generate production-ready Python and AI stacks by combining frameworks, data engines, tooling, and cloud deployment.
 
-## Usage
+Start with a simple library, CLI, or API. Or compose an agent, RAG system,
+training workspace, inference service, data layer, UI, quality stack, and deploy
+target without assembling the project conventions yourself.
 
-You need [uv](https://docs.astral.sh/uv). Nothing else.
+## Quick start
 
-```bash
-uvx copier copy gh:leynier/python-template my-project
-```
-
-Answer the prompts and you get a working project: dependencies installed, git
-initialised, tests passing.
-
-To pull later improvements to this template into a project you already
-generated:
+Install nothing globally beyond [`uv`](https://docs.astral.sh/uv):
 
 ```bash
+uvx copier copy --trust gh:leynier/python-template my-project
 cd my-project
-uvx copier update
+uv run pytest
 ```
 
-That last command is the reason this template uses Copier instead of
-Cookiecutter — Cookiecutter has no way to update a project after generating it.
+Copier presents 12 editable recipes plus a custom layer-by-layer path. It
+initializes Git and installs the selected dependencies after rendering.
 
-## What you get
+Want the small version? These remain first-class choices with no AI dependency:
 
-One prompt, `project_type`, replaces what used to be three separate branches:
+```text
+Python Library     typed, buildable package
+Typer CLI          tested command-line application
+FastAPI API        production-shaped JSON service
+```
 
-| `project_type` | What it generates                                    |
-| -------------- | ---------------------------------------------------- |
-| `library`      | An importable package                                |
-| `cli`          | A command line app built with [Typer](https://typer.tiangolo.com) |
-| `api`          | A web API built with [FastAPI](https://fastapi.tiangolo.com) |
+## Compose the stack you need
 
-### Tooling
+The generator resolves each choice as a layer, so infrastructure can change
+without replacing the application framework and model providers can change
+without coupling them to the embedding provider.
 
-- **[uv](https://docs.astral.sh/uv)** for dependencies, with a committed
-  `uv.lock`, PEP 621 metadata and PEP 735 dependency groups.
-- **[Ruff](https://docs.astral.sh/ruff)** for linting and formatting — one tool
-  in place of flake8, black, isort and pyupgrade.
-- **[ty](https://github.com/astral-sh/ty)** for type checking.
-- **[deptry](https://deptry.com)** for undeclared and unused dependencies.
-- **[pre-commit](https://pre-commit.com)** wiring all of the above into git
-  hooks.
-- `src/` layout with a `py.typed` marker.
+| Layer | Examples |
+| --- | --- |
+| Workload | library, CLI, API, web, TUI, MCP, agent, RAG, inference, training, hybrid |
+| Framework | FastAPI, Flask, FastMCP, Pydantic AI, LangGraph, LlamaIndex, Lingo, Transformers |
+| Interface | Streamlit, Gradio, Chainlit, Textual, NiceGUI, FastHTML, Violetear, JupyterLab |
+| Model provider | OpenAI, Anthropic, Gemini, Bedrock, Azure OpenAI, Ollama, OpenRouter and more |
+| Embeddings | hosted provider or Sentence Transformers, selected independently |
+| Data | SQL, document, vector, graph, and cache roles with one engine per role |
+| Auth | API key, OAuth/OIDC, or Supabase Auth |
+| Training | Lightning, Datasets, Accelerate, PEFT, TRL, Optuna |
+| Serving | BentoML, LiteLLM, vLLM, Ollama, Ray Serve |
+| MLOps and quality | Prefect, Dagster, DVC, MLflow, Ragas, DeepEval, OpenTelemetry and more |
+| Deploy | Docker plus 14 managed or cloud targets |
+| IaC | none, Pulumi, or Terraform for supported cloud targets |
 
-### CI/CD, via GitHub Actions
+The catalog currently contains 126 components with explicit workload, Python,
+and support-tier metadata. See the complete [component
+reference](https://python-template.leynier.dev/reference/components/).
 
-- Test matrix across Linux, macOS and Windows × every supported Python version.
-- Least-privilege `permissions:` on every workflow, concurrency groups, and
-  actions pinned to full commit SHAs.
-- **PyPI publishing with [Trusted Publishing](https://docs.pypi.org/trusted-publishers/)** —
-  OIDC, no API tokens, with Sigstore attestations. The workflow refuses to
-  publish if the git tag does not match the project version.
-- **[CodeQL](https://codeql.github.com)** scanning and
-  **[zizmor](https://github.com/zizmorcore/zizmor)** auditing the workflows
-  themselves.
-- Dependabot covering `uv`, `github-actions` and Docker.
+## The 12 presets
 
-### Documentation
+Presets are useful starting points, not locked bundles. Every answer remains
+editable during generation.
 
-Built with **[Zensical](https://zensical.org)**, the successor to Material for
-MkDocs from the same team, with **[mkdocstrings](https://mkdocstrings.github.io)**
-generating an API reference from your docstrings. Deployed to GitHub Pages via
-OIDC on every push to `main`.
+| Preset | Starting stack |
+| --- | --- |
+| `python-library` | Typed publishable package |
+| `typer-cli` | Typer command-line app |
+| `fastapi-api` | FastAPI JSON service |
+| `fastmcp-server` | FastMCP tool server |
+| `pydantic-ai-openai` | Pydantic AI + Harness + OpenAI |
+| `google-adk-gemini` | Google ADK + Gemini |
+| `strands-bedrock` | Strands Agents + Bedrock |
+| `langgraph-anthropic-api` | LangGraph + Anthropic + FastAPI |
+| `llamaindex-rag` | LlamaIndex + OpenAI + Pinecone + Gradio |
+| `local-lingo-app` | Lingo + Ollama + Beaver + Violetear |
+| `litellm-gateway` | LiteLLM + Redis + Docker |
+| `hf-finetuning` | Transformers + PEFT/TRL + MLflow + BentoML |
 
-### Optional extras
+Preselect one while keeping the remaining questions interactive:
 
-A multi-stage `Dockerfile` running as a non-root user, a VS Code devcontainer,
-and an `AGENTS.md` so AI coding agents pick up the project conventions.
+```bash
+uvx copier copy --trust \
+  -d preset=fastmcp-server \
+  gh:leynier/python-template my-tools
+```
 
-## Two deliberate bets
+## Deploy without rebuilding the project
 
-This template adopts two tools that are not yet 1.0. Both are used in a way
-that fails soft:
+Every deployment choice keeps a portable Docker base. Choose one target among
+Docker, Render, Fly.io, Vercel, Railway, Hugging Face Spaces, Modal, RunPod,
+BentoCloud, AWS ECS, SageMaker, Cloud Run, Vertex AI, Azure Container Apps, or
+Azure ML. The six cloud targets can additionally generate Pulumi or Terraform.
 
-- **ty** is at `0.0.x` and has no plugin system. CI runs `ty check` with
-  `continue-on-error: true`, so it reports findings without gating your build.
-  When ty reaches 1.0, drop that line from `.github/workflows/ci.yml`.
-- **Zensical** is at `0.0.x` and does not yet have full plugin parity with
-  Material for MkDocs. mkdocstrings is verified to work — the test suite asserts
-  the API reference is really rendered, not passed through — but other plugins
-  may not be. Zensical reads `mkdocs.yml`, so moving back is cheap.
+Managed inference variants expose consistent health and prediction contracts,
+while Modal, RunPod, and BentoCloud receive native SDK adapters.
 
-If you would rather not take those bets, answer `use_docs: false` and swap
-`ty` for mypy in `pyproject.toml`.
+## Skills for AI coding agents
 
-## File naming
+This repository is directly discoverable by the open Agent Skills CLI:
 
-Generated projects use lowercase filenames (`readme.md`), except for files that
-GitHub or tooling matches by exact name, which stay uppercase: `LICENSE`,
-`CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `AGENTS.md`,
-`Dockerfile` and `.github/ISSUE_TEMPLATE/`.
+```bash
+npx skills add leynier/python-template --list
+npx skills add leynier/python-template --skill compose-python-stack
+```
 
-## Developing this template
+Repository skills help an agent compose, maintain, and validate stacks. Every
+generated project also includes a common workflow skill and conditionally adds
+AI and deployment skills matching its selected layers.
+
+## What every generated project gets
+
+- A `src/` layout, typed package marker, bounded dependencies, and committed
+  `uv.lock`.
+- Ruff, pytest, deptry, advisory `ty`, pre-commit, coverage, and Poe tasks.
+- CI across Linux, macOS, and Windows, with least-privilege permissions and
+  pinned actions.
+- CodeQL, zizmor, Dependabot, issue forms, security policy, contribution guide,
+  and changelog.
+- Optional Zensical docs, PyPI Trusted Publishing, Docker, devcontainer, and
+  agent instructions.
+- A saved `.copier-answers.yml` so later template releases can be applied with
+  `uvx copier update`.
+
+## Support model
+
+Catalog entries use three intentionally visible tiers:
+
+- `stable`: open-source component exercised without external credentials.
+- `platform`: hosted or cloud integration whose generated contract is tested
+  offline; real deployment still requires the user's account and secrets.
+- `experimental`: useful but evolving integration with a narrower compatibility
+  promise.
+
+ODMantic, AutoGOAL, archived FastUI, and archived Reflex are intentionally not
+offered. The catalog favors maintained projects that add a distinct layer or a
+clear end-to-end recipe.
+
+## Develop the template
 
 ```bash
 uv sync --all-groups
-uv run pytest -m "not slow"   # structural tests: what gets rendered
-uv run pytest -m slow         # generates each variant and runs its toolchain
-uv run pytest                 # everything
+uv run python scripts/compile_catalog.py --check
+uv run ruff check .
+uv run ruff format --check .
+uv run pytest -n auto
+uv run --group docs zensical serve
 ```
 
-The slow suite is the important one: it generates every project type and runs
-`uv sync`, Ruff, pytest, deptry, ty, `uv build` and the docs build inside each
-generated project. The previous version of this template had no tests at all,
-which is how it managed to sit broken for years without anyone noticing.
+The test suite renders compatible combinations, runs real generated toolchains,
+parses deployment artifacts, checks `copier update`, and exercises representative
+AI/ML vertical slices. Hosted CI repeats the generated-project tests on Linux,
+macOS, and Windows.
+
+Read the [documentation](https://python-template.leynier.dev), the
+[contribution guide](CONTRIBUTING.md), or the [security policy](SECURITY.md).
 
 ## License
 
-This project is collaborative and open source under the [MIT license](LICENSE).
-Contributions are super appreciated.
+Python Template is collaborative open source under the [MIT license](LICENSE).

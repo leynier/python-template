@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "python3 -m pip install uv==0.12.3 && uv sync --locked --only-group docs",
+  "buildCommand": "uv run --only-group docs zensical build --clean --strict",
+  "outputDirectory": "site",
+  "cleanUrls": true,
+  "trailingSlash": false
+}

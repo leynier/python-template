@@ -2,6 +2,23 @@ name: Feature request
 description: Suggest an idea for the template
 labels: ["enhancement"]
 body:
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Which layer does this affect?
+      options:
+        - workload or simple project
+        - framework or agent runtime
+        - interface
+        - model or embedding provider
+        - data engine or authentication
+        - training, serving, MLOps, or quality
+        - deployment or IaC
+        - agent skill
+        - repository tooling or documentation
+    validations:
+      required: true
+
   - type: textarea
     id: problem
     attributes:
@@ -21,3 +38,9 @@ body:
     id: alternatives
     attributes:
       label: What alternatives have you considered?
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: How could this be validated without credentials?
+      description: Describe an import, command, route, local fake, parsed artifact, or other representative test.

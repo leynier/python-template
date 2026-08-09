@@ -79,6 +79,24 @@ jobs:
       - name: Generate and test affected presets offline
         run: uv run pytest -m preset -n auto --basetemp="${{ runner.temp }}/pytest-presets"
 
+  docs:
+    name: Repository documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@v9.0.0
+        with:
+          python-version: "3.13"
+          enable-cache: true
+
+      - run: uv sync --locked --only-group docs
+
+      - name: Build Zensical site
+        run: uv run --only-group docs zensical build --clean --strict
+
   toolchain:
     name: Generated project / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -131,7 +149,7 @@ jobs:
   ci:
     name: CI
     runs-on: ubuntu-latest
-    needs: [lint, structure, presets, toolchain, zizmor]
+    needs: [lint, structure, presets, docs, toolchain, zizmor]
     if: always()
     steps:
       - name: Verify every job succeeded
