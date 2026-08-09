@@ -1,0 +1,8 @@
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+name: blue
+endpoint_name: {{ project_slug }}
+model: azureml:MODEL_NAME:MODEL_VERSION
+environment:
+  image: IMAGE_URI
+instance_type: Standard_DS3_v2
+instance_count: 1

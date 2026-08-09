@@ -1,0 +1,20 @@
+"""Modal deployment adapter."""
+
+import modal
+
+{% if workload == 'api' -%}
+from {{ module_name }}.api import app as web_app
+{%- elif 'fastapi' in interfaces | default([]) -%}
+from {{ module_name }}.interfaces.fastapi_app import app as web_app
+{%- else -%}
+from {{ module_name }}.deployment import app as web_app
+{%- endif %}
+
+app = modal.App("{{ project_slug }}")
+
+
+@app.function()
+@modal.asgi_app()
+def asgi_app():  # type: ignore[no-untyped-def]
+    """Expose the generated ASGI app through Modal."""
+    return web_app

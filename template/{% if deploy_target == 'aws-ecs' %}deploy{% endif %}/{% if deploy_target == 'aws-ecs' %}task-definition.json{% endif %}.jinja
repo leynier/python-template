@@ -1,0 +1,16 @@
+{
+  "family": "{{ project_slug }}",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "EXECUTION_ROLE_ARN",
+  "containerDefinitions": [
+    {
+      "name": "app",
+      "image": "IMAGE_URI",
+      "essential": true,
+      "portMappings": [{"containerPort": 8000, "protocol": "tcp"}]
+    }
+  ]
+}

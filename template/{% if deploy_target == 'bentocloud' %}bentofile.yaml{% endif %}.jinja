@@ -1,0 +1,9 @@
+service: "deploy.bentoml_service:ProjectService"
+description: "file: ./readme.md"
+include:
+  - "src/"
+  - "deploy/"
+  - "pyproject.toml"
+docker:
+  distro: debian
+  python_version: "{{ python_version }}"

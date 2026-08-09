@@ -328,9 +328,9 @@ components:
   - {id: vercel, name: Vercel, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
   - {id: railway, name: Railway, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
   - {id: hf-spaces, name: Hugging Face Spaces, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: modal, name: Modal, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: runpod, name: RunPod, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
-  - {id: bentocloud, name: BentoCloud, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
+  - {id: modal, name: Modal, layer: deploy, tier: platform, python: ">=3.11,<3.15", packages: ["modal>=1.5.3,<2"]}
+  - {id: runpod, name: RunPod, layer: deploy, tier: platform, python: ">=3.11,<3.15", packages: ["runpod>=1.11.0,<2"]}
+  - {id: bentocloud, name: BentoCloud, layer: deploy, tier: platform, python: ">=3.11,<3.15", packages: ["bentoml>=1.4.39,<2"]}
   - {id: aws-ecs, name: AWS ECS, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
   - {id: aws-sagemaker, name: AWS SageMaker, layer: deploy, tier: platform, python: ">=3.11,<3.15"}
   - {id: cloud-run, name: Google Cloud Run, layer: deploy, tier: platform, python: ">=3.11,<3.15"}

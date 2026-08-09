@@ -1,0 +1,149 @@
+"""Pulumi program for {{ deploy_target }} using existing bounded cloud primitives."""
+
+{% if deploy_target == 'aws-ecs' -%}
+import json
+
+import pulumi
+import pulumi_aws as aws
+
+config = pulumi.Config()
+image_uri = config.require("imageUri")
+execution_role_arn = config.require("executionRoleArn")
+subnet_ids = config.require_object("subnetIds")
+security_group_ids = config.require_object("securityGroupIds")
+
+cluster = aws.ecs.Cluster("{{ project_slug }}")
+task = aws.ecs.TaskDefinition(
+    "{{ project_slug }}",
+    family="{{ project_slug }}",
+    cpu="512",
+    memory="1024",
+    network_mode="awsvpc",
+    requires_compatibilities=["FARGATE"],
+    execution_role_arn=execution_role_arn,
+    container_definitions=json.dumps(
+        [{"name": "app", "image": image_uri, "essential": True, "portMappings": [{"containerPort": 8000}]}]
+    ),
+)
+service = aws.ecs.Service(
+    "{{ project_slug }}",
+    cluster=cluster.arn,
+    task_definition=task.arn,
+    desired_count=1,
+    launch_type="FARGATE",
+    network_configuration={
+        "subnets": subnet_ids,
+        "security_groups": security_group_ids,
+        "assign_public_ip": True,
+    },
+)
+pulumi.export("clusterArn", cluster.arn)
+pulumi.export("serviceName", service.name)
+{%- elif deploy_target == 'aws-sagemaker' -%}
+import pulumi
+import pulumi_aws as aws
+
+config = pulumi.Config()
+image_uri = config.require("imageUri")
+execution_role_arn = config.require("executionRoleArn")
+instance_type = config.get("instanceType") or "ml.m5.large"
+
+model = aws.sagemaker.Model(
+    "{{ project_slug }}",
+    execution_role_arn=execution_role_arn,
+    primary_container={"image": image_uri},
+)
+endpoint_config = aws.sagemaker.EndpointConfiguration(
+    "{{ project_slug }}",
+    production_variants=[{
+        "variant_name": "AllTraffic",
+        "model_name": model.name,
+        "initial_instance_count": 1,
+        "instance_type": instance_type,
+    }],
+)
+endpoint = aws.sagemaker.Endpoint(
+    "{{ project_slug }}", endpoint_config_name=endpoint_config.name
+)
+pulumi.export("endpointName", endpoint.name)
+{%- elif deploy_target == 'cloud-run' -%}
+import pulumi
+import pulumi_gcp as gcp
+
+config = pulumi.Config()
+image_uri = config.require("imageUri")
+region = config.get("region") or "us-central1"
+
+service = gcp.cloudrunv2.Service(
+    "{{ project_slug }}",
+    name="{{ project_slug }}",
+    location=region,
+    deletion_protection=False,
+    ingress="INGRESS_TRAFFIC_ALL",
+    template={"containers": [{"image": image_uri, "ports": {"container_port": 8000}}]},
+)
+pulumi.export("serviceUri", service.uri)
+{%- elif deploy_target == 'vertex-ai' -%}
+import pulumi
+import pulumi_gcp as gcp
+
+config = pulumi.Config()
+image_uri = config.require("imageUri")
+region = config.get("region") or "us-central1"
+
+model = gcp.vertex.AiModel(
+    "{{ project_slug }}",
+    display_name="{{ project_slug }}",
+    region=region,
+    container_spec={
+        "image_uri": image_uri,
+        "ports": [{"container_port": 8000}],
+        "health_route": "/health",
+        "predict_route": "/predict",
+    },
+)
+endpoint = gcp.vertex.AiEndpoint(
+    "{{ project_slug }}", display_name="{{ project_slug }}", region=region
+)
+pulumi.export("modelId", model.id)
+pulumi.export("endpointId", endpoint.id)
+{%- elif deploy_target == 'azure-container-apps' -%}
+import pulumi
+from pulumi_azure_native import app
+
+config = pulumi.Config()
+image_uri = config.require("imageUri")
+resource_group_name = config.require("resourceGroupName")
+environment_id = config.require("environmentId")
+location = config.get("location") or "eastus"
+
+container_app = app.ContainerApp(
+    "{{ project_slug }}",
+    container_app_name="{{ project_slug }}",
+    resource_group_name=resource_group_name,
+    location=location,
+    environment_id=environment_id,
+    configuration={"ingress": {"external": True, "target_port": 8000}},
+    template={"containers": [{"name": "app", "image": image_uri}]},
+)
+pulumi.export("fqdn", container_app.configuration.apply(lambda value: value.ingress.fqdn))
+{%- elif deploy_target == 'azure-ml' -%}
+import pulumi
+from pulumi_azure_native import machinelearningservices as ml
+
+config = pulumi.Config()
+resource_group_name = config.require("resourceGroupName")
+workspace_name = config.require("workspaceName")
+location = config.get("location") or "eastus"
+
+endpoint = ml.OnlineEndpoint(
+    "{{ project_slug }}",
+    endpoint_name="{{ project_slug }}",
+    resource_group_name=resource_group_name,
+    workspace_name=workspace_name,
+    location=location,
+    identity={"type": "SystemAssigned"},
+    properties={"auth_mode": "Key", "description": "{{ project_name }}"},
+)
+pulumi.export("endpointName", endpoint.name)
+{%- endif %}

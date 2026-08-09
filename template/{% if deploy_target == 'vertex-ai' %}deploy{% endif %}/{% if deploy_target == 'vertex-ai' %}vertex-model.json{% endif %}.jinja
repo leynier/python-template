@@ -1,0 +1,9 @@
+{
+  "displayName": "{{ project_slug }}",
+  "containerSpec": {
+    "imageUri": "IMAGE_URI",
+    "ports": [{"containerPort": 8000}],
+    "healthRoute": "/health",
+    "predictRoute": "/predict"
+  }
+}

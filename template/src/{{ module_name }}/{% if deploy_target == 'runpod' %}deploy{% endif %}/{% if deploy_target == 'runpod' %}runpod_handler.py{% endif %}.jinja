@@ -1,0 +1,17 @@
+"""RunPod Serverless worker implementation."""
+
+from typing import Any
+
+import runpod
+
+
+def handler(job: dict[str, Any]) -> dict[str, Any]:
+    """Return a deterministic envelope ready for model inference code."""
+    return {
+        "input": job.get("input", {}),
+        "project": "{{ project_slug }}",
+        "serving": "{{ serving }}",
+    }
+
+
+RUNPOD_START = runpod.serverless.start

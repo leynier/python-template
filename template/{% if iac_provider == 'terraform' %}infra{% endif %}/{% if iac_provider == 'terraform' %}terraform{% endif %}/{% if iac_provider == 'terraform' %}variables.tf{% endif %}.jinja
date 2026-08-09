@@ -1,0 +1,55 @@
+variable "region" {
+  type    = string
+  default = "{% if deploy_target in ['aws-ecs', 'aws-sagemaker'] %}us-east-1{% elif deploy_target in ['cloud-run', 'vertex-ai'] %}us-central1{% else %}eastus{% endif %}"
+}
+
+variable "image_uri" {
+  type    = string
+  default = "IMAGE_URI"
+}
+{% if deploy_target in ['aws-ecs', 'aws-sagemaker'] -%}
+variable "execution_role_arn" {
+  type = string
+}
+{%- endif %}
+{% if deploy_target == 'aws-ecs' -%}
+variable "subnet_ids" {
+  type = list(string)
+}
+
+variable "security_group_ids" {
+  type = list(string)
+}
+{%- elif deploy_target == 'aws-sagemaker' -%}
+variable "instance_type" {
+  type    = string
+  default = "ml.m5.large"
+}
+{%- elif deploy_target in ['cloud-run', 'vertex-ai'] -%}
+variable "project_id" {
+  type = string
+}
+{% if deploy_target == 'vertex-ai' %}
+variable "endpoint_id" {
+  type        = string
+  description = "Numeric Vertex endpoint resource name"
+}
+{% endif %}
+{%- elif deploy_target == 'azure-container-apps' -%}
+variable "resource_group_name" {
+  type = string
+}
+
+variable "environment_id" {
+  type = string
+}
+{%- elif deploy_target == 'azure-ml' -%}
+variable "location" {
+  type    = string
+  default = "eastus"
+}
+
+variable "workspace_id" {
+  type = string
+}
+{%- endif %}

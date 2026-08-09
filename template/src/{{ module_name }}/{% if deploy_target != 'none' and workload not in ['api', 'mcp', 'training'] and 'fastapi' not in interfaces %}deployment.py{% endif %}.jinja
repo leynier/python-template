@@ -1,0 +1,44 @@
+"""Portable HTTP entrypoint for the selected deployment target."""
+
+from typing import Any
+
+from fastapi import FastAPI
+
+app = FastAPI(title="{{ project_name }}", version="0.1.0")
+
+
+@app.get("/health")
+async def health() -> dict[str, str]:
+    """Report deployment health without loading remote models."""
+    return {"status": "ok"}
+
+
+@app.get("/ping")
+async def ping() -> dict[str, str]:
+    """Implement the health contract used by managed ML endpoints."""
+    return {"status": "ok"}
+
+
+@app.post("/predict")
+@app.post("/invocations")
+async def predict(payload: dict[str, Any]) -> dict[str, Any]:
+    """Echo a validated envelope until project-specific inference is connected."""
+    return {"input": payload, "serving": "{{ serving }}"}
+
+
+@app.get("/")
+async def deployment_info() -> dict[str, str]:
+    """Describe the generated stack."""
+    return {
+        "project": "{{ project_slug }}",
+        "workload": "{{ workload }}",
+        "framework": "{{ framework }}",
+        "deployment": "{{ deploy_target }}",
+    }
+
+
+def main() -> None:
+    """Run the portable deployment entrypoint."""
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
