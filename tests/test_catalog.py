@@ -85,12 +85,6 @@ def test_data_choices_match_their_catalog_roles() -> None:
         assert question_ids == catalog_ids, role
 
 
-def test_deliberately_excluded_projects_stay_excluded() -> None:
-    text = (REPO / "catalog" / "components.yml").read_text().lower()
-    for excluded in ("autogoal", "odmantic", "fastui", "reflex"):
-        assert excluded not in text
-
-
 def test_every_preset_is_exposed_by_copier() -> None:
     config = yaml.safe_load((REPO / "copier.yml").read_text())
     preset_choices = set(config["preset"]["choices"].values())

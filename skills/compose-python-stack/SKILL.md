@@ -21,6 +21,5 @@ Turn a product goal into a supported stack, explain the consequential choices, a
 
 - Treat catalog compatibility rules as authoritative; do not force an invalid combination.
 - Preserve the first-class `python-library`, `typer-cli`, and `fastapi-api` paths.
-- Do not propose ODMantic, AutoGOAL, FastUI, or Reflex; they are intentionally outside the supported catalog.
 - Prefer Python 3.12 or newer and `uv` for environment and command execution.
 - Never deploy, create paid resources, or write credentials unless the user explicitly authorizes that action.

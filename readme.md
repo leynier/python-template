@@ -136,9 +136,8 @@ Catalog entries use three intentionally visible tiers:
 - `experimental`: useful but evolving integration with a narrower compatibility
   promise.
 
-ODMantic, AutoGOAL, archived FastUI, and archived Reflex are intentionally not
-offered. The catalog favors maintained projects that add a distinct layer or a
-clear end-to-end recipe.
+The catalog favors maintained projects that add a distinct layer or a clear
+end-to-end recipe.
 
 ## Develop the template
 

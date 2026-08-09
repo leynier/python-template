@@ -55,12 +55,6 @@ deliberately.
   and repository documentation, while retaining Linux, macOS, and Windows
   generated-project gates.
 
-### Removed
-
-- ODMantic, AutoGOAL, FastUI, and Reflex are deliberately outside the supported
-  catalog. FastUI and Reflex are archived upstream; the other two do not fit the
-  accepted v0.5 scope.
-
 ### Migration
 
 None. v0.5 is intentionally incompatible with v0.4 answers and generated
