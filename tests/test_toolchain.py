@@ -26,12 +26,23 @@ def test_minimum_python_312_project_runs(copie, uv: str) -> None:
         "uv sync on Python 3.12",
     )
     version = run(
-        [uv, "run", "python", "-c", "import sys; print(sys.version_info[:2])"],
+        [
+            uv,
+            "run",
+            "--python",
+            "3.12",
+            "python",
+            "-c",
+            "import sys; print(sys.version_info[:2])",
+        ],
         project,
     )
     assert_ok(version, "Python 3.12 runtime")
     assert "(3, 12)" in version.stdout
-    assert_ok(run([uv, "run", "pytest", "-q"], project), "pytest on Python 3.12")
+    assert_ok(
+        run([uv, "run", "--python", "3.12", "pytest", "-q"], project),
+        "pytest on Python 3.12",
+    )
 
 
 @pytest.mark.slow
