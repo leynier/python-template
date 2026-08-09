@@ -1,60 +1,82 @@
-# Python Template
+# Contributing to Python Template
 
-## Contributions are highly appreciated
+Contributions are welcome, from a focused bug report to a complete component
+integration. The repository generates many possible projects, so changes must
+keep the catalog, templates, and executable tests aligned.
 
-### All contributors will be granted credit on the following list
+## Report an issue
 
-* Leynier Gutiérrez González ([@leynier](https://github.com/leynier))
+Use the [issue forms](https://github.com/leynier/python-template/issues/new/choose).
+For a generated-project bug, include the relevant `.copier-answers.yml`, the
+command that failed, and its output. Remove credentials before posting.
 
-You can help out by:
+Security vulnerabilities belong in a private
+[GitHub Security Advisory](https://github.com/leynier/python-template/security/advisories/new),
+not a public issue.
 
-* Reporting a bug
-* Reviewing the code
-* Submitting a fix
-* Proposing new features
-* Becoming a maintainer
+## Propose a component
 
-## Branches
+Explain:
 
-We're using the following branches to manage work:
+- which architectural layer and workload it serves;
+- how it differs from supported components in that role;
+- its maintained Python versions and upstream stability;
+- what functional source and configuration the template should generate; and
+- how CI can validate it without paid credentials.
 
-* `develop` is semi-stable and should be used as the branch to fork from
-* `main` is stable and ready for prod (or it will be once we merge in the first release)
-* `feature`, `bug` branches: unstable development
+The project intentionally excludes ODMantic, AutoGOAL, archived FastUI, and
+archived Reflex. A new proposal should meet the inclusion criteria in the
+[support model](docs/concepts/support.md).
 
-## How to report bugs
+## Develop a change
 
-We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/leynier/python-template/issues/new/choose); it's that easy!
+Create a focused branch from `main` and install every repository group:
 
-### Write bug reports with detail, background, and sample code
+```bash
+git switch main
+git pull --ff-only
+git switch -c feat/short-description
+uv sync --all-groups
+```
 
-**Great Bug Reports** tend to have:
+For a catalog change, edit `catalog/components.yml` or `catalog/presets.yml`,
+then compile deterministic outputs:
 
-* A quick summary and/or background
-* Steps to reproduce
-  * Be specific!
-  * Give sample code if you can.
-* What you expected to happen
-* What actually happens
-* Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
+```bash
+uv run python scripts/compile_catalog.py
+uv run python scripts/compile_catalog.py --check
+```
 
-We <3 thorough bug reports.
+Do not edit `catalog/generated/`, `docs/reference/`, or
+`template/_catalog_dependencies.jinja` by hand. Add functional source,
+dependency, configuration, documentation, and tests for the selected component.
 
-## How to contribute code
+## Validate before opening a PR
 
-We use GitHub to host code, to track issues and feature requests, as well as accept pull requests.
+```bash
+uv run python scripts/compile_catalog.py --check
+uv run ruff check .
+uv run ruff format --check .
+uv run pytest -n auto
+uv run --group docs zensical build --clean --strict
+npx skills add . --list
+```
 
-Pull requests are the best way to propose changes to the codebase. We use a loose version of Git Flow
-and actively welcome your pull requests:
+Generate and exercise at least one representative project. A test that only
+checks file presence is not enough when an import, CLI command, endpoint, tool,
+training step, or container health route can be validated locally.
 
-1. Create a new branch based on `develop`:
-   * Feature branches should start with `feature/`
-   * Bugfix branches should start with `bug/`
-2. Implement your changes.
-3. Add tests if applicable.
-4. Make sure your code lints.
-5. Issue that pull request!
+Hosted CI repeats generated-project checks on Linux, macOS, and Windows. Keep
+conditional source paths short enough for Windows temporary directories.
 
-### Any contributions you make will be under the MIT License
+## Pull requests
 
-When you submit code changes, your submissions are understood to be under the same [MIT](LICENSE) that covers the project.
+Keep each PR centered on one layer or cohesive outcome. Describe the supported
+combination, commands run, external checks that were unavailable, and any
+credential-gated behavior that remains operationally unverified. By submitting
+a contribution, you agree that it is licensed under this repository's
+[MIT license](LICENSE).
+
+## Contributors
+
+- Leynier Gutiérrez González ([@leynier](https://github.com/leynier))

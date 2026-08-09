@@ -9,6 +9,7 @@ __pycache__/
 # Testing
 .pytest_cache/
 .coverage
+site/
 
 # Tool caches
 .ruff_cache/
@@ -17,6 +18,7 @@ __pycache__/
 # Editors
 .vscode/
 .idea/
+.vercel/
 
 # OS
 .DS_Store
