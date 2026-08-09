@@ -45,7 +45,7 @@ def installed_training_tools() -> tuple[Any, ...]:
 
 
 def train(values: list[float]) -> dict[str, float]:
-    """Run a deterministic local training placeholder without downloading models."""
+    """Run a deterministic local smoke step without downloading model artifacts."""
     installed_training_tools()
     mean = sum(values) / len(values) if values else 0.0
     return {"examples": float(len(values)), "mean": mean}

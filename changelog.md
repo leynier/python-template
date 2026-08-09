@@ -10,6 +10,62 @@ in particular whenever `ty` or Zensical, both still pre-1.0, change their APIs.
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-08-08
+
+This is a breaking redesign of the generator. There is no automated migration
+from v0.4 projects; generate a fresh project and move application code
+deliberately.
+
+### Added
+
+- A declarative catalog with 126 workload, framework, interface, provider, data,
+  auth, training, serving, operations, quality, and deployment components.
+- Twelve editable presets: three simple Python projects, FastMCP, four agent
+  stacks, hosted and local RAG/agent applications, a LiteLLM gateway, and a
+  Hugging Face fine-tuning workspace.
+- FastMCP, Pydantic AI and optional Pydantic AI Harness capabilities; Google
+  ADK, Strands Agents, LangGraph, LangChain, LlamaIndex, CrewAI, smolagents,
+  DSPy, OpenAI Agents SDK, AutoGen, AG2, Agno, Lingo, and Haystack.
+- Independent model and embedding provider choices, plus SQL, document, vector,
+  graph, and cache roles with one selected engine per role. Beaver can fill its
+  four supported local-first roles.
+- Streamlit, Gradio, Chainlit, Textual, NiceGUI, FastHTML, Violetear, and
+  JupyterLab interfaces; API composition can additionally expose FastAPI or
+  Flask.
+- SQLModel/SQLAlchemy with Alembic, Supabase, MongoDB, vector databases, Neo4j,
+  Redis, and API key, OIDC, or Supabase authentication.
+- PyTorch, Transformers, JAX, Keras/TensorFlow, scikit-learn, and XGBoost
+  training projects; training extensions, five serving engines, MLOps tools,
+  evaluations, and observability choices. Hybrid projects use an uv workspace.
+- A portable Docker contract and 15 deployment targets. AWS, Google Cloud, and
+  Azure targets can generate Pulumi or Terraform; Modal, RunPod, and BentoCloud
+  receive native Python adapters.
+- Three installable repository Agent Skills and stack-aware skills inside every
+  generated project, discoverable with `npx skills`.
+- Root Zensical documentation, strict documentation CI, and Vercel static-site
+  configuration for `python-template.leynier.dev`.
+
+### Changed
+
+- The former `project_type` switch is replaced by compatible composable layers.
+- Python 3.12 is now the minimum generated-project version.
+- The README, contribution guide, issue forms, GitHub description, homepage,
+  and topics now describe the layer model and current catalog.
+- CI adds credential-free vertical slices for AI, data, ML, deployment, skills,
+  and repository documentation, while retaining Linux, macOS, and Windows
+  generated-project gates.
+
+### Removed
+
+- ODMantic, AutoGOAL, FastUI, and Reflex are deliberately outside the supported
+  catalog. FastUI and Reflex are archived upstream; the other two do not fit the
+  accepted v0.5 scope.
+
+### Migration
+
+None. v0.5 is intentionally incompatible with v0.4 answers and generated
+layout. Start from a newly generated project.
+
 ## [0.4.1]
 
 ### Changed
@@ -88,6 +144,7 @@ with the previous version.
 None. This release is not backwards compatible with the Cookiecutter template
 and does not try to be. Generate a fresh project and move your code across.
 
-[Unreleased]: https://github.com/leynier/python-template/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/leynier/python-template/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/leynier/python-template/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/leynier/python-template/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/leynier/python-template/compare/v0.3.1...v0.4.0

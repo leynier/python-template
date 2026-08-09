@@ -15,6 +15,26 @@ SIMPLE_WORKLOADS = ["library", "cli", "api"]
 
 
 @pytest.mark.slow
+def test_minimum_python_312_project_runs(copie, uv: str) -> None:
+    """The declared v0.5 baseline must work, not merely appear in metadata."""
+    project = copie.copy(
+        extra_answers=answers(preset="python-library", python_version="3.12")
+    ).project_dir
+
+    assert_ok(
+        run([uv, "sync", "--python", "3.12", "--all-groups"], project),
+        "uv sync on Python 3.12",
+    )
+    version = run(
+        [uv, "run", "python", "-c", "import sys; print(sys.version_info[:2])"],
+        project,
+    )
+    assert_ok(version, "Python 3.12 runtime")
+    assert "(3, 12)" in version.stdout
+    assert_ok(run([uv, "run", "pytest", "-q"], project), "pytest on Python 3.12")
+
+
+@pytest.mark.slow
 @pytest.mark.parametrize("workload", SIMPLE_WORKLOADS)
 def test_generated_project_passes_its_own_checks(copie, uv: str, workload: str) -> None:
     """Install the generated project and run the full quality gate on it."""

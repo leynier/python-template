@@ -6,7 +6,7 @@
       "name": "Python library",
       "layer": "workload",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -16,7 +16,7 @@
       "name": "CLI application",
       "layer": "workload",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -26,7 +26,7 @@
       "name": "API service",
       "layer": "workload",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -36,7 +36,7 @@
       "name": "Python web application",
       "layer": "workload",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -46,7 +46,7 @@
       "name": "Terminal UI",
       "layer": "workload",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -56,7 +56,7 @@
       "name": "MCP server",
       "layer": "workload",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -66,7 +66,7 @@
       "name": "AI agent",
       "layer": "workload",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -76,7 +76,7 @@
       "name": "RAG application",
       "layer": "workload",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -86,7 +86,7 @@
       "name": "Model inference service",
       "layer": "workload",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -96,7 +96,7 @@
       "name": "Model training project",
       "layer": "workload",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -106,7 +106,7 @@
       "name": "Training and serving workspace",
       "layer": "workload",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -116,7 +116,7 @@
       "name": "Typer",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "cli"
       ],
@@ -130,7 +130,7 @@
       "name": "FastAPI",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "api"
       ],
@@ -146,7 +146,7 @@
       "name": "Flask",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "api"
       ],
@@ -160,7 +160,7 @@
       "name": "FastMCP",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "mcp"
       ],
@@ -174,7 +174,7 @@
       "name": "PydanticAI",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "agent"
       ],
@@ -188,7 +188,7 @@
       "name": "LangGraph",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "agent"
       ],
@@ -202,7 +202,7 @@
       "name": "LangChain",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "agent",
         "rag"
@@ -217,7 +217,7 @@
       "name": "LlamaIndex",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "agent",
         "rag"
@@ -232,7 +232,7 @@
       "name": "CrewAI",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.14",
+      "python": ">=3.12,<3.14",
       "workloads": [
         "agent"
       ],
@@ -246,7 +246,7 @@
       "name": "Hugging Face smolagents",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "agent"
       ],
@@ -260,7 +260,7 @@
       "name": "DSPy",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "agent"
       ],
@@ -274,7 +274,7 @@
       "name": "OpenAI Agents SDK",
       "layer": "framework",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "agent"
       ],
@@ -288,7 +288,7 @@
       "name": "Google ADK",
       "layer": "framework",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "agent"
       ],
@@ -302,7 +302,7 @@
       "name": "Strands Agents",
       "layer": "framework",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "agent"
       ],
@@ -316,7 +316,7 @@
       "name": "Microsoft AutoGen",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "agent"
       ],
@@ -330,7 +330,7 @@
       "name": "AG2",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "agent"
       ],
@@ -344,7 +344,7 @@
       "name": "Agno",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "agent"
       ],
@@ -372,7 +372,7 @@
       "name": "Haystack",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "rag"
       ],
@@ -386,7 +386,7 @@
       "name": "PyTorch",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "training",
         "hybrid"
@@ -401,7 +401,7 @@
       "name": "Hugging Face Transformers",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "training",
         "hybrid"
@@ -417,7 +417,7 @@
       "name": "JAX",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "training",
         "hybrid"
@@ -432,7 +432,7 @@
       "name": "Keras / TensorFlow",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.14",
+      "python": ">=3.12,<3.14",
       "workloads": [
         "training",
         "hybrid"
@@ -448,7 +448,7 @@
       "name": "scikit-learn",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "training",
         "hybrid"
@@ -463,7 +463,7 @@
       "name": "XGBoost",
       "layer": "framework",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [
         "training",
         "hybrid"
@@ -478,7 +478,7 @@
       "name": "Streamlit",
       "layer": "interface",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -490,7 +490,7 @@
       "name": "Gradio",
       "layer": "interface",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -502,7 +502,7 @@
       "name": "Chainlit",
       "layer": "interface",
       "tier": "stable",
-      "python": ">=3.11,<3.14",
+      "python": ">=3.12,<3.14",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -514,7 +514,7 @@
       "name": "Textual",
       "layer": "interface",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -526,7 +526,7 @@
       "name": "NiceGUI",
       "layer": "interface",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -538,7 +538,7 @@
       "name": "FastHTML",
       "layer": "interface",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -562,7 +562,7 @@
       "name": "JupyterLab",
       "layer": "interface",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -574,7 +574,7 @@
       "name": "OpenAI",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -586,7 +586,7 @@
       "name": "Anthropic",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -598,7 +598,7 @@
       "name": "Google Gemini",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -610,7 +610,7 @@
       "name": "Azure OpenAI",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -622,7 +622,7 @@
       "name": "AWS Bedrock",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -634,7 +634,7 @@
       "name": "OpenRouter",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -646,7 +646,7 @@
       "name": "Groq",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -658,7 +658,7 @@
       "name": "Mistral",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -670,7 +670,7 @@
       "name": "Cohere",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -682,7 +682,7 @@
       "name": "Hugging Face",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -694,7 +694,7 @@
       "name": "Ollama",
       "layer": "model_provider",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -706,7 +706,7 @@
       "name": "OpenAI-compatible endpoint",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -718,7 +718,7 @@
       "name": "xAI",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -730,7 +730,7 @@
       "name": "DeepSeek",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -742,7 +742,7 @@
       "name": "Together AI",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -754,7 +754,7 @@
       "name": "Fireworks AI",
       "layer": "model_provider",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -766,7 +766,7 @@
       "name": "Sentence Transformers",
       "layer": "embedding_provider",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -778,7 +778,7 @@
       "name": "SQLite",
       "layer": "data",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "sql"
@@ -790,7 +790,7 @@
       "name": "PostgreSQL",
       "layer": "data",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "sql"
@@ -804,7 +804,7 @@
       "name": "MySQL",
       "layer": "data",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "sql"
@@ -818,7 +818,7 @@
       "name": "DuckDB",
       "layer": "data",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "sql"
@@ -833,7 +833,7 @@
       "name": "Supabase",
       "layer": "data",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "sql",
@@ -848,7 +848,7 @@
       "name": "MongoDB",
       "layer": "data",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "document"
@@ -879,7 +879,7 @@
       "name": "pgvector",
       "layer": "data",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "vector"
@@ -893,7 +893,7 @@
       "name": "Qdrant",
       "layer": "data",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "vector"
@@ -907,7 +907,7 @@
       "name": "Chroma",
       "layer": "data",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "vector"
@@ -921,7 +921,7 @@
       "name": "LanceDB",
       "layer": "data",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "vector"
@@ -935,7 +935,7 @@
       "name": "Weaviate",
       "layer": "data",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "vector"
@@ -949,7 +949,7 @@
       "name": "Pinecone",
       "layer": "data",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "vector"
@@ -963,7 +963,7 @@
       "name": "Milvus",
       "layer": "data",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "vector"
@@ -977,7 +977,7 @@
       "name": "Neo4j",
       "layer": "data",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "graph"
@@ -991,7 +991,7 @@
       "name": "Redis",
       "layer": "data",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [
         "cache"
@@ -1005,7 +1005,7 @@
       "name": "SQLModel",
       "layer": "sql_abstraction",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1019,7 +1019,7 @@
       "name": "SQLAlchemy",
       "layer": "sql_abstraction",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1032,7 +1032,7 @@
       "name": "API key",
       "layer": "auth",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -1042,7 +1042,7 @@
       "name": "OAuth / OIDC",
       "layer": "auth",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1054,7 +1054,7 @@
       "name": "Supabase Auth",
       "layer": "auth",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1066,7 +1066,7 @@
       "name": "BentoML",
       "layer": "serving",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1078,7 +1078,7 @@
       "name": "LiteLLM",
       "layer": "serving",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1090,7 +1090,7 @@
       "name": "vLLM",
       "layer": "serving",
       "tier": "platform",
-      "python": ">=3.11,<3.14",
+      "python": ">=3.12,<3.14",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1102,7 +1102,7 @@
       "name": "Ollama",
       "layer": "serving",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1114,7 +1114,7 @@
       "name": "Ray Serve",
       "layer": "serving",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1126,7 +1126,7 @@
       "name": "Lightning",
       "layer": "training_extension",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1138,7 +1138,7 @@
       "name": "Hugging Face Datasets",
       "layer": "training_extension",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1150,7 +1150,7 @@
       "name": "Accelerate",
       "layer": "training_extension",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1162,7 +1162,7 @@
       "name": "PEFT",
       "layer": "training_extension",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1174,7 +1174,7 @@
       "name": "TRL",
       "layer": "training_extension",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1186,7 +1186,7 @@
       "name": "Optuna",
       "layer": "training_extension",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1198,7 +1198,7 @@
       "name": "Prefect",
       "layer": "mlops",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1210,7 +1210,7 @@
       "name": "Dagster",
       "layer": "mlops",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1222,7 +1222,7 @@
       "name": "Temporal",
       "layer": "mlops",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1234,7 +1234,7 @@
       "name": "Celery",
       "layer": "mlops",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1246,7 +1246,7 @@
       "name": "DVC",
       "layer": "mlops",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1258,7 +1258,7 @@
       "name": "Feast",
       "layer": "mlops",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1270,7 +1270,7 @@
       "name": "Evidently",
       "layer": "mlops",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1282,7 +1282,7 @@
       "name": "Polars",
       "layer": "mlops",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1294,7 +1294,7 @@
       "name": "Pandera",
       "layer": "mlops",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1306,7 +1306,7 @@
       "name": "DeepEval",
       "layer": "quality",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1318,7 +1318,7 @@
       "name": "Ragas",
       "layer": "quality",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1330,7 +1330,7 @@
       "name": "Pydantic Evals",
       "layer": "quality",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1342,7 +1342,7 @@
       "name": "OpenTelemetry",
       "layer": "quality",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1354,7 +1354,7 @@
       "name": "Langfuse",
       "layer": "quality",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1366,7 +1366,7 @@
       "name": "Phoenix",
       "layer": "quality",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1378,7 +1378,7 @@
       "name": "MLflow",
       "layer": "quality",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1390,7 +1390,7 @@
       "name": "LangSmith",
       "layer": "quality",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1402,7 +1402,7 @@
       "name": "Weights & Biases",
       "layer": "quality",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1414,7 +1414,7 @@
       "name": "Docker / Compose",
       "layer": "deploy",
       "tier": "stable",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -1424,7 +1424,7 @@
       "name": "Render",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -1434,7 +1434,7 @@
       "name": "Fly.io",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -1444,7 +1444,7 @@
       "name": "Vercel",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -1454,7 +1454,7 @@
       "name": "Railway",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -1464,7 +1464,7 @@
       "name": "Hugging Face Spaces",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -1474,7 +1474,7 @@
       "name": "Modal",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1486,7 +1486,7 @@
       "name": "RunPod",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1498,7 +1498,7 @@
       "name": "BentoCloud",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": [
@@ -1510,7 +1510,7 @@
       "name": "AWS ECS",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -1520,7 +1520,7 @@
       "name": "AWS SageMaker",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -1530,7 +1530,7 @@
       "name": "Google Cloud Run",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -1540,7 +1540,7 @@
       "name": "Vertex AI",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -1550,7 +1550,7 @@
       "name": "Azure Container Apps",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []
@@ -1560,7 +1560,7 @@
       "name": "Azure ML",
       "layer": "deploy",
       "tier": "platform",
-      "python": ">=3.11,<3.15",
+      "python": ">=3.12,<3.15",
       "workloads": [],
       "roles": [],
       "packages": []

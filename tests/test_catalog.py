@@ -33,6 +33,58 @@ def test_catalog_and_public_artifact_match() -> None:
     assert len(generated["presets"]) == 12
 
 
+def test_python_312_is_the_global_minimum() -> None:
+    source = yaml.safe_load((REPO / "catalog" / "components.yml").read_text())
+    config = yaml.safe_load((REPO / "copier.yml").read_text())
+
+    assert config["python_version"]["choices"] == ["3.12", "3.13", "3.14"]
+    for component in source["components"]:
+        assert component["python"].startswith(">=3.12,"), component["id"]
+
+
+def test_every_copier_component_choice_exists_in_the_catalog() -> None:
+    source = yaml.safe_load((REPO / "catalog" / "components.yml").read_text())
+    component_ids = {component["id"] for component in source["components"]}
+    config = yaml.safe_load((REPO / "copier.yml").read_text())
+    choice_questions = (
+        "workload",
+        "framework",
+        "interfaces",
+        "model_provider",
+        "embedding_provider",
+        "sql_store",
+        "document_store",
+        "vector_store",
+        "graph_store",
+        "cache_store",
+        "sql_abstraction",
+        "auth",
+        "serving",
+        "training_extensions",
+        "mlops_tools",
+        "quality_tools",
+        "deploy_target",
+    )
+
+    for question in choice_questions:
+        selected = set(config[question]["choices"].values()) - {"none"}
+        assert selected <= component_ids, (question, selected - component_ids)
+
+
+def test_data_choices_match_their_catalog_roles() -> None:
+    source = yaml.safe_load((REPO / "catalog" / "components.yml").read_text())
+    config = yaml.safe_load((REPO / "copier.yml").read_text())
+
+    for role in ("sql", "document", "vector", "graph", "cache"):
+        catalog_ids = {
+            component["id"]
+            for component in source["components"]
+            if role in component.get("roles", [])
+        }
+        question_ids = set(config[f"{role}_store"]["choices"].values()) - {"none"}
+        assert question_ids == catalog_ids, role
+
+
 def test_deliberately_excluded_projects_stay_excluded() -> None:
     text = (REPO / "catalog" / "components.yml").read_text().lower()
     for excluded in ("autogoal", "odmantic", "fastui", "reflex"):
