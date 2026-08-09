@@ -1,9 +1,22 @@
 """Tests for the offline training scaffold."""
 
-from {{ module_name }}.training import EXTENSIONS, FRAMEWORK, train
+from {{ module_name }}.training import (
+    EXTENSIONS,
+    FRAMEWORK,
+    installed_training_tools,
+    main,
+    train,
+)
 
 
 def test_training_stack_and_offline_metric() -> None:
     assert FRAMEWORK == "{{ framework }}"
     assert EXTENSIONS == ({% for extension in training_extensions | default([]) %}"{{ extension }}"{% if not loop.last %}, {% endif %}{% endfor %}{% if training_extensions | default([]) | length == 1 %},{% endif %})
+    assert installed_training_tools()
+    assert train([]) == {"examples": 0.0, "mean": 0.0}
     assert train([1.0, 3.0]) == {"examples": 2.0, "mean": 2.0}
+
+
+def test_training_main(capsys) -> None:  # type: ignore[no-untyped-def]
+    main()
+    assert "'examples': 3.0" in capsys.readouterr().out

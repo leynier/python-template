@@ -158,7 +158,7 @@ resource "azapi_resource" "endpoint" {
   body = {
     properties = {
       authMode    = "Key"
-      description = "{{ project_name }}"
+      description = {{ project_name | tojson }}
     }
   }
 }

@@ -75,7 +75,7 @@ def harness_capabilities() -> tuple[str, ...]:
 
 def main() -> None:
     """Run one deterministic prompt; replace with provider I/O when configured."""
-    print(build_agent().run("Hello from {{ project_name }}"))
+    print(build_agent().run({{ ('Hello from ' ~ project_name) | tojson }}))
 
 
 if __name__ == "__main__":  # pragma: no cover

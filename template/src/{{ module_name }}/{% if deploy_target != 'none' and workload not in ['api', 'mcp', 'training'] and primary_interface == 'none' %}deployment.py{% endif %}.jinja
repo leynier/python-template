@@ -4,7 +4,7 @@ from typing import Any
 
 from fastapi import FastAPI
 
-app = FastAPI(title="{{ project_name }}", version="0.1.0")
+app = FastAPI(title={{ project_name | tojson }}, version="0.1.0")
 
 
 @app.get("/health")
@@ -22,7 +22,7 @@ async def ping() -> dict[str, str]:
 @app.post("/predict")
 @app.post("/invocations")
 async def predict(payload: dict[str, Any]) -> dict[str, Any]:
-    """Echo a validated envelope until project-specific inference is connected."""
+    """Return the portable inference envelope."""
     return {"input": payload, "serving": "{{ serving }}"}
 
 

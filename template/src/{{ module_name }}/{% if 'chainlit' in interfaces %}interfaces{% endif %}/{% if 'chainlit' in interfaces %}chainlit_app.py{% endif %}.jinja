@@ -2,8 +2,22 @@
 
 import chainlit as cl
 
+# isort: split
+{% if workload == 'agent' -%}
+from {{ module_name }}.agent import build_agent
+{%- else -%}
+from {{ module_name }}.rag import build_rag
+{%- endif %}
+
 
 @cl.on_message
 async def on_message(message: cl.Message) -> None:
-    """Echo through the initial offline vertical slice."""
-    await cl.Message(content=f"{{ project_name }}: {message.content}").send()
+    """Run the selected workload for one chat message."""
+{%- if workload == 'agent' %}
+    output = build_agent().run(message.content)
+{%- else %}
+    rag = build_rag()
+    rag.add({{ (description or project_name) | tojson }})
+    output = rag.query(message.content)
+{%- endif %}
+    await cl.Message(content=output).send()

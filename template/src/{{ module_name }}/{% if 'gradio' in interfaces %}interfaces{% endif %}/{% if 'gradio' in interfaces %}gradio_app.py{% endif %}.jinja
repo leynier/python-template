@@ -1,16 +1,41 @@
 """Gradio interface."""
 
+import os
+
 import gradio as gr
+
+# isort: split
+{% if workload == 'agent' -%}
+from {{ module_name }}.agent import build_agent
+{%- elif workload == 'rag' -%}
+from {{ module_name }}.rag import build_rag
+{%- endif %}
+
+
+def run_text(text: str) -> str:
+    """Run the selected workload from the browser interface."""
+{%- if workload == 'agent' %}
+    return build_agent().run(text)
+{%- elif workload == 'rag' %}
+    rag = build_rag()
+    rag.add({{ (description or project_name) | tojson }})
+    return rag.query(text)
+{%- else %}
+    return {{ (project_name ~ ': ') | tojson }} + text
+{%- endif %}
 
 
 def create_app() -> gr.Interface:
     """Build the Gradio application without starting a server."""
-    return gr.Interface(lambda text: f"{{ project_name }}: {text}", "text", "text")
+    return gr.Interface(run_text, "text", "text")
 
 
 def main() -> None:
     """Launch the Gradio application."""
-    create_app().launch()
+    create_app().launch(
+        server_name=os.getenv("HOST", "0.0.0.0"),
+        server_port=int(os.getenv("PORT", "8000")),
+    )
 
 
 if __name__ == "__main__":  # pragma: no cover

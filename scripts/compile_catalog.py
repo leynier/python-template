@@ -33,6 +33,19 @@ Layer = Literal[
     "deploy",
 ]
 Tier = Literal["stable", "platform", "experimental"]
+Workload = Literal[
+    "library",
+    "cli",
+    "api",
+    "web",
+    "tui",
+    "mcp",
+    "agent",
+    "rag",
+    "inference",
+    "training",
+    "hybrid",
+]
 
 
 class Component(BaseModel):
@@ -45,7 +58,7 @@ class Component(BaseModel):
     layer: Layer
     tier: Tier
     python: str
-    workloads: list[str] = Field(default_factory=list)
+    workloads: list[Workload] = Field(default_factory=list)
     roles: list[Literal["sql", "document", "vector", "graph", "cache"]] = Field(
         default_factory=list
     )
@@ -64,6 +77,14 @@ class ComponentCatalog(BaseModel):
         duplicates = sorted({item for item in ids if ids.count(item) > 1})
         if duplicates:
             raise ValueError(f"duplicate component ids: {', '.join(duplicates)}")
+        for component in self.components:
+            if (
+                component.layer in {"framework", "interface"}
+                and not component.workloads
+            ):
+                raise ValueError(
+                    f"{component.layer} {component.id!r} must declare compatible workloads"
+                )
         return self
 
 
@@ -99,7 +120,8 @@ def load_yaml(path: Path) -> object:
 def load_catalogs() -> tuple[ComponentCatalog, PresetCatalog]:
     components = ComponentCatalog.model_validate(load_yaml(CATALOG / "components.yml"))
     presets = PresetCatalog.model_validate(load_yaml(CATALOG / "presets.yml"))
-    component_ids = {component.id for component in components.components}
+    components_by_id = {component.id: component for component in components.components}
+    component_ids = set(components_by_id)
     for preset in presets.presets:
         selected = _selected_component_ids(preset.answers)
         unknown = selected - component_ids - {"none"}
@@ -107,6 +129,20 @@ def load_catalogs() -> tuple[ComponentCatalog, PresetCatalog]:
             raise ValueError(
                 f"preset {preset.id!r} references unknown components: "
                 f"{', '.join(sorted(unknown))}"
+            )
+        workload = preset.answers.get("workload")
+        if not isinstance(workload, str):
+            raise ValueError(f"preset {preset.id!r} must select a workload")
+        incompatible = sorted(
+            component_id
+            for component_id in selected & component_ids
+            if components_by_id[component_id].workloads
+            and workload not in components_by_id[component_id].workloads
+        )
+        if incompatible:
+            raise ValueError(
+                f"preset {preset.id!r} selects components incompatible with "
+                f"{workload}: {', '.join(incompatible)}"
             )
     return components, presets
 
@@ -188,9 +224,12 @@ def build_artifacts(
             "{%- if framework == 'pydantic-ai' and pydantic_ai_harness | default([]) %}",
             "    \"pydantic-ai-harness[{{ pydantic_ai_harness | join(',') }}]>=0.18.0,<0.19\",",
             "{%- endif %}",
-            "{%- if deploy_target | default('none', true) != 'none' and workload not in ['api', 'mcp', 'training'] and 'fastapi' not in interfaces | default([]) %}",
+            "{%- if deploy_target | default('none', true) != 'none' and workload not in ['api', 'mcp', 'training'] and primary_interface | default('none', true) == 'none' %}",
             '    "fastapi[standard]>=0.141.1,<1",',
             '    "uvicorn>=0.52.1,<1",',
+            "{%- endif %}",
+            "{%- if deploy_target | default('none', true) != 'none' and (framework == 'flask' or primary_interface | default('none', true) == 'flask') %}",
+            '    "gunicorn>=23.0.0,<24",',
             "{%- endif %}",
             "",
         ]

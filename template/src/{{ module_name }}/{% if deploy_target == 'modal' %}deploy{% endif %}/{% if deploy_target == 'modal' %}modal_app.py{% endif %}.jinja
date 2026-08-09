@@ -2,9 +2,10 @@
 
 import modal
 
+# isort: split
 {% if workload == 'api' -%}
 from {{ module_name }}.api import app as web_app
-{%- elif 'fastapi' in interfaces | default([]) -%}
+{%- elif primary_interface == 'fastapi' -%}
 from {{ module_name }}.interfaces.fastapi_app import app as web_app
 {%- else -%}
 from {{ module_name }}.deployment import app as web_app

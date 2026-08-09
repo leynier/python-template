@@ -1,14 +1,14 @@
 [project]
-site_name = "{{ project_name }}"
-site_url = "https://{{ github_username }}.github.io/{{ github_repo }}/"
-site_description = "{{ description }}"
-site_author = "{{ author_name }}"
+site_name = {{ project_name | tojson }}
+site_url = {{ ('https://' ~ github_username ~ '.github.io/' ~ github_repo ~ '/') | tojson }}
+site_description = {{ description | tojson }}
+site_author = {{ author_name | tojson }}
 {%- if license != 'none' %}
-copyright = "Copyright &copy; {{ copyright_year }} {{ author_name }}"
+copyright = {{ ('Copyright &copy; ' ~ copyright_year ~ ' ' ~ author_name) | tojson }}
 {%- endif %}
 
-repo_url = "https://github.com/{{ github_username }}/{{ github_repo }}"
-repo_name = "{{ github_username }}/{{ github_repo }}"
+repo_url = {{ ('https://github.com/' ~ github_username ~ '/' ~ github_repo) | tojson }}
+repo_name = {{ (github_username ~ '/' ~ github_repo) | tojson }}
 edit_uri = "edit/main/docs/"
 
 plugins = ["mkdocstrings"]
@@ -74,7 +74,7 @@ link = "https://x.com/{{ x_handle }}"
 
 [[project.extra.social]]
 icon = "fontawesome/brands/mastodon"
-link = "{{ mastodon_url }}"
+link = {{ mastodon_url | tojson }}
 {%- endif %}
 {%- if 'bluesky' in social_links %}
 
@@ -154,29 +154,14 @@ toc = { permalink = true }
 pymdownx.betterem = {}
 pymdownx.caret = {}
 pymdownx.details = {}
-pymdownx.emoji = {
-  emoji_generator = "zensical.extensions.emoji.to_svg",
-  emoji_index = "zensical.extensions.emoji.twemoji",
-}
-pymdownx.highlight = {
-  anchor_linenums = true,
-  line_spans = "__span",
-  pygments_lang_class = true,
-}
+pymdownx.emoji = { emoji_generator = "zensical.extensions.emoji.to_svg", emoji_index = "zensical.extensions.emoji.twemoji" }
+pymdownx.highlight = { anchor_linenums = true, line_spans = "__span", pygments_lang_class = true }
 pymdownx.inlinehilite = {}
 pymdownx.keys = {}
 pymdownx.magiclink = {}
 pymdownx.mark = {}
 pymdownx.smartsymbols = {}
-pymdownx.superfences = {
-  custom_fences = [
-    {
-      name = "mermaid",
-      class = "mermaid",
-      format = "pymdownx.superfences.fence_code_format",
-    },
-  ],
-}
+pymdownx.superfences = { custom_fences = [{ name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" }] }
 pymdownx.tabbed = { alternate_style = true, combine_header_slug = true }
 pymdownx.tasklist = { custom_checkbox = true }
 pymdownx.tilde = {}

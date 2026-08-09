@@ -1,7 +1,88 @@
 """Tests for the selected interfaces."""
 
-from {{ module_name }}.interfaces import AVAILABLE
+import importlib
+
+{% if 'fastapi' in interfaces -%}
+from fastapi.testclient import TestClient
+
+# isort: split
+{% endif -%}
+from {{ module_name }}.interfaces import AVAILABLE, PRIMARY
 
 
 def test_selected_interfaces_are_recorded() -> None:
     assert AVAILABLE == ({% for interface in interfaces %}"{{ interface }}"{% if not loop.last %}, {% endif %}{% endfor %}{% if interfaces | length == 1 %},{% endif %})
+    assert PRIMARY == "{{ primary_interface }}"
+
+
+def test_selected_interface_modules_import() -> None:
+    for interface in AVAILABLE:
+        if interface == "jupyterlab":
+            continue
+        module = importlib.import_module(
+            f"{{ module_name }}.interfaces.{interface.replace('-', '_')}_app"
+        )
+        assert module is not None
+{%- if 'fastapi' in interfaces %}
+
+
+def test_fastapi_interface(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    module = importlib.import_module("{{ module_name }}.interfaces.fastapi_app")
+    client = TestClient(module.app)
+    assert client.get("/health").json() == {"status": "ok"}
+{%- if auth != 'none' %}
+    response = client.post("/run", json={"text": "hello"})
+    assert response.status_code == 401
+    monkeypatch.setattr(
+        module.auth_backend,
+        "authenticate_request",
+        lambda **_credentials: "test-user",
+    )
+{%- endif %}
+    response = client.post("/run", json={"text": "hello"})
+    assert response.status_code == 200
+    assert "output" in response.json()
+
+    started: dict[str, object] = {}
+    monkeypatch.setattr(
+        "uvicorn.run",
+        lambda application, **options: started.update(
+            application=application,
+            options=options,
+        ),
+    )
+    module.main()
+    assert started == {
+        "application": module.app,
+        "options": {"host": "0.0.0.0", "port": 8000},
+    }
+{%- endif %}
+{%- if auth != 'none' and 'flask' in interfaces %}
+
+
+def test_flask_interface_requires_authentication() -> None:
+    module = importlib.import_module("{{ module_name }}.interfaces.flask_app")
+    response = module.app.test_client().post("/run", json={"text": "hello"})
+    assert response.status_code == 401
+{%- endif %}
+{%- if 'gradio' in interfaces and workload in ['agent', 'rag'] %}
+
+
+def test_gradio_runs_the_selected_workload() -> None:
+    from {{ module_name }}.interfaces.gradio_app import run_text
+
+    assert run_text("{{ 'hello' if workload == 'agent' else (description or project_name).split()[0] }}")
+{%- endif %}
+{%- if 'violetear' in interfaces %}
+
+
+def test_violetear_interface(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    module = importlib.import_module("{{ module_name }}.interfaces.violetear_app")
+    assert module.build_index() is not None
+
+    started: dict[str, object] = {}
+    monkeypatch.setattr(module.app, "run", lambda **options: started.update(options))
+    module.main()
+
+    assert started == {"host": "0.0.0.0", "port": 8000}
+{%- endif %}

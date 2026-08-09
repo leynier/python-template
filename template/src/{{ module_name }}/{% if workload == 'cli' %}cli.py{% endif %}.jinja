@@ -1,12 +1,12 @@
-"""Command line interface for {{ project_name }}."""
+"""Command line interface."""
 
 import typer
 
 from {{ module_name }} import __version__, greet
 
 app = typer.Typer(
-    name="{{ project_slug }}",
-    help="{{ description or project_name }}",
+    name={{ project_slug | tojson }},
+    help={{ (description or project_name) | tojson }},
     no_args_is_help=True,
 )
 
@@ -28,7 +28,7 @@ def main(
         is_eager=True,
     ),
 ) -> None:
-    """{{ description or project_name }}."""
+    """Run the command line application."""
 
 
 @app.command()

@@ -1,12 +1,12 @@
 ---
-title: {{ project_name }}
+title: {{ project_name | tojson }}
 emoji: 🐍
 colorFrom: blue
 colorTo: indigo
 sdk: docker
 app_port: 8000
 python_version: "{{ python_version }}"
-short_description: {{ description or project_name }}
+short_description: {{ (description or project_name) | tojson }}
 ---
 
 # {{ project_name }}

@@ -1,7 +1,33 @@
 """Tests for the selected authentication strategy."""
 
-from {{ module_name }}.auth import AUTH_STRATEGY
+import pytest
+{% if auth == 'api-key' -%}
+from pydantic import SecretStr
+{%- endif %}
+
+from {{ module_name }}.auth import (
+    AUTH_STRATEGY,
+    AuthenticationError,
+    authenticate_request,
+)
+{% if auth == 'api-key' -%}
+from {{ module_name }}.settings import settings
+{%- endif %}
 
 
 def test_auth_strategy_is_recorded() -> None:
     assert AUTH_STRATEGY == "{{ auth }}"
+
+
+def test_missing_credentials_are_rejected() -> None:
+    with pytest.raises(AuthenticationError):
+        authenticate_request()
+{%- if auth == 'api-key' %}
+
+
+def test_api_key_authentication() -> None:
+    settings.api_key = SecretStr("test-secret")
+    assert authenticate_request(api_key="test-secret") == "api-key"
+    with pytest.raises(AuthenticationError):
+        authenticate_request(api_key="wrong")
+{%- endif %}

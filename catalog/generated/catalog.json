@@ -132,7 +132,9 @@
       "tier": "stable",
       "python": ">=3.12,<3.15",
       "workloads": [
-        "api"
+        "api",
+        "agent",
+        "rag"
       ],
       "roles": [],
       "packages": [
@@ -148,7 +150,9 @@
       "tier": "stable",
       "python": ">=3.12,<3.15",
       "workloads": [
-        "api"
+        "api",
+        "agent",
+        "rag"
       ],
       "roles": [],
       "packages": [
@@ -479,7 +483,11 @@
       "layer": "interface",
       "tier": "stable",
       "python": ">=3.12,<3.15",
-      "workloads": [],
+      "workloads": [
+        "web",
+        "agent",
+        "rag"
+      ],
       "roles": [],
       "packages": [
         "streamlit>=1.61.1,<2"
@@ -491,7 +499,11 @@
       "layer": "interface",
       "tier": "stable",
       "python": ">=3.12,<3.15",
-      "workloads": [],
+      "workloads": [
+        "web",
+        "agent",
+        "rag"
+      ],
       "roles": [],
       "packages": [
         "gradio>=6.22.0,<7"
@@ -503,7 +515,10 @@
       "layer": "interface",
       "tier": "stable",
       "python": ">=3.12,<3.14",
-      "workloads": [],
+      "workloads": [
+        "agent",
+        "rag"
+      ],
       "roles": [],
       "packages": [
         "chainlit>=2.11.1,<3"
@@ -515,7 +530,11 @@
       "layer": "interface",
       "tier": "stable",
       "python": ">=3.12,<3.15",
-      "workloads": [],
+      "workloads": [
+        "tui",
+        "agent",
+        "rag"
+      ],
       "roles": [],
       "packages": [
         "textual>=8.2.8,<9"
@@ -527,7 +546,11 @@
       "layer": "interface",
       "tier": "stable",
       "python": ">=3.12,<3.15",
-      "workloads": [],
+      "workloads": [
+        "web",
+        "agent",
+        "rag"
+      ],
       "roles": [],
       "packages": [
         "nicegui>=3.15.0,<4"
@@ -539,7 +562,11 @@
       "layer": "interface",
       "tier": "stable",
       "python": ">=3.12,<3.15",
-      "workloads": [],
+      "workloads": [
+        "web",
+        "agent",
+        "rag"
+      ],
       "roles": [],
       "packages": [
         "python-fasthtml>=0.14.11,<0.15"
@@ -551,7 +578,11 @@
       "layer": "interface",
       "tier": "stable",
       "python": ">=3.12,<3.15",
-      "workloads": [],
+      "workloads": [
+        "web",
+        "agent",
+        "rag"
+      ],
       "roles": [],
       "packages": [
         "violetear[server]>=1.4.1,<2"
@@ -563,7 +594,12 @@
       "layer": "interface",
       "tier": "stable",
       "python": ">=3.12,<3.15",
-      "workloads": [],
+      "workloads": [
+        "agent",
+        "rag",
+        "training",
+        "hybrid"
+      ],
       "roles": [],
       "packages": [
         "jupyterlab>=4.6.2,<5"

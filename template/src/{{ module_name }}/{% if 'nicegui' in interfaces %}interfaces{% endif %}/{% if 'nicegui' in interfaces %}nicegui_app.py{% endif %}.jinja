@@ -1,18 +1,47 @@
 """NiceGUI interface."""
 
+import os
+
 from nicegui import ui
+
+# isort: split
+{% if workload == 'agent' -%}
+from {{ module_name }}.agent import build_agent
+{%- elif workload == 'rag' -%}
+from {{ module_name }}.rag import build_rag
+{%- endif %}
 
 
 def build_page() -> None:
     """Build the page without starting the server."""
-    ui.label("{{ project_name }}")
-    ui.markdown("{{ description or 'Composable Python and AI application' }}")
+    ui.label({{ project_name | tojson }})
+    ui.markdown({{ (description or 'Composable Python and AI application') | tojson }})
+{%- if workload in ['agent', 'rag'] %}
+    prompt = ui.input("Prompt")
+    output = ui.label()
+
+    def run_prompt() -> None:
+{%- if workload == 'agent' %}
+        output.text = build_agent().run(prompt.value or "")
+{%- else %}
+        rag = build_rag()
+        rag.add({{ (description or project_name) | tojson }})
+        output.text = rag.query(prompt.value or "")
+{%- endif %}
+
+    ui.button("Run", on_click=run_prompt)
+{%- endif %}
 
 
 def main() -> None:
     """Build and run the NiceGUI application."""
     build_page()
-    ui.run(title="{{ project_name }}")
+    ui.run(
+        host=os.getenv("HOST", "0.0.0.0"),
+        port=int(os.getenv("PORT", "8000")),
+        title={{ project_name | tojson }},
+        reload=False,
+    )
 
 
 if __name__ == "__main__":  # pragma: no cover

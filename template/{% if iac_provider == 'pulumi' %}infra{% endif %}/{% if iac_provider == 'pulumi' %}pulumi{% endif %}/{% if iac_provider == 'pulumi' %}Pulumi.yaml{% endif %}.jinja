@@ -3,4 +3,4 @@ runtime:
   name: python
   options:
     virtualenv: .venv
-description: Bounded {{ deploy_target }} infrastructure for {{ project_name }}
+description: {{ ('Bounded ' ~ deploy_target ~ ' infrastructure for ' ~ project_name) | tojson }}

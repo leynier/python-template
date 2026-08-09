@@ -1,25 +1,34 @@
 """Violetear full-stack Python interface."""
 
+import os
+
 from violetear import App
 from violetear.markup import HTML, Document
 
-app = App(title="{{ project_name }}", version="0.1.0")
+app = App(title={{ project_name | tojson }}, version="0.1.0")
+
+
+def build_index() -> Document:
+    """Build the home page document independently of the web adapter."""
+    document = Document(title={{ project_name | tojson }})
+    document.body.add(HTML.h1(text={{ project_name | tojson }}))
+    description = {{ (description or 'Composable Python and AI application') | tojson }}
+    document.body.add(HTML.p(text=description))
+    return document
 
 
 @app.view("/")
 def index() -> Document:
     """Render the home page."""
-    document = Document(title="{{ project_name }}")
-    document.body.add(
-        HTML.h1(text="{{ project_name }}"),
-        HTML.p(text="{{ description or 'Composable Python and AI application' }}"),
-    )
-    return document
+    return build_index()
 
 
 def main() -> None:
     """Run the Violetear application."""
-    app.run()
+    app.run(
+        host=os.getenv("HOST", "0.0.0.0"),
+        port=int(os.getenv("PORT", "8000")),
+    )
 
 
 if __name__ == "__main__":  # pragma: no cover

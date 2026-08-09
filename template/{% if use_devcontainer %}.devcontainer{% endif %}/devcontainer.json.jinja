@@ -1,5 +1,5 @@
 {
-  "name": "{{ project_name }}",
+  "name": {{ project_name | tojson }},
   "image": "mcr.microsoft.com/devcontainers/python:{{ python_version }}",
   "features": {
     "ghcr.io/va-h/devcontainers-features/uv:1": {

@@ -143,7 +143,7 @@ endpoint = ml.OnlineEndpoint(
     workspace_name=workspace_name,
     location=location,
     identity={"type": "SystemAssigned"},
-    properties={"auth_mode": "Key", "description": "{{ project_name }}"},
+    properties={"auth_mode": "Key", "description": {{ project_name | tojson }}},
 )
 pulumi.export("endpointName", endpoint.name)
 {%- endif %}

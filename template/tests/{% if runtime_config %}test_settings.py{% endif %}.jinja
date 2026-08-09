@@ -1,0 +1,8 @@
+"""Tests for environment-backed runtime configuration."""
+
+from {{ module_name }}.settings import Settings, settings
+
+
+def test_default_settings_are_valid() -> None:
+    assert isinstance(settings, Settings)
+    assert isinstance(Settings(), Settings)

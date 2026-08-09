@@ -29,6 +29,8 @@ RUN groupadd --system app && useradd --system --gid app --create-home app
 COPY --from=builder --chown=app:app /app /app
 
 ENV PATH="/app/.venv/bin:$PATH" \
+    HOST="0.0.0.0" \
+    PORT="8000" \
     PYTHONUNBUFFERED=1
 
 WORKDIR /app
@@ -45,13 +47,21 @@ CMD ["uvicorn", "{{ module_name }}.api:app", "--host", "0.0.0.0", "--port", "800
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
     CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health').status == 200 else 1)"
 
-CMD ["flask", "--app", "{{ module_name }}.api:app", "run", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["gunicorn", "{{ module_name }}.api:app", "--bind", "0.0.0.0:8000"]
 {%- elif workload == 'mcp' -%}
 CMD ["python", "-c", "from {{ module_name }}.mcp import mcp; mcp.run(transport='http', host='0.0.0.0', port=8000)"]
 {%- elif workload == 'training' -%}
 CMD ["{{ project_slug }}"]
-{%- elif 'fastapi' in interfaces | default([]) -%}
+{%- elif primary_interface == 'fastapi' -%}
 CMD ["uvicorn", "{{ module_name }}.interfaces.fastapi_app:app", "--host", "0.0.0.0", "--port", "8000"]
+{%- elif primary_interface == 'flask' -%}
+CMD ["gunicorn", "{{ module_name }}.interfaces.flask_app:app", "--bind", "0.0.0.0:8000"]
+{%- elif primary_interface == 'streamlit' -%}
+CMD ["streamlit", "run", "src/{{ module_name }}/interfaces/streamlit_app.py", "--server.address=0.0.0.0", "--server.port=8000"]
+{%- elif primary_interface == 'chainlit' -%}
+CMD ["chainlit", "run", "src/{{ module_name }}/interfaces/chainlit_app.py", "--host", "0.0.0.0", "--port", "8000"]
+{%- elif primary_interface in ['gradio', 'nicegui', 'fasthtml', 'violetear'] -%}
+CMD ["{{ project_slug }}-{{ primary_interface }}"]
 {%- elif deploy_target == 'aws-sagemaker' -%}
 CMD ["uvicorn", "{{ module_name }}.deployment:app", "--host", "0.0.0.0", "--port", "8080"]
 {%- elif deploy_target != 'none' -%}

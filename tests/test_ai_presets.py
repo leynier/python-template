@@ -59,17 +59,18 @@ def test_ai_preset_vertical_slice(
         "ruff format",
     )
     assert_ok(run([uv, "run", "deptry", "src"], project), "deptry")
-    assert_ok(run([uv, "run", "pytest", "-q"], project), "pytest")
+    assert_ok(run([uv, "run", "poe", "cov"], project), "coverage")
 
 
 @pytest.mark.preset
-def test_data_and_auth_vertical_slice(copie, uv: str) -> None:
+@pytest.mark.parametrize("framework", ["fastapi", "flask"])
+def test_data_and_auth_vertical_slice(copie, uv: str, framework: str) -> None:
     """The SQLModel, Alembic and API-key layers pass the generated gate."""
     result = copie.copy(
         extra_answers=answers(
             preset="custom",
             workload="api",
-            framework="fastapi",
+            framework=framework,
             sql_store="sqlite",
             sql_abstraction="sqlmodel",
             auth="api-key",
@@ -87,7 +88,31 @@ def test_data_and_auth_vertical_slice(copie, uv: str) -> None:
         "ruff format",
     )
     assert_ok(run([uv, "run", "deptry", "src"], project), "deptry")
-    assert_ok(run([uv, "run", "pytest", "-q"], project), "pytest")
+    assert_ok(run([uv, "run", "poe", "cov"], project), "coverage")
+
+
+@pytest.mark.preset
+def test_interface_auth_vertical_slice(copie, uv: str) -> None:
+    """Authentication protects an AI interface before its workload executes."""
+    result = copie.copy(
+        extra_answers=answers(
+            preset="langgraph-anthropic-api",
+            auth="api-key",
+            use_docs=False,
+            use_codeql=False,
+            use_docker=False,
+        )
+    )
+    assert result.exception is None, result.exception
+    project = result.project_dir
+
+    assert_ok(run([uv, "run", "ruff", "check", "."], project), "ruff check")
+    assert_ok(
+        run([uv, "run", "ruff", "format", "--check", "."], project),
+        "ruff format",
+    )
+    assert_ok(run([uv, "run", "deptry", "src"], project), "deptry")
+    assert_ok(run([uv, "run", "poe", "cov"], project), "coverage")
 
 
 @pytest.mark.preset
@@ -120,7 +145,7 @@ def test_ml_hybrid_vertical_slice(copie, uv: str) -> None:
         "ruff format",
     )
     assert_ok(run([uv, "run", "deptry", "src"], project), "deptry")
-    assert_ok(run([uv, "run", "pytest", "-q"], project), "pytest")
+    assert_ok(run([uv, "run", "poe", "cov"], project), "coverage")
 
 
 def test_hf_finetuning_preset_renders_without_downloading_models(
@@ -213,4 +238,4 @@ def test_python_deployment_adapter_vertical_slice(
         "ruff format",
     )
     assert_ok(run([uv, "run", "deptry", "src"], project), "deptry")
-    assert_ok(run([uv, "run", "pytest", "-q"], project), "pytest")
+    assert_ok(run([uv, "run", "poe", "cov"], project), "coverage")

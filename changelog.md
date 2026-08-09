@@ -10,6 +10,41 @@ in particular whenever `ty` or Zensical, both still pre-1.0, change their APIs.
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-08-08
+
+### Added
+
+- Branch-aware test coverage for the catalog compiler, enforced at 100%, with
+  Codecov reporting from repository CI.
+- Generated-project tests for runtime settings, providers, authentication,
+  interfaces, serving, training, and native Python deployment adapters.
+
+### Changed
+
+- Generated projects now run coverage as part of `poe check` and enforce at
+  least 95% coverage across their `src/` package.
+- Catalog compilation validates component workloads, preset counts, duplicate
+  identifiers, and generated-artifact freshness through directly testable
+  functions.
+- Deployment adapters now follow the selected primary interface instead of
+  inferring availability from unrelated interface choices.
+
+### Fixed
+
+- Generated API, agent, RAG, MCP, serving, training, interface, authentication,
+  and deployment entrypoints now have executable offline tests and consistent
+  startup behavior.
+- API-key, OIDC, and Supabase authentication are wired into supported FastAPI
+  and Flask routes instead of being generated as disconnected helpers.
+- Project metadata is escaped for its destination context across Python, JSON,
+  YAML, HTML, shell, Docker, Terraform, Pulumi, and GitHub Actions templates.
+- Violetear pages now add one child per call, matching its `Element.add` API.
+
+### Security
+
+- GitHub Actions are pinned to full commit SHAs, avoid persisted checkout
+  credentials, and use explicit least-privilege permissions.
+
 ## [0.5.0] - 2026-08-08
 
 This is a breaking redesign of the generator. There is no automated migration
@@ -138,7 +173,8 @@ with the previous version.
 None. This release is not backwards compatible with the Cookiecutter template
 and does not try to be. Generate a fresh project and move your code across.
 
-[Unreleased]: https://github.com/leynier/python-template/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/leynier/python-template/compare/v0.5.1...HEAD
+[0.5.1]: https://github.com/leynier/python-template/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/leynier/python-template/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/leynier/python-template/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/leynier/python-template/compare/v0.3.1...v0.4.0

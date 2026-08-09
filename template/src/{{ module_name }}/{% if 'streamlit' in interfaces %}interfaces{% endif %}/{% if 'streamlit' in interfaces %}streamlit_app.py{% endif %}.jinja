@@ -2,11 +2,29 @@
 
 import streamlit as st
 
+# isort: split
+{% if workload == 'agent' -%}
+from {{ module_name }}.agent import build_agent
+{%- elif workload == 'rag' -%}
+from {{ module_name }}.rag import build_rag
+{%- endif %}
+
 
 def main() -> None:
     """Render the Streamlit application."""
-    st.title("{{ project_name }}")
-    st.write("{{ description or 'Composable Python and AI application' }}")
+    st.title({{ project_name | tojson }})
+    st.write({{ (description or 'Composable Python and AI application') | tojson }})
+{%- if workload in ['agent', 'rag'] %}
+    text = st.text_input("Prompt")
+    if text:
+{%- if workload == 'agent' %}
+        st.write(build_agent().run(text))
+{%- else %}
+        rag = build_rag()
+        rag.add({{ (description or project_name) | tojson }})
+        st.write(rag.query(text))
+{%- endif %}
+{%- endif %}
 
 
 if __name__ == "__main__":  # pragma: no cover

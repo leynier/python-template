@@ -3,14 +3,21 @@
 {% if auth == 'api-key' -%}
 import secrets
 {%- elif auth == 'oidc' -%}
+import json
+from urllib.request import urlopen
+
 from authlib.jose import JsonWebToken
 {%- elif auth == 'supabase-auth' -%}
-from supabase import Client as SupabaseClient
+from supabase import create_client
 {%- endif %}
 
 from {{ module_name }}.settings import settings
 
 AUTH_STRATEGY = "{{ auth }}"
+
+
+class AuthenticationError(ValueError):
+    """Raised when request credentials cannot be authenticated."""
 
 {%- if auth == 'api-key' %}
 
@@ -21,18 +28,97 @@ def authenticate_api_key(candidate: str) -> bool:
     return expected is not None and secrets.compare_digest(
         candidate, expected.get_secret_value()
     )
+
+
+def authenticate_request(
+    *, api_key: str | None = None, authorization: str | None = None
+) -> str:
+    """Authenticate request headers and return a stable principal identifier."""
+    del authorization
+    if api_key is None or not authenticate_api_key(api_key):
+        raise AuthenticationError("Invalid API key")
+    return "api-key"
 {%- elif auth == 'oidc' %}
 
 
+def _bearer_token(authorization: str | None) -> str:
+    """Extract an RFC 6750 bearer token from an Authorization header."""
+    scheme, separator, token = (authorization or "").partition(" ")
+    if not separator or scheme.lower() != "bearer" or not token.strip():
+        raise AuthenticationError("A bearer token is required")
+    return token.strip()
+
+
 def oidc_decoder() -> JsonWebToken:
-    """Build the JWT decoder; fetch and pass the issuer JWKS at the boundary."""
+    """Build the decoder for the supported asymmetric signing algorithms."""
     assert settings.oidc_issuer and settings.oidc_audience
     return JsonWebToken(["RS256", "ES256"])
+
+
+def _load_json(url: str) -> dict[str, object]:
+    """Load one OIDC metadata document with a bounded timeout."""
+    with urlopen(url, timeout=5) as response:  # noqa: S310 - configured issuer
+        value = json.load(response)
+    if not isinstance(value, dict):
+        raise AuthenticationError("OIDC metadata must be a JSON object")
+    return value
+
+
+def authenticate_request(
+    *, api_key: str | None = None, authorization: str | None = None
+) -> str:
+    """Verify an OIDC bearer token and return its subject claim."""
+    del api_key
+    token = _bearer_token(authorization)
+    issuer = settings.oidc_issuer.rstrip("/")
+    try:
+        metadata = _load_json(f"{issuer}/.well-known/openid-configuration")
+        jwks_uri = metadata.get("jwks_uri")
+        if not isinstance(jwks_uri, str):
+            raise AuthenticationError("OIDC discovery did not provide jwks_uri")
+        claims = oidc_decoder().decode(
+            token,
+            _load_json(jwks_uri),
+            claims_options={
+                "iss": {"essential": True, "value": issuer},
+                "aud": {"essential": True, "value": settings.oidc_audience},
+                "sub": {"essential": True},
+            },
+        )
+        claims.validate()
+    except AuthenticationError:
+        raise
+    except Exception as error:
+        raise AuthenticationError("Invalid OIDC token") from error
+    return str(claims["sub"])
 {%- elif auth == 'supabase-auth' %}
 
 
-def auth_client_type() -> type[SupabaseClient]:
-    """Return the configured Supabase client type without opening a connection."""
-    assert settings.supabase_url
-    return SupabaseClient
+def _bearer_token(authorization: str | None) -> str:
+    """Extract an RFC 6750 bearer token from an Authorization header."""
+    scheme, separator, token = (authorization or "").partition(" ")
+    if not separator or scheme.lower() != "bearer" or not token.strip():
+        raise AuthenticationError("A bearer token is required")
+    return token.strip()
+
+
+def authenticate_request(
+    *, api_key: str | None = None, authorization: str | None = None
+) -> str:
+    """Verify a Supabase bearer token and return the authenticated user id."""
+    del api_key
+    token = _bearer_token(authorization)
+    if settings.supabase_key is None:
+        raise AuthenticationError("SUPABASE_KEY is not configured")
+    try:
+        response = create_client(
+            settings.supabase_url,
+            settings.supabase_key.get_secret_value(),
+        ).auth.get_user(token)
+        user = response.user
+    except Exception as error:
+        raise AuthenticationError("Invalid Supabase token") from error
+    if user is None:
+        raise AuthenticationError("Invalid Supabase token")
+    return str(user.id)
 {%- endif %}

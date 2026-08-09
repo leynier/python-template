@@ -18,11 +18,11 @@ jobs:
     name: zizmor
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      - uses: zizmorcore/zizmor-action@v0.6.2
+      - uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
         with:
           # Findings are surfaced as inline annotations rather than uploaded to
           # GitHub Advanced Security, because code scanning is not available on

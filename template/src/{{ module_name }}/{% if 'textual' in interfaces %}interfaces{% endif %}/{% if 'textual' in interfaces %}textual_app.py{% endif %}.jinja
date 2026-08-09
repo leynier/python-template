@@ -9,7 +9,7 @@ class ProjectApp(App[None]):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Static("{{ description or project_name }}")
+        yield Static({{ (description or project_name) | tojson }})
         yield Footer()
 
 

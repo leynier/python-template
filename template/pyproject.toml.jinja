@@ -1,10 +1,10 @@
 [project]
-name = "{{ project_slug }}"
+name = {{ project_slug | tojson }}
 version = "0.1.0"
-description = "{{ description }}"
+description = {{ description | tojson }}
 readme = "readme.md"
 requires-python = ">={{ python_version }}"
-authors = [{ name = "{{ author_name }}", email = "{{ author_email }}" }]
+authors = [{ name = {{ author_name | tojson }}, email = {{ author_email | tojson }} }]
 {%- if license != 'none' %}
 license = "{{ license }}"
 license-files = ["LICENSE"]
@@ -26,11 +26,11 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/{{ github_username }}/{{ github_repo }}"
-Repository = "https://github.com/{{ github_username }}/{{ github_repo }}"
-Issues = "https://github.com/{{ github_username }}/{{ github_repo }}/issues"
+Homepage = {{ ('https://github.com/' ~ github_username ~ '/' ~ github_repo) | tojson }}
+Repository = {{ ('https://github.com/' ~ github_username ~ '/' ~ github_repo) | tojson }}
+Issues = {{ ('https://github.com/' ~ github_username ~ '/' ~ github_repo ~ '/issues') | tojson }}
 {%- if use_docs %}
-Documentation = "https://{{ github_username }}.github.io/{{ github_repo }}"
+Documentation = {{ ('https://' ~ github_username ~ '.github.io/' ~ github_repo) | tojson }}
 {%- endif %}
 
 {% if workload in ['cli', 'api', 'mcp', 'agent', 'rag', 'inference', 'training', 'hybrid'] or interfaces | default([]) -%}
@@ -69,7 +69,7 @@ requires = ["uv_build>=0.12.1,<0.13"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
-module-name = "{{ module_name }}"
+module-name = {{ module_name | tojson }}
 module-root = "src"
 
 {%- if workload == 'hybrid' %}
@@ -115,7 +115,7 @@ cov = { cmd = "pytest --cov --cov-report=term-missing", help = "Run the tests wi
 docs = { cmd = "zensical serve", help = "Preview the documentation" }
 docs-build = { cmd = "zensical build", help = "Build the documentation" }
 {%- endif %}
-check = { sequence = ["lint", "format-check", "deps", "test"], help = "Run everything CI runs (except the advisory type check)" }
+check = { sequence = ["lint", "format-check", "deps", "cov"], help = "Run everything CI runs (except the advisory type check)" }
 
 # ------------------------------------------------------------------- ruff --
 # Replaces flake8, black, isort and pyupgrade with a single tool.
@@ -173,6 +173,10 @@ source = ["src"]
 branch = true
 
 [tool.coverage.report]
+fail_under = 95
+precision = 1
+show_missing = true
+skip_covered = true
 exclude_also = [
     "if TYPE_CHECKING:",
     "raise NotImplementedError",
@@ -181,4 +185,8 @@ exclude_also = [
 # ----------------------------------------------------------------- deptry --
 
 [tool.deptry]
-known_first_party = ["{{ module_name }}"]
+known_first_party = [{{ module_name | tojson }}]
+{%- if deploy_target != 'none' and (framework == 'flask' or primary_interface == 'flask') %}
+# Gunicorn is a process entrypoint referenced by Docker, not imported by Python.
+per_rule_ignores = { DEP002 = ["gunicorn"] }
+{%- endif %}

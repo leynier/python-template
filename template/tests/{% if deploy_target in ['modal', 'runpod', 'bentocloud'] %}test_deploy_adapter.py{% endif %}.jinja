@@ -1,0 +1,24 @@
+"""Tests for the selected Python deployment adapter."""
+
+{% if deploy_target == 'modal' -%}
+from {{ module_name }}.deploy.modal_app import asgi_app, web_app
+{%- elif deploy_target == 'runpod' -%}
+from {{ module_name }}.deploy.runpod_handler import RUNPOD_START, handler
+{%- elif deploy_target == 'bentocloud' -%}
+from {{ module_name }}.deploy.bentoml_service import ProjectService
+{%- endif %}
+
+
+def test_python_deployment_adapter() -> None:
+{%- if deploy_target == 'modal' %}
+    assert asgi_app.local() is web_app
+{%- elif deploy_target == 'runpod' %}
+    assert callable(RUNPOD_START)
+    assert handler({})["input"] == {}
+    assert handler({"input": {"value": 42}})["input"] == {"value": 42}
+{%- elif deploy_target == 'bentocloud' %}
+    assert ProjectService.inner().health() == {
+        "status": "ok",
+        "project": "{{ project_slug }}",
+    }
+{%- endif %}

@@ -30,7 +30,10 @@
 {%- if framework == 'pydantic-ai' and pydantic_ai_harness | default([]) %}
     "pydantic-ai-harness[{{ pydantic_ai_harness | join(',') }}]>=0.18.0,<0.19",
 {%- endif %}
-{%- if deploy_target | default('none', true) != 'none' and workload not in ['api', 'mcp', 'training'] and 'fastapi' not in interfaces | default([]) %}
+{%- if deploy_target | default('none', true) != 'none' and workload not in ['api', 'mcp', 'training'] and primary_interface | default('none', true) == 'none' %}
     "fastapi[standard]>=0.141.1,<1",
     "uvicorn>=0.52.1,<1",
+{%- endif %}
+{%- if deploy_target | default('none', true) != 'none' and (framework == 'flask' or primary_interface | default('none', true) == 'flask') %}
+    "gunicorn>=23.0.0,<24",
 {%- endif %}

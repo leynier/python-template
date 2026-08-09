@@ -1,11 +1,111 @@
 """Structural tests: every variant renders, and renders the right files."""
 
+import ast
+import json
 import pathlib
+import tomllib
 
 import pytest
+import yaml
 from conftest import answers
 
 SIMPLE_WORKLOADS = ["library", "cli", "api"]
+
+
+def test_structured_metadata_escapes_adversarial_text(copie) -> None:
+    """Quotes and backslashes remain data in every structured output format."""
+    project_name = 'Quoted "Project" \\ Suite'
+    description = 'Safely handles "quotes", apostrophes, and \\ paths'
+    author_name = 'Ada "Enchantress" \\ Lovelace'
+    result = copie.copy(
+        extra_answers=answers(
+            project_name=project_name,
+            project_slug="quoted-project",
+            module_name="quoted_project",
+            description=description,
+            author_name=author_name,
+            preset="custom",
+            workload="web",
+            ai_capabilities="none",
+            framework="none",
+            interfaces=["gradio"],
+            primary_interface="gradio",
+            deploy_target="hf-spaces",
+            use_docs=True,
+            use_devcontainer=True,
+        )
+    )
+    assert result.exception is None, result.exception
+    project = result.project_dir
+
+    metadata = tomllib.loads((project / "pyproject.toml").read_text())
+    assert metadata["project"]["name"] == "quoted-project"
+    assert metadata["project"]["description"] == description
+    assert metadata["project"]["authors"][0]["name"] == author_name
+    docs = tomllib.loads((project / "zensical.toml").read_text())
+    assert docs["project"]["site_name"] == project_name
+    assert docs["project"]["site_description"] == description
+    devcontainer = json.loads(
+        (project / ".devcontainer" / "devcontainer.json").read_text()
+    )
+    assert devcontainer["name"] == project_name
+    space_readme = (project / "README.md").read_text()
+    space_metadata = yaml.safe_load(space_readme.split("---", 2)[1])
+    assert space_metadata["title"] == project_name
+    assert space_metadata["short_description"] == description
+
+    for relative_root in ("src", "tests", "migrations", "deploy"):
+        root = project / relative_root
+        for source in root.rglob("*.py") if root.exists() else ():
+            ast.parse(source.read_text(), filename=str(source))
+
+
+@pytest.mark.parametrize("module_name", ["class", "_"])
+def test_rejects_reserved_python_module_names(copie, module_name: str) -> None:
+    """Generated package names must be importable Python identifiers."""
+    result = copie.copy(extra_answers=answers(module_name=module_name))
+
+    assert result.exception is not None
+
+
+def test_rejects_interface_incompatible_with_workload(copie) -> None:
+    """A training project cannot select an HTTP UI it cannot implement."""
+    result = copie.copy(
+        extra_answers=answers(
+            preset="custom",
+            workload="training",
+            ai_capabilities="training",
+            framework="pytorch",
+            interfaces=["fastapi"],
+        )
+    )
+
+    assert result.exception is not None
+
+
+def test_primary_interface_drives_rag_runtime(copie) -> None:
+    """The RAG preset starts its functional Gradio UI in deployment images."""
+    result = copie.copy(
+        extra_answers=answers(
+            preset="llamaindex-rag",
+            use_docs=False,
+            use_codeql=False,
+            use_docker=True,
+        )
+    )
+    assert result.exception is None, result.exception
+    project = result.project_dir
+
+    saved_answers = (project / ".copier-answers.yml").read_text()
+    dockerfile = (project / "Dockerfile").read_text()
+    interface = (
+        project / "src" / "demo_project" / "interfaces" / "gradio_app.py"
+    ).read_text()
+    assert "primary_interface: gradio" in saved_answers
+    assert 'CMD ["demo-project-gradio"]' in dockerfile
+    assert "rag = build_rag()" in interface
+    assert "rag.query(text)" in interface
+    assert not (project / "src" / "demo_project" / "deployment.py").exists()
 
 
 def test_template_source_paths_fit_windows_git() -> None:
@@ -269,40 +369,40 @@ def test_workflows_have_no_leftover_jinja(copie) -> None:
 
 
 def test_actions_are_version_pinned(copie) -> None:
-    """Every action is pinned to a release tag, never to a branch.
-
-    Tags are used rather than commit SHAs for readability. What must never
-    happen is a floating branch reference like `@main`, which silently changes
-    under you.
-    """
+    """Every generated action uses an immutable SHA with a version comment."""
     import re
 
-    project = copie.copy(extra_answers=answers()).project_dir
-    uses = re.compile(r"uses:\s*(?P<action>[\w.-]+/[\w.-]+(?:/[\w.-]+)*)@(?P<ref>\S+)")
+    project = copie.copy(
+        extra_answers=answers(
+            use_docs=True,
+            publish_to_pypi=True,
+            use_codeql=True,
+        )
+    ).project_dir
+    uses = re.compile(
+        r"uses:\s*(?P<action>[\w.-]+/[\w.-]+(?:/[\w.-]+)*)@"
+        r"(?P<ref>[0-9a-f]{40})\s+#\s+v\d+(?:\.\d+)*"
+    )
 
     found = 0
     for workflow in (project / ".github" / "workflows").iterdir():
-        for match in uses.finditer(workflow.read_text()):
+        content = workflow.read_text()
+        action_lines = [line for line in content.splitlines() if "uses:" in line]
+        matches = list(uses.finditer(content))
+        assert len(matches) == len(action_lines), workflow.name
+        for _match in matches:
             found += 1
-            ref = match["ref"]
-            assert re.fullmatch(r"v\d+(\.\d+)*", ref), (
-                f"{workflow.name}: {match['action']} is pinned to {ref!r}, "
-                "expected a version tag such as v1 or v1.2.3"
-            )
     assert found > 0
 
 
-def test_zizmor_config_allows_tag_pins(copie) -> None:
-    """The zizmor policy matches the pinning strategy actually in use.
-
-    zizmor requires commit SHAs by default, so without this config every
-    workflow would report an unpinned-uses finding.
-    """
+def test_zizmor_config_requires_hash_pins(copie) -> None:
+    """The generated zizmor policy enforces immutable action references."""
     project = copie.copy(extra_answers=answers()).project_dir
     config = (project / "zizmor.yml").read_text()
 
     assert "unpinned-uses" in config
-    assert "ref-pin" in config
+    assert "hash-pin" in config
+    assert "ref-pin" not in config
 
 
 @pytest.mark.parametrize("workload", SIMPLE_WORKLOADS)
@@ -323,6 +423,17 @@ def test_tasks_are_defined_in_pyproject(copie) -> None:
     assert "[tool.poe.tasks]" in pyproject
     for task in ("lint", "format", "test", "check", "types"):
         assert f"\n{task} = " in pyproject, task
+
+
+def test_generated_projects_enforce_high_coverage(copie) -> None:
+    """Coverage is a local and hosted gate, not only an uploaded report."""
+    project = copie.copy(extra_answers=answers()).project_dir
+    pyproject = (project / "pyproject.toml").read_text()
+    workflow = (project / ".github" / "workflows" / "ci.yml").read_text()
+
+    assert "fail_under = 95" in pyproject
+    assert 'check = { sequence = ["lint", "format-check", "deps", "cov"]' in pyproject
+    assert "pytest --cov --cov-report=xml --cov-report=term-missing" in workflow
 
 
 def test_api_reference_page(copie) -> None:

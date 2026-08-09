@@ -1,6 +1,6 @@
 [project]
 name = "python-template"
-version = "0.5.0"
+version = "0.5.1"
 description = "Generate production-ready Python and AI stacks by combining frameworks, data engines, tooling, and cloud deployment."
 readme = "readme.md"
 requires-python = ">=3.13"
@@ -26,6 +26,7 @@ dev = [
     "pyyaml>=6.0.3,<7",
     "pytest>=9.1.1",
     "pytest-copie>=0.3.1",
+    "pytest-cov>=7.1.0",
     "pytest-xdist>=3.8.0",
     "ruff>=0.16.2",
 ]
@@ -35,10 +36,23 @@ docs = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
 addopts = "--strict-markers --strict-config"
 markers = [
     "slow: generates a project and runs its full toolchain (deselect with '-m \"not slow\"')",
     "preset: generates and validates an integration-heavy v0.5 preset on Linux",
+]
+
+[tool.coverage.run]
+source = ["scripts"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+skip_covered = true
+exclude_also = [
+    "if __name__ == .__main__.:",
 ]
 
 [tool.ruff]

@@ -1,0 +1,14 @@
+"""Tests for configured provider SDK boundaries."""
+
+{% if ai_capabilities == 'rag' -%}
+from {{ module_name }}.providers import embedding_sdk, model_sdk
+{%- else -%}
+from {{ module_name }}.providers import model_sdk
+{%- endif %}
+
+
+def test_provider_sdks_are_importable() -> None:
+    assert model_sdk() is not None
+{%- if ai_capabilities == 'rag' %}
+    assert embedding_sdk() is not None
+{%- endif %}

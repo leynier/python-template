@@ -85,6 +85,30 @@ def test_data_choices_match_their_catalog_roles() -> None:
         assert question_ids == catalog_ids, role
 
 
+def test_interface_workloads_are_declared_authoritatively() -> None:
+    """Catalog compatibility mirrors the runtime combinations Copier supports."""
+    source = yaml.safe_load((REPO / "catalog" / "components.yml").read_text())
+    expected = {
+        "fastapi": {"api", "agent", "rag"},
+        "flask": {"api", "agent", "rag"},
+        "streamlit": {"web", "agent", "rag"},
+        "gradio": {"web", "agent", "rag"},
+        "chainlit": {"agent", "rag"},
+        "textual": {"tui", "agent", "rag"},
+        "nicegui": {"web", "agent", "rag"},
+        "fasthtml": {"web", "agent", "rag"},
+        "violetear": {"web", "agent", "rag"},
+        "jupyterlab": {"agent", "rag", "training", "hybrid"},
+    }
+    actual = {
+        component["id"]: set(component["workloads"])
+        for component in source["components"]
+        if component["id"] in expected
+    }
+
+    assert actual == expected
+
+
 def test_every_preset_is_exposed_by_copier() -> None:
     config = yaml.safe_load((REPO / "copier.yml").read_text())
     preset_choices = set(config["preset"]["choices"].values())

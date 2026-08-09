@@ -1,0 +1,33 @@
+from fastapi.testclient import TestClient
+
+from {{ module_name }} import deployment as deployment_module
+from {{ module_name }}.deployment import app
+
+
+def test_deployment_health() -> None:
+    client = TestClient(app)
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json() == {"status": "ok"}
+
+    assert client.get("/ping").json() == {"status": "ok"}
+    prediction = client.post("/predict", json={"value": 42})
+    assert prediction.status_code == 200
+    assert prediction.json()["input"] == {"value": 42}
+    assert client.post("/invocations", json={"value": 7}).status_code == 200
+    assert client.get("/").json()["project"] == "{{ project_slug }}"
+
+
+def test_deployment_main(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    started: dict[str, object] = {}
+    monkeypatch.setattr(
+        "uvicorn.run",
+        lambda application, **options: started.update(
+            application=application,
+            options=options,
+        ),
+    )
+
+    deployment_module.main()
+
+    assert started["application"] is app

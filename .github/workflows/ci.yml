@@ -18,11 +18,11 @@ jobs:
     name: Lint the template repository
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v9.0.0
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
           python-version: "3.13"
           enable-cache: true
@@ -44,13 +44,13 @@ jobs:
     name: Generation tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # Copier resolves the template version from git history and tags.
           fetch-depth: 0
           persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v9.0.0
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
           python-version: "3.13"
           enable-cache: true
@@ -60,16 +60,45 @@ jobs:
       - name: Fast tests
         run: uv run pytest -m "not slow and not preset" -n auto
 
+  coverage:
+    name: Catalog compiler coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          python-version: "3.13"
+          enable-cache: true
+
+      - run: uv sync --locked --all-groups
+
+      - name: Enforce 100% compiler coverage
+        run: >-
+          uv run pytest tests/test_compile_catalog.py
+          --cov=scripts
+          --cov-branch
+          --cov-report=term-missing
+          --cov-report=xml
+
+      - name: Upload repository coverage
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          files: ./coverage.xml
+          fail_ci_if_error: false
+
   presets:
     name: AI preset vertical slices
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v9.0.0
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
           python-version: "3.13"
           enable-cache: true
@@ -83,11 +112,11 @@ jobs:
     name: Repository documentation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v9.0.0
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
           python-version: "3.13"
           enable-cache: true
@@ -105,12 +134,12 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v9.0.0
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
           python-version: "3.13"
           enable-cache: true
@@ -137,11 +166,11 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      - uses: zizmorcore/zizmor-action@v0.6.2
+      - uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
 
   # Single required status check for branch protection. Depending on every
   # other job means the protection rule never needs updating when the matrix
@@ -149,7 +178,7 @@ jobs:
   ci:
     name: CI
     runs-on: ubuntu-latest
-    needs: [lint, structure, presets, docs, toolchain, zizmor]
+    needs: [lint, structure, coverage, presets, docs, toolchain, zizmor]
     if: always()
     steps:
       - name: Verify every job succeeded

@@ -42,6 +42,11 @@ def test_hello_named() -> None:
 
 from fastapi.testclient import TestClient
 
+# isort: split
+from {{ module_name }} import api as api_module
+{% if auth != 'none' -%}
+from {{ module_name }} import auth as auth_backend
+{% endif -%}
 from {{ module_name }}.api import app
 
 client = TestClient(app)
@@ -53,13 +58,42 @@ def test_health() -> None:
     assert response.json() == {"status": "ok"}
 
 
-def test_greet() -> None:
+def test_greet({% if auth != 'none' %}monkeypatch{% endif %}) -> None:  # type: ignore[no-untyped-def]
+{%- if auth != 'none' %}
+    denied = client.get("/greet/world")
+    assert denied.status_code == 401
+    monkeypatch.setattr(
+        auth_backend,
+        "authenticate_request",
+        lambda **_credentials: "test-user",
+    )
+{%- endif %}
     response = client.get("/greet/world")
     assert response.status_code == 200
     assert response.json() == {"message": "Hello, world!"}
+
+
+def test_main_starts_uvicorn(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    started: dict[str, object] = {}
+    monkeypatch.setattr(
+        "uvicorn.run",
+        lambda application, **options: started.update(
+            application=application,
+            options=options,
+        ),
+    )
+
+    api_module.main()
+
+    assert started["application"] is app
+    assert started["options"] == {"host": "0.0.0.0", "port": 8000}
 {%- elif workload == 'api' and framework == 'flask' -%}
 """Tests for the {{ module_name }} Flask API."""
 
+from {{ module_name }} import api as api_module
+{% if auth != 'none' -%}
+from {{ module_name }} import auth as auth_backend
+{% endif -%}
 from {{ module_name }}.api import app
 
 
@@ -69,41 +103,86 @@ def test_health() -> None:
     assert response.get_json() == {"status": "ok"}
 
 
-def test_greet() -> None:
+def test_greet({% if auth != 'none' %}monkeypatch{% endif %}) -> None:  # type: ignore[no-untyped-def]
+{%- if auth != 'none' %}
+    denied = app.test_client().get("/greet/world")
+    assert denied.status_code == 401
+    monkeypatch.setattr(
+        auth_backend,
+        "authenticate_request",
+        lambda **_credentials: "test-user",
+    )
+{%- endif %}
     response = app.test_client().get("/greet/world")
     assert response.status_code == 200
     assert response.get_json() == {"message": "Hello, world!"}
+
+
+def test_main_starts_flask(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    started: dict[str, object] = {}
+    monkeypatch.setattr(app, "run", lambda **options: started.update(options))
+
+    api_module.main()
+
+    assert started == {"host": "0.0.0.0", "port": 8000}
 {%- elif workload == 'mcp' -%}
 """Tests for the {{ module_name }} FastMCP server."""
 
+from {{ module_name }} import mcp as mcp_module
 from {{ module_name }}.mcp import greet, mcp
 
 
 def test_mcp_server_and_tool() -> None:
     assert mcp.name == "{{ project_name }}"
     assert greet("Ada") == "Hello, Ada!"
+
+
+def test_main_starts_mcp(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    started: list[bool] = []
+    monkeypatch.setattr(mcp, "run", lambda: started.append(True))
+
+    mcp_module.main()
+
+    assert started == [True]
 {%- elif workload == 'agent' -%}
 """Offline tests for the {{ module_name }} agent."""
 
-from {{ module_name }}.agent import build_agent, harness_capabilities
+from {{ module_name }}.agent import (
+    build_agent,
+    configured_framework,
+    harness_capabilities,
+    main,
+)
 
 
 def test_agent_runs_without_provider_credentials() -> None:
     agent = build_agent()
     assert agent.run("hello") == "[{{ framework }}/{{ model_provider }}] hello"
+    assert configured_framework() is not None
     assert isinstance(harness_capabilities(), tuple)
+
+
+def test_agent_main(capsys) -> None:  # type: ignore[no-untyped-def]
+    main()
+    assert "[{{ framework }}/{{ model_provider }}]" in capsys.readouterr().out
 {%- elif workload == 'rag' -%}
 """Offline tests for the {{ module_name }} RAG application."""
 
-from {{ module_name }}.rag import build_rag
+from {{ module_name }}.rag import build_rag, main
 
 
 def test_rag_retrieves_locally_without_credentials() -> None:
     rag = build_rag()
+    assert rag.query("nothing") == "No documents indexed."
     rag.add("Python projects are composable.", "Bananas are yellow.")
     assert rag.query("Are Python projects composable?") == (
         "Python projects are composable."
     )
+
+
+def test_rag_main(capsys) -> None:  # type: ignore[no-untyped-def]
+    main()
+    assert "{{ project_name }}" in capsys.readouterr().out
 {%- else -%}
 """Smoke tests for {{ module_name }}."""
 

@@ -1,4 +1,4 @@
-"""Small offline RAG vertical slice for {{ project_name }}."""
+"""Small offline RAG vertical slice."""
 
 from __future__ import annotations
 
@@ -43,7 +43,7 @@ def build_rag() -> InMemoryRAG:
 def main() -> None:
     """Run the local demonstration."""
     rag = build_rag()
-    rag.add("{{ project_name }} is ready for retrieval augmented generation.")
+    rag.add({{ (project_name ~ ' is ready for retrieval augmented generation.') | tojson }})
     print(rag.query("What is ready for generation?"))
 
 

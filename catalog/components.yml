@@ -71,14 +71,14 @@ components:
     name: FastAPI
     layer: framework
     tier: stable
-    workloads: [api]
+    workloads: [api, agent, rag]
     python: ">=3.12,<3.15"
     packages: ["fastapi[standard]>=0.141.1,<1", "pydantic>=2.13.4,<3", "uvicorn>=0.52.1,<1"]
   - id: flask
     name: Flask
     layer: framework
     tier: stable
-    workloads: [api]
+    workloads: [api, agent, rag]
     python: ">=3.12,<3.15"
     packages: ["flask>=3.1.2,<4"]
   - id: fastmcp
@@ -238,14 +238,14 @@ components:
 
   # Interfaces are composable and can expose the same application through
   # multiple entrypoints.
-  - {id: streamlit, name: Streamlit, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["streamlit>=1.61.1,<2"]}
-  - {id: gradio, name: Gradio, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["gradio>=6.22.0,<7"]}
-  - {id: chainlit, name: Chainlit, layer: interface, tier: stable, python: ">=3.12,<3.14", packages: ["chainlit>=2.11.1,<3"]}
-  - {id: textual, name: Textual, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["textual>=8.2.8,<9"]}
-  - {id: nicegui, name: NiceGUI, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["nicegui>=3.15.0,<4"]}
-  - {id: fasthtml, name: FastHTML, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["python-fasthtml>=0.14.11,<0.15"]}
-  - {id: violetear, name: Violetear, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["violetear[server]>=1.4.1,<2"]}
-  - {id: jupyterlab, name: JupyterLab, layer: interface, tier: stable, python: ">=3.12,<3.15", packages: ["jupyterlab>=4.6.2,<5"]}
+  - {id: streamlit, name: Streamlit, layer: interface, tier: stable, workloads: [web, agent, rag], python: ">=3.12,<3.15", packages: ["streamlit>=1.61.1,<2"]}
+  - {id: gradio, name: Gradio, layer: interface, tier: stable, workloads: [web, agent, rag], python: ">=3.12,<3.15", packages: ["gradio>=6.22.0,<7"]}
+  - {id: chainlit, name: Chainlit, layer: interface, tier: stable, workloads: [agent, rag], python: ">=3.12,<3.14", packages: ["chainlit>=2.11.1,<3"]}
+  - {id: textual, name: Textual, layer: interface, tier: stable, workloads: [tui, agent, rag], python: ">=3.12,<3.15", packages: ["textual>=8.2.8,<9"]}
+  - {id: nicegui, name: NiceGUI, layer: interface, tier: stable, workloads: [web, agent, rag], python: ">=3.12,<3.15", packages: ["nicegui>=3.15.0,<4"]}
+  - {id: fasthtml, name: FastHTML, layer: interface, tier: stable, workloads: [web, agent, rag], python: ">=3.12,<3.15", packages: ["python-fasthtml>=0.14.11,<0.15"]}
+  - {id: violetear, name: Violetear, layer: interface, tier: stable, workloads: [web, agent, rag], python: ">=3.12,<3.15", packages: ["violetear[server]>=1.4.1,<2"]}
+  - {id: jupyterlab, name: JupyterLab, layer: interface, tier: stable, workloads: [agent, rag, training, hybrid], python: ">=3.12,<3.15", packages: ["jupyterlab>=4.6.2,<5"]}
 
   # Providers are intentionally independent for generation and embeddings.
   - {id: openai, name: OpenAI, layer: model_provider, tier: platform, python: ">=3.12,<3.15", packages: ["openai>=2.53.0,<3"]}

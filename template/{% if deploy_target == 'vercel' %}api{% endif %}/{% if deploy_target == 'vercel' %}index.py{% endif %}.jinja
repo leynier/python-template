@@ -1,7 +1,9 @@
 {% if workload == 'api' -%}
 from {{ module_name }}.api import app
-{%- elif 'fastapi' in interfaces | default([]) -%}
+{%- elif primary_interface == 'fastapi' -%}
 from {{ module_name }}.interfaces.fastapi_app import app
+{%- elif primary_interface == 'flask' -%}
+from {{ module_name }}.interfaces.flask_app import app
 {%- else -%}
 from {{ module_name }}.deployment import app
 {%- endif %}

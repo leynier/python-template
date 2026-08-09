@@ -147,13 +147,16 @@ uv run python scripts/compile_catalog.py --check
 uv run ruff check .
 uv run ruff format --check .
 uv run pytest -n auto
+uv run pytest tests/test_compile_catalog.py --cov=scripts --cov-branch
 uv run --group docs zensical serve
 ```
 
 The test suite renders compatible combinations, runs real generated toolchains,
 parses deployment artifacts, checks `copier update`, and exercises representative
 AI/ML vertical slices. Hosted CI repeats the generated-project tests on Linux,
-macOS, and Windows.
+macOS, and Windows. CI enforces 100% branch coverage for the repository's catalog
+compiler; generated projects enforce at least 95% coverage for their own `src/`
+package through `uv run poe cov`.
 
 Read the [documentation](https://python-template.leynier.dev), the
 [contribution guide](CONTRIBUTING.md), or the [security policy](SECURITY.md).

@@ -47,7 +47,10 @@ project_name:
   type: str
   help: Human readable name of the project
   default: My Project
-  validator: "{% if not project_name.strip() %}Cannot be empty{% endif %}"
+  validator: >-
+    {% if not project_name.strip() %}Cannot be empty
+    {% elif '\n' in project_name or '\r' in project_name %}Must be a single line
+    {% endif %}
 
 project_slug:
   type: str
@@ -65,25 +68,32 @@ module_name:
   validator: >-
     {% if not module_name | regex_search('^[a-z_][a-z0-9_]*$') %}
     Must be a valid Python identifier: lowercase letters, digits and underscores
+    {% elif module_name in ['False', 'None', 'True', 'and', 'as', 'assert', 'async', 'await', 'break', 'case', 'class', 'continue', 'def', 'del', 'elif', 'else', 'except', 'finally', 'for', 'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'match', 'nonlocal', 'not', 'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield', '_'] %}
+    Must not be a Python keyword or the reserved name _
     {% endif %}
 
 description:
   type: str
   help: One line description of the project
   default: ""
+  validator: >-
+    {% if '\n' in description or '\r' in description %}Must be a single line{% endif %}
 
 author_name:
   type: str
   help: Your full name
   default: ""
-  validator: "{% if not author_name.strip() %}Cannot be empty{% endif %}"
+  validator: >-
+    {% if not author_name.strip() %}Cannot be empty
+    {% elif '\n' in author_name or '\r' in author_name %}Must be a single line
+    {% endif %}
 
 author_email:
   type: str
   help: Your email address
   default: ""
   validator: >-
-    {% if not author_email | regex_search('^[^@\s]+@[^@\s]+\.[^@\s]+$') %}
+    {% if not author_email | regex_search('^[^@ ]+@[^@ ]+[.][^@ ]+$') %}
     Must be a valid email address
     {% endif %}
 
@@ -91,12 +101,19 @@ github_username:
   type: str
   help: GitHub username or organization that will host the repository
   default: ""
-  validator: "{% if not github_username.strip() %}Cannot be empty{% endif %}"
+  validator: >-
+    {% if not github_username | regex_search('^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$') or '--' in github_username %}
+    Must be a valid GitHub username or organization
+    {% endif %}
 
 github_repo:
   type: str
   help: GitHub repository name
   default: "{{ project_slug }}"
+  validator: >-
+    {% if not github_repo | regex_search('^[A-Za-z0-9._-]+$') or github_repo in ['.', '..'] %}
+    Must be a valid GitHub repository name
+    {% endif %}
 
 # ------------------------------------------------------------------ shape --
 
@@ -310,6 +327,45 @@ interfaces:
     Violetear: violetear
     JupyterLab: jupyterlab
   when: "{{ workload in ['web', 'tui', 'agent', 'rag', 'training', 'hybrid'] }}"
+  validator: >-
+    {% set allowed = {
+      'web': ['streamlit', 'gradio', 'nicegui', 'fasthtml', 'violetear'],
+      'tui': ['textual'],
+      'agent': ['fastapi', 'flask', 'streamlit', 'gradio', 'chainlit', 'textual', 'nicegui', 'fasthtml', 'violetear', 'jupyterlab'],
+      'rag': ['fastapi', 'flask', 'streamlit', 'gradio', 'chainlit', 'textual', 'nicegui', 'fasthtml', 'violetear', 'jupyterlab'],
+      'training': ['jupyterlab'],
+      'hybrid': ['jupyterlab']
+    } %}
+    {% set invalid = [] %}
+    {% for interface in interfaces if interface not in allowed.get(workload, []) %}
+    {% set _ = invalid.append(interface) %}
+    {% endfor %}
+    {% if invalid %}{{ invalid | join(', ') }} is not compatible with the {{ workload }} workload
+    {% elif workload in ['web', 'tui'] and not interfaces %}The {{ workload }} workload requires a user-facing interface
+    {% endif %}
+
+primary_interface:
+  type: str
+  help: Interface started by Docker and managed deployment targets
+  default: >-
+    {%- set deployable = ['fastapi', 'flask', 'streamlit', 'gradio', 'chainlit', 'nicegui', 'fasthtml', 'violetear'] -%}
+    {%- set selected = interfaces | select('in', deployable) | list -%}
+    {{ selected[0] if selected else 'none' }}
+  choices:
+    None - no HTTP interface: none
+    FastAPI: fastapi
+    Flask: flask
+    Streamlit: streamlit
+    Gradio: gradio
+    Chainlit: chainlit
+    NiceGUI: nicegui
+    FastHTML: fasthtml
+    Violetear: violetear
+  when: "{{ interfaces | default([]) | length > 0 }}"
+  validator: >-
+    {% if primary_interface != 'none' and primary_interface not in interfaces %}
+    The primary interface must be one of the selected interfaces
+    {% endif %}
 
 sql_store:
   type: str
@@ -396,7 +452,7 @@ auth:
     API key: api-key
     Generic OAuth / OIDC: oidc
     Supabase Auth: supabase-auth
-  when: "{{ workload in ['api', 'web', 'mcp', 'agent', 'rag', 'inference', 'hybrid'] }}"
+  when: "{{ workload == 'api' or primary_interface in ['fastapi', 'flask'] }}"
 
 # Internal derived switch used in template paths. Keeping this expression out
 # of filenames avoids the Windows 260-character checkout limit.
@@ -478,7 +534,8 @@ quality_tools:
 deploy_target:
   type: str
   help: Primary deployment target; Docker remains the portable base for services
-  default: "{{ 'docker' if workload not in ['library', 'cli'] else 'none' }}"
+  default: >-
+    {{ 'docker' if workload in ['api', 'mcp', 'inference', 'hybrid'] or primary_interface != 'none' else 'none' }}
   choices:
     None: none
     Docker / Compose: docker
@@ -505,6 +562,12 @@ deploy_target:
     The selected serverless platform requires an HTTP-oriented workload
     {% elif deploy_target == 'vercel' and workload == 'hybrid' %}
     Vercel functions are not suitable for a hybrid training workspace
+    {% elif deploy_target == 'vercel' and primary_interface not in ['none', 'fastapi', 'flask'] %}
+    Vercel requires FastAPI, Flask, or the portable HTTP deployment interface
+    {% elif deploy_target == 'modal' and workload == 'api' and framework != 'fastapi' %}
+    Modal's generated ASGI adapter requires FastAPI
+    {% elif deploy_target == 'modal' and primary_interface not in ['none', 'fastapi'] %}
+    Modal's generated adapter requires a FastAPI-compatible primary interface
     {% endif %}
 
 iac_provider:

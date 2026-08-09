@@ -46,7 +46,10 @@ def test_ci_builds_repository_documentation() -> None:
 
     assert "Repository documentation" in workflow
     assert "zensical build --clean --strict" in workflow
-    assert "needs: [lint, structure, presets, docs, toolchain, zizmor]" in workflow
+    assert (
+        "needs: [lint, structure, coverage, presets, docs, toolchain, zizmor]"
+        in workflow
+    )
 
 
 def test_readme_presents_layers_simple_projects_and_agent_skills() -> None:
