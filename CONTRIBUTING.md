@@ -24,8 +24,7 @@ Explain:
 - what functional source and configuration the template should generate; and
 - how CI can validate it without paid credentials.
 
-The project intentionally excludes ODMantic, AutoGOAL, archived FastUI, and
-archived Reflex. A new proposal should meet the inclusion criteria in the
+A new proposal should meet the inclusion criteria in the
 [support model](docs/concepts/support.md).
 
 ## Develop a change

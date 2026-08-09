@@ -26,6 +26,5 @@ may support fewer combinations and carries a narrower compatibility promise.
 
 A component should add a distinct architectural role, have active maintenance,
 support the template's Python baseline, and permit a meaningful automated test.
-ODMantic, AutoGOAL, archived FastUI, and archived Reflex are intentionally not
-included. New proposals should explain which layer they add and how a generated
-project can validate the integration without embedding credentials.
+New proposals should explain which layer they add and how a generated project
+can validate the integration without embedding credentials.

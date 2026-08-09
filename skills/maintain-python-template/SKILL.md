@@ -24,4 +24,3 @@ Make catalog-driven changes without creating a choice that renders but cannot ru
 - Optional layers must disappear cleanly when disabled.
 - Conditional template path components must remain short enough to render on Windows.
 - A deploy target keeps Docker portability; cloud IaC is limited to supported target/provider pairs.
-- Do not reintroduce ODMantic, AutoGOAL, FastUI, or Reflex.
