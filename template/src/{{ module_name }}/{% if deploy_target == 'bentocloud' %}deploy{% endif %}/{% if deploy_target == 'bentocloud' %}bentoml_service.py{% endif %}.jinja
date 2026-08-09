@@ -1,0 +1,12 @@
+"""BentoCloud service adapter."""
+
+import bentoml
+
+
+@bentoml.service
+class ProjectService:
+    """Minimal online service ready for model loading at startup."""
+
+    @bentoml.api
+    def health(self) -> dict[str, str]:
+        return {"status": "ok", "project": "{{ project_slug }}"}

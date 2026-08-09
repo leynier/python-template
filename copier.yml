@@ -496,6 +496,16 @@ deploy_target:
     Vertex AI: vertex-ai
     Azure Container Apps: azure-container-apps
     Azure ML: azure-ml
+  validator: >-
+    {% if workload == 'library' and deploy_target != 'none' %}
+    Libraries are published as packages; choose no deployment target
+    {% elif deploy_target in ['runpod', 'aws-sagemaker', 'vertex-ai', 'azure-ml'] and workload not in ['inference', 'hybrid'] %}
+    The selected ML platform requires an inference or hybrid workload
+    {% elif deploy_target in ['vercel', 'modal'] and workload in ['mcp', 'training'] %}
+    The selected serverless platform requires an HTTP-oriented workload
+    {% elif deploy_target == 'vercel' and workload == 'hybrid' %}
+    Vercel functions are not suitable for a hybrid training workspace
+    {% endif %}
 
 iac_provider:
   type: str
@@ -505,7 +515,7 @@ iac_provider:
     None: none
     Pulumi with Python: pulumi
     Terraform: terraform
-  when: "{{ deploy_target not in ['none', 'docker', 'vercel', 'hf-spaces'] }}"
+  when: "{{ deploy_target in ['aws-ecs', 'aws-sagemaker', 'cloud-run', 'vertex-ai', 'azure-container-apps', 'azure-ml'] }}"
 
 python_version:
   type: str
@@ -565,7 +575,7 @@ publish_to_pypi:
 use_docker:
   type: bool
   help: Include a multi-stage Dockerfile?
-  default: "{{ workload not in ['library', 'cli'] }}"
+  default: "{{ deploy_target != 'none' or workload not in ['library', 'cli'] }}"
 
 use_devcontainer:
   type: bool

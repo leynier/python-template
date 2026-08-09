@@ -1,0 +1,5 @@
+"""BentoCloud CLI entrypoint; implementation stays inside the package."""
+
+from {{ module_name }}.deploy.bentoml_service import ProjectService
+
+__all__ = ["ProjectService"]

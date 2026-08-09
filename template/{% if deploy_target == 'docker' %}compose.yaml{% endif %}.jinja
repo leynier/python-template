@@ -1,0 +1,8 @@
+services:
+  app:
+    build:
+      context: .
+    image: {{ project_slug }}:local
+    ports:
+      - "8000:8000"
+    restart: unless-stopped

@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: {{ project_slug }}
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+{% if workload not in ['mcp', 'training'] %}
+    healthCheckPath: /health
+{% endif %}
+    autoDeployTrigger: commit

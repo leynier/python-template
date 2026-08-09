@@ -22,6 +22,7 @@ package = false
 dev = [
     "copier>=9.17.1",
     "pydantic>=2.13.4,<3",
+    "python-hcl2>=8.1.2,<9",
     "pyyaml>=6.0.3,<7",
     "pytest>=9.1.1",
     "pytest-copie>=0.3.1",

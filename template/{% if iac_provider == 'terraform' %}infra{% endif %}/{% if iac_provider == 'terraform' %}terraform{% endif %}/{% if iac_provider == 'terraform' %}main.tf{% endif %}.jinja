@@ -1,0 +1,165 @@
+terraform {
+  required_version = ">= 1.8.0"
+  required_providers {
+{% if deploy_target in ['aws-ecs', 'aws-sagemaker'] -%}
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.0"
+    }
+{%- elif deploy_target in ['cloud-run', 'vertex-ai'] -%}
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 7.0"
+    }
+{%- elif deploy_target == 'azure-container-apps' -%}
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 4.0"
+    }
+{%- else -%}
+    azapi = {
+      source  = "azure/azapi"
+      version = "~> 2.0"
+    }
+{%- endif %}
+  }
+}
+
+{% if deploy_target in ['aws-ecs', 'aws-sagemaker'] -%}
+provider "aws" {
+  region = var.region
+}
+{%- elif deploy_target in ['cloud-run', 'vertex-ai'] -%}
+provider "google" {
+  project = var.project_id
+  region  = var.region
+}
+{%- elif deploy_target == 'azure-container-apps' -%}
+provider "azurerm" {
+  features {}
+}
+{%- else -%}
+provider "azapi" {}
+{%- endif %}
+
+{% if deploy_target == 'aws-ecs' -%}
+resource "aws_ecs_cluster" "app" {
+  name = "{{ project_slug }}"
+}
+
+resource "aws_ecs_task_definition" "app" {
+  family                   = "{{ project_slug }}"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = 512
+  memory                   = 1024
+  execution_role_arn       = var.execution_role_arn
+  container_definitions = jsonencode([{
+    name      = "app"
+    image     = var.image_uri
+    essential = true
+    portMappings = [{ containerPort = 8000 }]
+  }])
+}
+
+resource "aws_ecs_service" "app" {
+  name            = "{{ project_slug }}"
+  cluster         = aws_ecs_cluster.app.id
+  task_definition = aws_ecs_task_definition.app.arn
+  desired_count   = 1
+  launch_type     = "FARGATE"
+  network_configuration {
+    subnets          = var.subnet_ids
+    security_groups  = var.security_group_ids
+    assign_public_ip = true
+  }
+}
+{%- elif deploy_target == 'aws-sagemaker' -%}
+resource "aws_sagemaker_model" "app" {
+  name               = "{{ project_slug }}"
+  execution_role_arn = var.execution_role_arn
+  primary_container { image = var.image_uri }
+}
+
+resource "aws_sagemaker_endpoint_configuration" "app" {
+  name = "{{ project_slug }}"
+  production_variants {
+    variant_name           = "AllTraffic"
+    model_name             = aws_sagemaker_model.app.name
+    initial_instance_count = 1
+    instance_type          = var.instance_type
+  }
+}
+
+resource "aws_sagemaker_endpoint" "app" {
+  name                 = "{{ project_slug }}"
+  endpoint_config_name = aws_sagemaker_endpoint_configuration.app.name
+}
+{%- elif deploy_target == 'cloud-run' -%}
+resource "google_cloud_run_v2_service" "app" {
+  name                = "{{ project_slug }}"
+  location            = var.region
+  deletion_protection = false
+  ingress             = "INGRESS_TRAFFIC_ALL"
+  template {
+    containers {
+      image = var.image_uri
+      ports { container_port = 8000 }
+    }
+  }
+}
+{%- elif deploy_target == 'vertex-ai' -%}
+resource "google_vertex_ai_endpoint" "app" {
+  name         = var.endpoint_id
+  display_name = "{{ project_slug }}"
+  location     = var.region
+}
+
+resource "google_vertex_ai_model" "app" {
+  display_name = "{{ project_slug }}"
+  region       = var.region
+  container_spec {
+    image_uri     = var.image_uri
+    health_route  = "/health"
+    predict_route = "/predict"
+    ports { container_port = 8000 }
+  }
+}
+{%- elif deploy_target == 'azure-container-apps' -%}
+resource "azurerm_container_app" "app" {
+  name                         = "{{ project_slug }}"
+  resource_group_name          = var.resource_group_name
+  container_app_environment_id = var.environment_id
+  revision_mode                = "Single"
+  template {
+    container {
+      name   = "app"
+      image  = var.image_uri
+      cpu    = 0.5
+      memory = "1Gi"
+    }
+  }
+  ingress {
+    external_enabled = true
+    target_port      = 8000
+    traffic_weight {
+      percentage      = 100
+      latest_revision = true
+    }
+  }
+}
+{%- elif deploy_target == 'azure-ml' -%}
+resource "azapi_resource" "endpoint" {
+  type      = "Microsoft.MachineLearningServices/workspaces/onlineEndpoints@2024-10-01"
+  name      = "{{ project_slug }}"
+  parent_id = var.workspace_id
+  location  = var.location
+  identity { type = "SystemAssigned" }
+  body = {
+    properties = {
+      authMode    = "Key"
+      description = "{{ project_name }}"
+    }
+  }
+}
+{%- endif %}

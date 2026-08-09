@@ -1,0 +1,5 @@
+"""Modal CLI entrypoint; implementation stays inside the package."""
+
+from {{ module_name }}.deploy.modal_app import app, asgi_app
+
+__all__ = ["app", "asgi_app"]

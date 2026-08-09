@@ -1,0 +1,9 @@
+{% if workload == 'api' -%}
+from {{ module_name }}.api import app
+{%- elif 'fastapi' in interfaces | default([]) -%}
+from {{ module_name }}.interfaces.fastapi_app import app
+{%- else -%}
+from {{ module_name }}.deployment import app
+{%- endif %}
+
+__all__ = ["app"]

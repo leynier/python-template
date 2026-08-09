@@ -88,7 +88,7 @@ uv run poe --help             # list every task
 > reaches 1.0, drop `continue-on-error` from the `quality` job in
 > `.github/workflows/ci.yml`.
 
-{% if use_docker -%}
+{% if use_docker or deploy_target != 'none' -%}
 ## Docker
 
 ```bash

@@ -166,6 +166,7 @@ def build_artifacts(
             "  + ([sql_abstraction | default('none', true)] if sql_store not in ['none', 'supabase'] else [])",
             "  + [auth | default('none', true)]",
             "  + [serving | default('none', true)]",
+            "  + [deploy_target | default('none', true)]",
             "  + (training_extensions | default([]))",
             "  + (mlops_tools | default([]))",
             "  + (quality_tools | default([])) -%}",
@@ -186,6 +187,10 @@ def build_artifacts(
             "{%- endif %}",
             "{%- if framework == 'pydantic-ai' and pydantic_ai_harness | default([]) %}",
             "    \"pydantic-ai-harness[{{ pydantic_ai_harness | join(',') }}]>=0.18.0,<0.19\",",
+            "{%- endif %}",
+            "{%- if deploy_target | default('none', true) != 'none' and workload not in ['api', 'mcp', 'training'] and 'fastapi' not in interfaces | default([]) %}",
+            '    "fastapi[standard]>=0.141.1,<1",',
+            '    "uvicorn>=0.52.1,<1",',
             "{%- endif %}",
             "",
         ]

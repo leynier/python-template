@@ -1477,7 +1477,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "modal>=1.5.3,<2"
+      ]
     },
     {
       "id": "runpod",
@@ -1487,7 +1489,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "runpod>=1.11.0,<2"
+      ]
     },
     {
       "id": "bentocloud",
@@ -1497,7 +1501,9 @@
       "python": ">=3.11,<3.15",
       "workloads": [],
       "roles": [],
-      "packages": []
+      "packages": [
+        "bentoml>=1.4.39,<2"
+      ]
     },
     {
       "id": "aws-ecs",

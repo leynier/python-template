@@ -34,7 +34,7 @@ ENV PATH="/app/.venv/bin:$PATH" \
 WORKDIR /app
 USER app
 
-EXPOSE 8000
+EXPOSE {% if deploy_target == 'aws-sagemaker' %}8080{% else %}8000{% endif %}
 
 {% if workload == 'api' and framework == 'fastapi' -%}
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
@@ -46,6 +46,16 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
     CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health').status == 200 else 1)"
 
 CMD ["flask", "--app", "{{ module_name }}.api:app", "run", "--host", "0.0.0.0", "--port", "8000"]
+{%- elif workload == 'mcp' -%}
+CMD ["python", "-c", "from {{ module_name }}.mcp import mcp; mcp.run(transport='http', host='0.0.0.0', port=8000)"]
+{%- elif workload == 'training' -%}
+CMD ["{{ project_slug }}"]
+{%- elif 'fastapi' in interfaces | default([]) -%}
+CMD ["uvicorn", "{{ module_name }}.interfaces.fastapi_app:app", "--host", "0.0.0.0", "--port", "8000"]
+{%- elif deploy_target == 'aws-sagemaker' -%}
+CMD ["uvicorn", "{{ module_name }}.deployment:app", "--host", "0.0.0.0", "--port", "8080"]
+{%- elif deploy_target != 'none' -%}
+CMD ["uvicorn", "{{ module_name }}.deployment:app", "--host", "0.0.0.0", "--port", "8000"]
 {%- elif workload == 'cli' -%}
 ENTRYPOINT ["{{ project_slug }}"]
 {%- else -%}

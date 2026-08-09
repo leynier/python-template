@@ -1,0 +1,15 @@
+location: LOCATION
+name: {{ project_slug }}
+properties:
+  managedEnvironmentId: MANAGED_ENVIRONMENT_ID
+  configuration:
+    ingress:
+      external: true
+      targetPort: 8000
+  template:
+    containers:
+      - name: app
+        image: IMAGE_URI
+        resources:
+          cpu: 0.5
+          memory: 1Gi

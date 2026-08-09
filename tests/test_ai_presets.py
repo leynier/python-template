@@ -164,3 +164,53 @@ def test_hf_finetuning_preset_renders_without_downloading_models(
     assert (project / "src/demo_project/serving.py").is_file()
     assert (project / "packages/training/pyproject.toml").is_file()
     assert (project / "packages/service/pyproject.toml").is_file()
+
+
+@pytest.mark.preset
+@pytest.mark.parametrize(
+    ("deploy_target", "workload", "framework", "serving", "entrypoint"),
+    [
+        ("modal", "api", "fastapi", "none", "deploy/modal_app.py"),
+        ("runpod", "inference", "none", "litellm", "handler.py"),
+        (
+            "bentocloud",
+            "inference",
+            "none",
+            "bentoml",
+            "deploy/bentoml_service.py",
+        ),
+    ],
+)
+def test_python_deployment_adapter_vertical_slice(
+    copie,
+    uv: str,
+    deploy_target: str,
+    workload: str,
+    framework: str,
+    serving: str,
+    entrypoint: str,
+) -> None:
+    """Python-native deployment SDKs install, import and pass the generated gate."""
+    result = copie.copy(
+        extra_answers=answers(
+            preset="custom",
+            workload=workload,
+            framework=framework,
+            serving=serving,
+            deploy_target=deploy_target,
+            use_docs=False,
+            use_codeql=False,
+            use_docker=False,
+        )
+    )
+    assert result.exception is None, result.exception
+    project = result.project_dir
+    assert (project / entrypoint).is_file()
+
+    assert_ok(run([uv, "run", "ruff", "check", "."], project), "ruff check")
+    assert_ok(
+        run([uv, "run", "ruff", "format", "--check", "."], project),
+        "ruff format",
+    )
+    assert_ok(run([uv, "run", "deptry", "src"], project), "deptry")
+    assert_ok(run([uv, "run", "pytest", "-q"], project), "pytest")

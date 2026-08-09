@@ -1,0 +1,62 @@
+# Deployment: {{ deploy_target }}
+
+The checked-in `Dockerfile` is the portable deployment contract. Build and
+exercise it locally before publishing it to a registry:
+
+```bash
+docker build -t {{ project_slug }} .
+docker run --rm -p 8000:8000 {{ project_slug }}
+```
+
+Keep credentials out of images and configuration files. Configure the values
+documented in `.env.example` through the target platform's secret manager.
+
+{% if deploy_target == 'docker' -%}
+Start the local service with `docker compose up --build`.
+{%- elif deploy_target == 'render' -%}
+Create a Blueprint from this GitHub repository; Render discovers `render.yaml`
+and builds the root Dockerfile.
+{%- elif deploy_target == 'fly' -%}
+Run `fly launch --copy-config --no-deploy`, review `fly.toml`, set secrets with
+`fly secrets set`, then run `fly deploy`.
+{%- elif deploy_target == 'vercel' -%}
+Run `vercel link` once and `vercel deploy`; `api/index.py` exports the Python
+WSGI/ASGI application and `vercel.json` routes requests to it.
+{%- elif deploy_target == 'railway' -%}
+Create a service from the GitHub repository. Railway discovers `railway.toml`
+and the Dockerfile; configure variables in the service environment.
+{%- elif deploy_target == 'hf-spaces' -%}
+Push the repository to a Hugging Face Space. The uppercase `README.md` contains
+the required Docker Space metadata; development docs remain in `readme.md`.
+{%- elif deploy_target == 'modal' -%}
+Authenticate with `modal setup`, then run `modal deploy deploy/modal_app.py`.
+{%- elif deploy_target == 'runpod' -%}
+Build and push the image, create a Serverless endpoint from it, and set the
+container command to `python handler.py`.
+{%- elif deploy_target == 'bentocloud' -%}
+Run `bentoml build`, test the resulting Bento, then run `bentoml deploy`.
+{%- elif deploy_target == 'cloud-run' -%}
+Replace `IMAGE_URI` in `service.yaml`, then run
+`gcloud run services replace service.yaml`.
+{%- elif deploy_target == 'aws-ecs' -%}
+Push the image to ECR, replace placeholders in `deploy/task-definition.json`,
+register it with `aws ecs register-task-definition`, then update your service.
+{%- elif deploy_target == 'aws-sagemaker' -%}
+Push an inference image to ECR, replace placeholders in
+`deploy/sagemaker-model.json`, and create the model and endpoint resources.
+{%- elif deploy_target == 'vertex-ai' -%}
+Push the image to Artifact Registry, replace `IMAGE_URI` in
+`deploy/vertex-model.json`, upload the model, and deploy it to an endpoint.
+{%- elif deploy_target == 'azure-container-apps' -%}
+Push the image to ACR, replace placeholders in `deploy/container-app.yaml`, and
+run `az containerapp create --yaml deploy/container-app.yaml`.
+{%- elif deploy_target == 'azure-ml' -%}
+Replace the model/image placeholders, create `deploy/endpoint.yml`, then create
+`deploy/deployment.yml` with the Azure ML CLI v2.
+{%- endif %}
+
+{% if iac_provider != 'none' -%}
+The selected `{{ iac_provider }}` project lives under `infra/{{ iac_provider }}`.
+Its configuration intentionally requires registry images, roles, networks and
+regions as inputs instead of creating broad privileged infrastructure silently.
+{%- endif %}

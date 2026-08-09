@@ -1,0 +1,14 @@
+[project]
+name = "{{ project_slug }}-infra"
+version = "0.1.0"
+requires-python = ">={{ python_version }}"
+dependencies = [
+    "pulumi>=3.256.0,<4",
+{% if deploy_target in ['aws-ecs', 'aws-sagemaker'] -%}
+    "pulumi-aws>=7.41.0,<8",
+{%- elif deploy_target in ['cloud-run', 'vertex-ai'] -%}
+    "pulumi-gcp>=9.33.0,<10",
+{%- else -%}
+    "pulumi-azure-native>=3.25.0,<4",
+{%- endif %}
+]
