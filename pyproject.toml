@@ -12,7 +12,7 @@ license-files = ["LICENSE"]
 
 # This project is a Copier template, not an installable package.
 [build-system]
-requires = ["uv_build>=0.12.3,<0.13"]
+requires = ["uv_build>=0.12.4,<0.13"]
 build-backend = "uv_build"
 
 [tool.uv]
@@ -28,7 +28,7 @@ dev = [
     "pytest-copie>=0.3.1",
     "pytest-cov>=7.1.0",
     "pytest-xdist>=3.8.0",
-    "ruff>=0.16.2",
+    "ruff>=0.16.3",
 ]
 docs = [
     "zensical>=0.0.56",
