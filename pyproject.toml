@@ -20,7 +20,7 @@ package = false
 
 [dependency-groups]
 dev = [
-    "copier>=9.17.1",
+    "copier>=9.17.2",
     "pydantic>=2.13.4,<3",
     "python-hcl2>=8.1.2,<9",
     "pyyaml>=6.0.3,<7",
