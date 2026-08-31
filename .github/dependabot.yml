@@ -6,19 +6,24 @@ updates:
   - package-ecosystem: "uv"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     cooldown:
       default-days: 7
       semver-major-days: 30
       semver-minor-days: 7
-      semver-patch-days: 3
+      semver-patch-days: 7
+    groups:
+      monthly-batch:
+        applies-to: version-updates
+        patterns: ["*"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     cooldown:
       default-days: 7
     groups:
-      actions:
+      monthly-batch:
+        applies-to: version-updates
         patterns: ["*"]
