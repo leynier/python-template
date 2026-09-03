@@ -7,6 +7,10 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
     cooldown:
       default-days: 7
       semver-major-days: 30
@@ -21,6 +25,10 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
     cooldown:
       default-days: 7
     groups:
